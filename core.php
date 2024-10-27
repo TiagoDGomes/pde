@@ -117,7 +117,7 @@ if ($action_search_user) {
                         has_patrimony, 
                         num, p.id AS patrimony_id 
                 FROM model m  
-                RIGHT JOIN patrimony p ON (model_id = m.id)
+                LEFT JOIN patrimony p ON (model_id = m.id)
                 WHERE code = ? OR name LIKE ?
                 ";
     $params = array(strtoupper($code), "%$code%");
