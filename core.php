@@ -18,47 +18,60 @@ $search_user_values = array();
 $search_items_values = array();
 $loan_multiplier = 1;
 $search_one_item = FALSE;
+
+$get_clear = array();
+$post_clear = array();
+
+foreach($_GET as $key => $value){
+    $get_clear[$key] = htmlspecialchars(trim($value));
+}
+foreach($_POST as $key => $value){
+    $post_clear[$key] = htmlspecialchars(trim($value));
+}
+
+
+
 if ($action_reset_user) {
     $_SESSION['selected_user'] = NULL;
     exit(header('Location: .'));
 
 } else if ($action_save_new_user) {
     $query = "INSERT INTO user (name, code1, code2) VALUES (?,?,?)";
-    $params = array(strtoupper($_POST['name']), strtoupper($_POST['code1']), strtoupper($_POST['code2']));
+    $params = array(strtoupper($post_clear['name']), strtoupper($post_clear['code1']), strtoupper($post_clear['code2']));
     Database::execute($query, $params);
     $action_search_user = TRUE;
 
 } else if ($action_save_edit_user) {
     $query = "UPDATE user SET name = ?, code1 = ?, code2 = ? WHERE id = ?";
-    $params = array(strtoupper($_POST['name']), strtoupper($_POST['code1']), strtoupper($_POST['code2']), $_POST['id']);
+    $params = array(strtoupper($post_clear['name']), strtoupper($post_clear['code1']), strtoupper($post_clear['code2']), $post_clear['id']);
     Database::execute($query, $params);
     $action_select_user = TRUE;
-    $_GET['user'] = $_POST['id'];
+    $get_clear['user'] = $post_clear['id'];
 
 } else if ($action_save_item){
-    if (!isset($_POST['model_id']) || $_POST['model_id'] == ''){
+    if (!isset($_POST['model_id']) || $post_clear['model_id'] == ''){
         $query = "INSERT INTO model (name, code, has_patrimony) VALUES (?,?,?)";
-        $params = array($_POST['model_name'], 
-                        strtoupper($_POST['model_code']), 
-                        $_POST['model_unique'] == "1"? 1 : 0
+        $params = array($post_clear['model_name'], 
+                        strtoupper($post_clear['model_code']), 
+                        $post_clear['model_unique'] == "1"? 1 : 0
                   );
                      
     } else {        
         $query = "UPDATE model SET name = ?, code = ?, has_patrimony = ? WHERE id = ?";
-        $params = array($_POST['model_name'], 
-                    strtoupper($_POST['model_code']), 
-                    $_POST['model_unique'] == "1"? 1 : 0,
-                    $_POST['model_id']
+        $params = array($post_clear['model_name'], 
+                    strtoupper($post_clear['model_code']), 
+                    $post_clear['model_unique'] == "1"? 1 : 0,
+                    $post_clear['model_id']
                 );
         
     }    
     Database::execute($query, $params);
     $action_search_code = TRUE;
-    $_GET['code'] = $_POST['model_code'];
-    if ($_POST['model_unique'] == "1"){
+    $get_clear['code'] = $post_clear['model_code'];
+    if ($post_clear['model_unique'] == "1"){
         $query = "SELECT max(id) FROM model";
-        $model_id = $_POST['model_id'] ? $_POST['model_id'] : Database::fetchOne($query, array());
-        $patrs = explode("\n", htmlspecialchars(@$_POST['unique_codes']));
+        $model_id = $post_clear['model_id'] ? $post_clear['model_id'] : Database::fetchOne($query, array());
+        $patrs = explode("\n", @$post_clear['unique_codes']);
         header("Content-Type: text/plain");
         foreach($patrs as $p){
             $query = "INSERT INTO patrimony (model_id, num) VALUES (?,?)";
@@ -70,9 +83,9 @@ if ($action_reset_user) {
     }
 
 } else if ($action_loan_new_item){
-    $loan_diff = $_POST['loan_diff'] > 0 ? $_POST['loan_diff'] : 1;
+    $loan_diff = $post_clear['loan_diff'] > 0 ? $post_clear['loan_diff'] : 1;
     $query = "INSERT INTO loan (user_id, model_id, patrimony_id) VALUES (?,?,?)";
-    $params = array($_POST['user_id'], $_POST['model_id'], $_POST['patrimony_id']);
+    $params = array($post_clear['user_id'], $post_clear['model_id'], $post_clear['patrimony_id']);
     Database::execute($query, $params);
     $query = "SELECT max(id) FROM loan";
     $loan_id = Database::fetchOne($query, array());
@@ -85,7 +98,7 @@ if ($action_reset_user) {
 
 
 if ($action_search_user) {
-    $su = strtoupper(htmlspecialchars($_GET['search_user']));
+    $su = strtoupper($get_clear['search_user']);
     $query = "SELECT * FROM user WHERE name LIKE ? OR code1 = ? OR code2 = ?";
     $params = array("%$su%", $su, $su);
     $search_user_values = Database::fetchAll($query, $params);
@@ -95,7 +108,7 @@ if ($action_search_user) {
     }
 
 } else if ($action_search_code) {
-    $code_search = explode("*",htmlspecialchars($_GET['code']));
+    $code_search = explode("*",$get_clear['code']);
     $code = $code_search[0];
     $loan_multiplier = @$code_search[1] * 1;
     $query = "SELECT m.id as model_id, 
@@ -116,7 +129,7 @@ if ($action_search_user) {
 
 if ($action_select_user) {
     $query = "SELECT * FROM user WHERE id = ?";
-    $params = array($_GET['user']);
+    $params = array($get_clear['user']);
     $search_user_values = Database::fetchAll($query, $params);
     if (count($search_user_values) == 1) {
         $_SESSION['selected_user'] = $search_user_values[0];
