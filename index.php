@@ -174,35 +174,45 @@
             </section>
             <section class="right">
                 <?php if ($_SESSION['selected_user']):?>
+                <pre><?php //var_dump($search_user_loans) ?></pre>
                 <table class="items">
                     <tr>
                         <th>Nome do item</th>
                         <th>Código</th>
+                        <th>Patrimônio</th>
                         <th>Quantidade emprestada</th>
                         <th>Quantidade devolvida</th>
                         <th>Detalhes</th>
                     </tr>
-                </table>
-                <?php for ($i = 0; $i < 1; $i++): ?>
+                </table>                
                 <div class="date-items">
-                    <div class="date">26/10/2024</div>            
-                    <table class="items">
-                        <?php for ($j = 0; $j < 6; $j++): ?>
+                <?php $last_date = NULL; ?>    
+                <?php foreach($search_user_loans as $item): ?>                    
+                    <?php $this_date = (new DateTimeImmutable($item['loan_date']))->format('d/m/Y'); ?>
+
+                    <?php if ($last_date != $this_date): ?>
+                        <div class="date"><?= $this_date ?></div>   
+                    <?php endif; ?> 
+
+                    <?php $last_date = $this_date; ?>         
+                    <table class="items">                        
                         <tr>
-                            <td>Parafuso 1mm</td>
-                            <td><?= ($j+1) ?></td>
-                            <td>1</td>
+                            <td><?= $item['model_name'] ?></td>
+                            <td><?= $item['model_code'] ?></td>
+                            <td><?= $item['patrimony_number'] ?></td>
+                            <td></td>
                             <td>
                                 <a href="#">-</a>
-                                0
+                                <?= $item['count_remaining'] ?>
                                 <a href="#">+</a>
                             </td>
                             <td></td>
                         </tr>
-                        <?php endfor;?> 
+                        
                     </table>
+                    <?php endforeach;?> 
                 </div>
-                <?php endfor;?>    
+                  
                 <?php endif;?>
             </section>
         </main>
