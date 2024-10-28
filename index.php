@@ -128,6 +128,7 @@
                                     <legend>Itens registrados:</legend>
                                     
                                     <?php foreach ($search_items_values as $item): ?>
+
                                         <form method="POST" action=".">  
                                             <input type="hidden" name="code" value="<?= $get_clear['code'] ?>">
                                             <input type="hidden" name="model_id" value="<?= $item['model_id'] ?>">
@@ -138,13 +139,13 @@
                                                 <tr class="block">                                               
                                                     
                                                     <td>
-                                                        <input <?= $item['has_patrimony'] ? 'disabled' : '' ?> 
-                                                                    class= "original_count" 
-                                                                    maxlength="1" 
-                                                                    type="number" 
-                                                                    name="original_count" 
-                                                                    value="<?= $item['has_patrimony'] ? 1 : $loan_multiplier ?>" 
-                                                                    placeholder="Quantidade (padrão: 1)">
+                                                        <input <?= $item['has_patrimony'] ? 'disabled' : '' ?>  
+                                                            class="original_count"                                                            
+                                                            maxlength="1" 
+                                                            type="number" 
+                                                            name="original_count" 
+                                                            value="<?= $item['has_patrimony'] ? 1 : $loan_multiplier ?>" 
+                                                            placeholder="Quantidade (padrão: 1)">
                                                     </td>
                                                     <td class="form">
 
@@ -154,8 +155,8 @@
                                                         
                                                     </td> 
                                                     <td class="">        
-                                                        <button <?= $item['has_patrimony'] && !$item['patrimony_number1'] ? 'disabled' : '' ?> 
-                                                            <?= $search_one_item ? 'autofocus' : ''?>>Emprestar <?= $item['patrimony_number1'] ?>                                                            
+                                                        <button type="submit"<?= $item['has_patrimony'] && !$item['patrimony_number1'] ? ' disabled' : '' ?><?= $search_one_item ? ' autofocus' : ''?>>
+                                                            Emprestar <?= $item['patrimony_number1'] ?>                                                            
                                                         </button>                         
                                                     </td>
                                                     
@@ -200,7 +201,8 @@
             <section class="right">
                 <?php if ($selected_user):?>
                 <pre><?php //var_dump($query_search_user_loans) ?></pre>                
-                <pre><?php //var_dump($search_user_loans) ?></pre><table class="items">
+                <pre><?php //var_dump($search_user_loans) ?></pre>
+                <table class="items">
                     <tr>
                         <th>Nome do item</th>
                         <th>Código</th>
@@ -264,7 +266,6 @@
                 <?php endif;?>
             </section>
         </main>
-
     </div>              
     <script src='main.js'></script>
 
