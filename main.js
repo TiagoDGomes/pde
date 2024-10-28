@@ -72,3 +72,14 @@ function show_modal(queryElem){
         }
     });
 }
+
+
+function show_new_model(){
+    show_modal('#block-new-model-item');
+}
+function select_patrimony(unique){
+    document.getElementById('unique_codes').style.display = unique ? 'inline-block': 'none'
+}
+function edit_user(){
+    show_modal('#form_edit_user');
+}

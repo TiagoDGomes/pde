@@ -21,15 +21,8 @@
                         <a id="lnk_edit_user" onclick="edit_user()" href="javascript:;">editar</a>
                         <a style="display: none" id="lnk_save_user" onclick="save_user()" href="javascript:;">salvar</a> 
                         <a href="?reset">trocar</a>                           
-                    </div>    
-                    <script>
-                        function edit_user(){
-                            show_modal('#form_edit_user');
-                        }
-                    </script>        
+                    </div>
                 </div>
-
-
                 <div id="block-code">
                     <form>
                         <input <?= $search_one_item ? '' : 'autofocus'?> type="text" name="code" id="code"  value="<?= htmlspecialchars(@$_GET['code']) ?>">
@@ -198,14 +191,6 @@
                                     </div>  
                                 </form> 
                             </div>
-                            <script>
-                                function show_new_model(){
-                                    show_modal('#block-new-model-item');
-                                }
-                                function select_patrimony(unique){
-                                    document.getElementById('unique_codes').style.display = unique ? 'inline-block': 'none'
-                                }
-                            </script>
                         </fieldset>
                     </div>
                 
