@@ -14,6 +14,7 @@ $action_save_new_user = isset($_POST['save_new_user']);
 $action_save_edit_user = isset($_POST['save_edit_user']);
 $action_save_item = isset($_POST['save_item']);
 $action_loan_new_item = isset($_POST['loan_new_item']);
+$action_log_loan = isset($_GET['log_loan']);
 $search_user_values = array();
 $search_items_values = array();
 $loan_multiplier = 1;
@@ -94,6 +95,13 @@ if ($action_reset_user) {
     $params = array($loan_id, $original_count);
     Database::execute($query, $params);
     exit(header("Location: ?loan_new_item=y"));
+} else if ($action_log_loan){
+    $loan_id = $get_clear['loan_id'];
+    $diff = $get_clear['diff'] * -1;
+    $query = "INSERT INTO log_loan (loan_id, diff) VALUES (?,?)";
+    $params = array($loan_id, $diff);
+    Database::execute($query, $params);
+    exit(header("Location: ?&redirect_log_loan=y"));
 }
 
 
@@ -150,8 +158,10 @@ if ($_SESSION['selected_user']){
                      p.id as patrimony_id, 
                      n.tstamp as loan_date, 
                      p.num as patrimony_number, 
-                     sum(diff) as count_remaining, 
-                     group_concat(details, '<br>') as all_details 
+                     original_count,
+                     original_count - sum(diff) as count_remaining, 
+                     group_concat(details, '<br>') as all_details ,
+                     n.id as loan_id
                 FROM loan n
                 INNER JOIN model m ON (n.model_id = m.id)
                 INNER JOIN log_loan nn ON (nn.loan_id = n.id)

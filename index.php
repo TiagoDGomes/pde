@@ -194,23 +194,30 @@
                         <div class="date"><?= $this_date ?></div>   
                     <?php endif; ?> 
 
-                    <?php $last_date = $this_date; ?>         
+                    <?php $last_date = $this_date; ?> 
+
                     <table class="items">                        
                         <tr>
                             <td><?= $item['model_name'] ?></td>
                             <td><?= $item['model_code'] ?></td>
                             <td><?= $item['patrimony_number'] ?></td>
-                            <td></td>
+                            <td><?= $item['original_count'] ?></td>
                             <td>
-                                <a href="#">-</a>
+                                
                                 <?= $item['count_remaining'] ?>
-                                <a href="#">+</a>
+                                <?php if ($item['count_remaining'] >=  $item['original_count'] ): ?>
+                                    <a href="?log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=-1">[-]</a>
+                                <?php endif;?>
+                                <?php if ($item['count_remaining'] <  $item['original_count'] ): ?>
+                                    <a href="?log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=1">[+]</a>
+                                <?php endif;?>
                             </td>
-                            <td></td>
-                        </tr>
-                        
+                            <td><?= $item['all_details'] ?></td>
+                        </tr>                        
                     </table>
+
                     <?php endforeach;?> 
+
                 </div>
                   
                 <?php endif;?>
