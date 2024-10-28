@@ -23,8 +23,8 @@ $queries = array(
             id $INT PRIMARY KEY $AUTO_INCREMENT_KEYWORD, 
             model_id $INT NOT NULL,
             number1 $TEXT NOT NULL,
-            number2 $TEXT NOT NULL,
-            serial_number $TEXT NOT NULL,
+            number2 $TEXT,
+            serial_number $TEXT,
             usable $BYTE NOT NULL DEFAULT 1,
             found $BYTE NOT NULL DEFAULT 1,
             loan_block $BYTE NOT NULL DEFAULT 0,
@@ -51,6 +51,7 @@ $queries = array(
 
 $queries[] = file_get_contents('legacy/sql/01-user.sql');
 $queries[] = file_get_contents('legacy/sql/02-model.sql');
+$queries[] = file_get_contents('legacy/sql/03-patrimony.sql');
 
 Database::executeQueries($queries);
 exit(header('Location: .'));
