@@ -108,7 +108,7 @@
                                     </div>
                                     <div class="form">
                                         <input type="text" name="name" id="name" value="<?= htmlspecialchars(@$_GET['search_user']) ?>">
-                                        <input type="text" name="code1" id="code2" value="" placeholder="Identificador adicional 1"><br>
+                                        <input type="text" name="code1" id="code1" value="" placeholder="Identificador adicional 1"><br>
                                         <input type="text" name="code2" id="code2" value="" placeholder="Identificador adicional 2">
                                     </div>  
                                 </form>                        
