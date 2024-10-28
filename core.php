@@ -93,13 +93,13 @@ if ($action_reset_user) {
     $query = "INSERT INTO log_loan (loan_id, diff) VALUES (?,?)";
     $params = array($loan_id, $loan_diff);
     Database::execute($query, $params);
-    $action_search_user = TRUE;
+    exit(header("Location: ?loan_new_item=y"));
 }
 
 
 
 if ($action_search_user) {
-    $su = strtoupper($get_clear['search_user']);
+    $su = strtoupper(@$get_clear['search_user']);
     $query = "SELECT * FROM user WHERE name LIKE ? OR code1 = ? OR code2 = ?";
     $params = array("%$su%", $su, $su);
     $search_user_values = Database::fetchAll($query, $params);
