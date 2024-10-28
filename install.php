@@ -30,7 +30,8 @@ $queries = array(
             user_id $INT NOT NULL,
             model_id $INT NOT NULL,
             patrimony_id $INT DEFAULT NULL,
-            closed $BYTE DEFAULT 0 NOT NULL
+            closed $BYTE DEFAULT 0 NOT NULL,
+            original_count $INT DEFAULT 1 NOT NULL
         );",   
     "CREATE TABLE IF NOT EXISTS log_loan (
             id $INT PRIMARY KEY $AUTO_INCREMENT_KEYWORD, 

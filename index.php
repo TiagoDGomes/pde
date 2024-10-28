@@ -125,7 +125,7 @@
                                                 <input type="text" name="patrimony_id" value="<?= $item['patrimony_id'] ?>">
                                                 <input type="hidden" name="user_id" value="<?= $_SESSION['selected_user']['id'] ?>">
                                                     <textarea disabled name="item_name" id="item_name" placeholder="Nome do item"><?= $item['model_name'] ?></textarea><br>
-                                                    <input maxlength="1" type="number" name="loan_diff" id="loan_diff" value="<?= $loan_multiplier ?>" placeholder="Quantidade (padrão: 1)">
+                                                    <input maxlength="1" type="number" name="original_count" id="original_count" value="<?= $loan_multiplier ?>" placeholder="Quantidade (padrão: 1)">
                                                 </div> 
                                             </form> 
                                         </div>

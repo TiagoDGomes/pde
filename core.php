@@ -84,14 +84,14 @@ if ($action_reset_user) {
     exit(header("Location: ?reg_item=y&code=" . $post_clear['model_code']));
 
 } else if ($action_loan_new_item){
-    $loan_diff = $post_clear['loan_diff'] > 0 ? $post_clear['loan_diff'] : 1;
-    $query = "INSERT INTO loan (user_id, model_id, patrimony_id) VALUES (?,?,?)";
-    $params = array($post_clear['user_id'], $post_clear['model_id'], $post_clear['patrimony_id']);
+    $original_count = $post_clear['original_count'] > 0 ? $post_clear['original_count'] : 1;
+    $query = "INSERT INTO loan (user_id, model_id, patrimony_id, original_count) VALUES (?,?,?,?)";
+    $params = array($post_clear['user_id'], $post_clear['model_id'], $post_clear['patrimony_id'], $original_count);
     Database::execute($query, $params);
     $query = "SELECT max(id) FROM loan";
     $loan_id = Database::fetchOne($query, array());
     $query = "INSERT INTO log_loan (loan_id, diff) VALUES (?,?)";
-    $params = array($loan_id, $loan_diff);
+    $params = array($loan_id, $original_count);
     Database::execute($query, $params);
     exit(header("Location: ?loan_new_item=y"));
 }
