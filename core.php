@@ -144,8 +144,9 @@ if ($_SESSION['selected_user']){
                      m.name as model_name,
                      m.code as model_code, 
                      p.id as patrimony_id, 
+                     n.tstamp as loan_date, 
                      p.num as patrimony_number, 
-                     sum(diff) as count_remaining , 
+                     sum(diff) as count_remaining, 
                      group_concat(details, '<br>') as all_details 
                 FROM loan n
                 INNER JOIN model m ON (n.model_id = m.id)
