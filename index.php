@@ -24,9 +24,7 @@
                     </div>    
                     <script>
                         function edit_user(){
-                            var form_edit_user = document.getElementById('form_edit_user');
-                            form_edit_user.style.display = form_edit_user.style.display == 'none' ? 'block' : 'none';
-                            return false;
+                            show_modal('#form_edit_user');
                         }
                     </script>        
                 </div>
@@ -202,8 +200,7 @@
                             </div>
                             <script>
                                 function show_new_model(){
-                                    document.getElementById('block-new-model-item').style.display = 'block';
-                                    document.getElementById('lnk-new-model-item').style.display = 'none';
+                                    show_modal('#block-new-model-item');
                                 }
                                 function select_patrimony(unique){
                                     document.getElementById('unique_codes').style.display = unique ? 'inline-block': 'none'
@@ -283,7 +280,7 @@
             </section>
         </main>
 
-    </div>
+    </div>              
     <script src='main.js'></script>
 
 </body>
