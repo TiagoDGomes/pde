@@ -9,8 +9,8 @@
 </head>
 <body>
     <div id="main">
-        <header id="content-input" class="mode <?= $_SESSION['selected_user'] ? 'code': 'user'?>">
-            <?php if ($_SESSION['selected_user']):?>
+        <header id="content-input" class="mode <?= $selected_user ? 'code': 'user'?>">
+            <?php if ($selected_user):?>
 
             <div id="block-code">
                 <form>
@@ -32,7 +32,7 @@
             <section class="left">
                 
                 <div class="user">
-                    <?php if ($_SESSION['selected_user']):?>
+                    <?php if ($selected_user):?>
 
                         <fieldset id="form_edit_user" style="display:none">
                             <legend>Solicitante:</legend>
@@ -44,10 +44,10 @@
                                             <button onclick="edit_user()">Cancelar</button>                            
                                         </div>
                                         <div class="form">
-                                            <input type="hidden" name="id" id="id" value="<?= @$_SESSION['selected_user']['id'] ?>">
-                                            <input type="text" name="name" id="name" value="<?= @$_SESSION['selected_user']['name'] ?>" placeholder="Nome"><br>
-                                            <input type="text" name="code1" id="code1" value="<?= @$_SESSION['selected_user']['code1'] ?>" placeholder="Identificador adicional 1"><br>
-                                            <input type="text" name="code2" id="code2" value="<?= @$_SESSION['selected_user']['code2'] ?>" placeholder="Identificador adicional 2">
+                                            <input type="hidden" name="id" id="id" value="<?= $selected_user['id'] ?>">
+                                            <input type="text" name="name" id="name" value="<?= $selected_user['name'] ?>" placeholder="Nome"><br>
+                                            <input type="text" name="code1" id="code1" value="<?= $selected_user['code1'] ?>" placeholder="Identificador adicional 1"><br>
+                                            <input type="text" name="code2" id="code2" value="<?= $selected_user['code2'] ?>" placeholder="Identificador adicional 2">
                                         </div>  
                                     </form>    
                             </div>      
@@ -74,7 +74,7 @@
 
                         </fieldset>
                     <?php endif; ?>
-                    <?php if ($action_search_user && !$_SESSION['selected_user']): ?>
+                    <?php if ($action_search_user && !$selected_user): ?>
                     
                         <fieldset>
                             <legend>Registrar novo solicitante:</legend>
@@ -96,7 +96,7 @@
 
                 </div>
 
-                <?php if ($_SESSION['selected_user']): ?>
+                <?php if ($selected_user): ?>
                     <pre><?php //var_dump($query); ?></pre>
                     <pre><?php // var_dump($params); ?></pre>
                     <pre><?php // var_dump($search_items_values); ?></pre>
@@ -123,7 +123,7 @@
                                                 <div class="form">
                                                 <input type="hidden" name="model_id" value="<?= $item['model_id'] ?>">
                                                 <input type="text" name="patrimony_id" value="<?= $item['patrimony_id'] ?>">
-                                                <input type="hidden" name="user_id" value="<?= $_SESSION['selected_user']['id'] ?>">
+                                                <input type="hidden" name="user_id" value="<?= $selected_user['id'] ?>">
                                                     <textarea disabled name="item_name" id="item_name" placeholder="Nome do item"><?= $item['model_name'] ?></textarea><br>
                                                     <input maxlength="1" type="number" name="original_count" id="original_count" value="<?= $loan_multiplier ?>" placeholder="Quantidade (padrão: 1)">
                                                 </div> 
@@ -173,7 +173,7 @@
                 
             </section>
             <section class="right">
-                <?php if ($_SESSION['selected_user']):?>
+                <?php if ($selected_user):?>
                 <pre><?php //var_dump($query_search_user_loans) ?></pre>                
                 <pre><?php //var_dump($search_user_loans) ?></pre><table class="items">
                     <tr>
@@ -223,12 +223,12 @@
                 <?php endif;?>
             </section>
         </main>
-        <?php if ($_SESSION['selected_user']):?>
+        <?php if ($selected_user):?>
         <footer class="user">
             <i class="picture"></i>
-            <span id="edit_name" contenteditable="false"><?= @$_SESSION['selected_user']['name'] ?></span>&nbsp;
-            <!-- <small><span id="edit_code1" contenteditable="true" style="display:none"><?= @$_SESSION['selected_user']['code1'] ?></span></small>&nbsp;
-            <small><span id="edit_code2" contenteditable="true" style="display:none"><?= @$_SESSION['selected_user']['code2'] ?></span></small>   -->
+            <span id="edit_name" contenteditable="false"><?= $selected_user['name'] ?></span>&nbsp;
+            <!-- <small><span id="edit_code1" contenteditable="true" style="display:none"><?= $selected_user['code1'] ?></span></small>&nbsp;
+            <small><span id="edit_code2" contenteditable="true" style="display:none"><?= $selected_user['code2'] ?></span></small>   -->
             <div class="bar">        
                 <a id="lnk_edit_user" onclick="edit_user()" href="javascript:;">editar</a>
                 <a style="display: none" id="lnk_save_user" onclick="save_user()" href="javascript:;">salvar</a> 

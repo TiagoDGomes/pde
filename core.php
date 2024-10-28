@@ -6,6 +6,8 @@ require_once 'database.php';
 
 Database::startInstance($CONFIG_PDO_CONN, $CONFIG_PDO_USER, $CONFIG_PDO_PASS);
 
+$selected_user = NULL;
+
 $action_search_user = isset($_GET['search_user']);
 $action_search_code = isset($_GET['code']);
 $action_select_user = isset($_GET['user']);
@@ -149,9 +151,9 @@ if ($action_select_user) {
         exit(header('Location: .'));
     }
 }
+$selected_user = @$_SESSION['selected_user'];
 
-
-if ($_SESSION['selected_user']){
+if ($selected_user){
     $query_search_user_loans = "SELECT m.id as model_id, 
                      m.name as model_name,
                      m.code as model_code, 
@@ -170,6 +172,6 @@ if ($_SESSION['selected_user']){
                 GROUP BY n.id
                 ORDER BY n.tstamp DESC
                 ";
-    $params = array($_SESSION['selected_user']['id']);
+    $params = array($selected_user['id']);
     $search_user_loans = Database::fetchAll($query_search_user_loans, $params);
 }
