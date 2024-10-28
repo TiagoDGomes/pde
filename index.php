@@ -109,32 +109,45 @@
 
                             <?php else:?> 
 
-                                <fieldset>
+                                <fieldset class="reg_items">
                                     <legend>Itens registrados:</legend>
+                                    
                                     <?php foreach ($search_items_values as $item): ?>
-                                        <div class="block">
-                                            <!-- <pre><?php //var_dump($item) ?></pre> -->
-                                            <form method="POST" action=".">  
-                                                <input type="hidden" name="loan_new_item" value="y">
-                                                
-                                                <div class="bar">        
-                                                    <button <?= $search_one_item ? 'autofocus' : ''?>>Emprestar <?= $item['patrimony_number1'] ?></button>                            
-                                                </div>
-                                                <div class="form">
-                                                <input type="hidden" name="model_id" value="<?= $item['model_id'] ?>">
-                                                <input type="hidden" name="patrimony_id" value="<?= $item['patrimony_id'] ?>">
-                                                <input type="hidden" name="user_id" value="<?= $selected_user['id'] ?>">
-                                                    <div class="item_detail p1">
-                                                        <input class= "original_count" maxlength="1" type="number" name="original_count" value="<?= $loan_multiplier ?>" placeholder="Quantidade (padrão: 1)"> &times; 
-                                                    </div>
-                                                    <div class="item_detail p2">
-                                                        <span class="model_name"><?= $item['model_name'] ?></span>
-                                                        <!-- <textarea disabled name="item_name" id="item_name" placeholder="Nome do item"></textarea><br> -->
-                                                    </div>
-                                                </div> 
-                                            </form> 
-                                        </div>
+                                        <form method="POST" action=".">  
+                                            <input type="hidden" name="model_id" value="<?= $item['model_id'] ?>">
+                                            <input type="hidden" name="patrimony_id" value="<?= $item['patrimony_id'] ?>">
+                                            <input type="hidden" name="user_id" value="<?= $selected_user['id'] ?>">
+                                            <input type="hidden" name="loan_new_item" value="y">
+                                            <table class="item">
+                                                <tr class="block">                                               
+                                                    
+                                                    <td>
+                                                        <input <?= $item['has_patrimony'] ? 'disabled' : '' ?> 
+                                                                    class= "original_count" 
+                                                                    maxlength="1" 
+                                                                    type="number" 
+                                                                    name="original_count" 
+                                                                    value="<?= $item['has_patrimony'] ? 1 : $loan_multiplier ?>" 
+                                                                    placeholder="Quantidade (padrão: 1)"> &times; 
+                                                    </td>
+                                                    <td class="form">
+
+                                                        <span class="model_name">
+                                                            <a href="javascript:;"><?= trim($item['model_name']) ?></a>
+                                                        </span>
+                                                        
+                                                    </td> 
+                                                    <td class="">        
+                                                        <button <?= $item['has_patrimony'] && !$item['patrimony_number1'] ? 'disabled' : '' ?> 
+                                                            <?= $search_one_item ? 'autofocus' : ''?>>Emprestar <?= $item['patrimony_number1'] ?>                                                            
+                                                        </button>                         
+                                                    </td>
+                                                    
+                                                </tr>
+                                            </table>
+                                        </form> 
                                     <?php endforeach;?> 
+                                    
                                 </fieldset>
 
                             <?php endif;?> 

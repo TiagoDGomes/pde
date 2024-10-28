@@ -102,12 +102,25 @@ section.left .original_count{
     text-align: right;
 }
 section.left fieldset {
-    overflow-x: scroll;
+    overflow-y: scroll;
     max-height: 720px;
+    min-height: 400px;
 }
 section.left .item_detail {
     display: inline-block;
     min-height: 10px;
+}
+section.left table.item{
+    width: 100%;
+}
+section.left table.item tr{
+    min-height: 2em;
+    vertical-align: top;
+}
+section.left table.item td:first-child,
+section.left table.item td:last-child
+{
+    width: 14%;
 }
 section .bar{
     float: right;
