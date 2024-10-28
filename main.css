@@ -127,10 +127,10 @@ section .bar{
 }
 .date-items{
     padding-top: 1em;
+    border-bottom: 1px solid silver;
 }
 
 .date-items .date{
-    border-bottom: 1px solid silver;
     padding-left: 1em;
 }
 table.items{

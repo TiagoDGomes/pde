@@ -208,34 +208,50 @@
                 <?php $last_date = NULL; ?>    
                 <?php foreach($search_user_loans as $item): ?>                    
                     <?php $this_date = (new DateTimeImmutable($item['loan_date']))->format('d/m/Y'); ?>
-
                     <?php if ($last_date != $this_date): ?>
-                        <div class="date"><?= $this_date ?></div>   
+
+                        <?php if (!is_null($last_date)) echo '</table>' ?>
+
+                        <input type="checkbox" id="loan_date_<?= str_replace("/","_", $this_date) ?>">
+                        <label for="loan_date_<?= str_replace("/","_", $this_date) ?>" class="date"><?= $this_date ?></div> 
+
+                        <?php echo '<table class="items">' ?>
+                        
                     <?php endif; ?> 
-
                     <?php $last_date = $this_date; ?> 
-
-                    <table class="items">                        
+                                                             
                         <tr>
-                            <td><?= $item['model_name'] ?></td>
+                            <td>
+                                <input type="checkbox" id="loan_<?= $item['loan_id'] ?>">
+                                <label for="loan_<?= $item['loan_id'] ?>"><?= $item['model_name'] ?></label>
+                            </td>
                             <td><?= $item['model_code'] ?></td>
                             <td><?= $item['patrimony_number'] ?></td>
                             <td><?= $item['original_count'] ?></td>
                             <td>
                                 
                                 <?= $item['count_remaining'] ?>
+
                                 <?php if ($item['count_remaining'] >=  $item['original_count'] ): ?>
+
                                     <a href="?log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=-1">[-]</a>
+
                                 <?php endif;?>
+
                                 <?php if ($item['count_remaining'] <  $item['original_count'] ): ?>
+
                                     <a href="?log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=1">[+]</a>
+
                                 <?php endif;?>
+
                             </td>
                             <td><?= $item['all_details'] ?></td>
                         </tr>                        
-                    </table>
+                    
 
                     <?php endforeach;?> 
+
+                    <?php if (!is_null($last_date)) echo '</table>' ?>   
 
                 </div>
                   
