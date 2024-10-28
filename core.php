@@ -112,11 +112,15 @@ if ($action_search_user) {
     $code_search = explode("*",$get_clear['code']);
     $code = $code_search[0];
     $loan_multiplier = @$code_search[1] * 1;
+    if ($loan_multiplier < 1){
+        $loan_multiplier = 1;
+    }        
     $query = "SELECT m.id as model_id, 
                         m.name AS model_name, 
                         m.code AS model_code, 
                         has_patrimony, 
-                        num, p.id AS patrimony_id 
+                        num as patrimony_number, 
+                        p.id AS patrimony_id 
                 FROM model m  
                 LEFT JOIN patrimony p ON (model_id = m.id)
                 WHERE code = ? OR name LIKE ?
@@ -140,7 +144,7 @@ if ($action_select_user) {
 
 
 if ($_SESSION['selected_user']){
-    $query = "SELECT m.id as model_id, 
+    $query_search_user_loans = "SELECT m.id as model_id, 
                      m.name as model_name,
                      m.code as model_code, 
                      p.id as patrimony_id, 
@@ -151,10 +155,11 @@ if ($_SESSION['selected_user']){
                 FROM loan n
                 INNER JOIN model m ON (n.model_id = m.id)
                 INNER JOIN log_loan nn ON (nn.loan_id = n.id)
-                LEFT JOIN patrimony p ON (p.model_id = m.id)
+                LEFT JOIN patrimony p ON (n.patrimony_id = p.id)
                 WHERE n.user_id =  ?
                 GROUP BY n.id
+                ORDER BY n.tstamp DESC
                 ";
     $params = array($_SESSION['selected_user']['id']);
-    $search_user_loans = Database::fetchAll($query, $params);
+    $search_user_loans = Database::fetchAll($query_search_user_loans, $params);
 }
