@@ -45,25 +45,7 @@
                 <div class="user">
                     <?php if ($selected_user):?>
 
-                        <fieldset id="form_edit_user" style="display:none">
-                            <legend>Solicitante:</legend>
-                            <div class="already block">
-                                <form method="POST">  
-                                        <input type="hidden" name="save_edit_user" value="y">
-                                        <div class="bar">                            
-                                            <button>Salvar</button><br>       
-                                            <button onclick="edit_user()">Cancelar</button>                            
-                                        </div>
-                                        <div class="form">
-                                            <input type="hidden" name="id" id="id" value="<?= $selected_user['id'] ?>">
-                                            <input type="text" name="name" id="name" value="<?= $selected_user['name'] ?>" placeholder="Nome"><br>
-                                            <input type="text" name="code1" id="code1" value="<?= $selected_user['code1'] ?>" placeholder="Identificador adicional 1"><br>
-                                            <input type="text" name="code2" id="code2" value="<?= $selected_user['code2'] ?>" placeholder="Identificador adicional 2">
-                                        </div>  
-                                    </form>    
-                            </div>      
-
-                        </fieldset>
+                        <?php form_user($selected_user); ?>
                         
                     <?php endif;?>
 
@@ -90,23 +72,10 @@
                         </fieldset>
                     <?php endif; ?>
                     <?php if ($action_search_user && !$selected_user): ?>
-                    
-                        <fieldset>
-                            <legend>Registrar novo solicitante:</legend>
-                            <div class="new block">                                
-                                <form method="POST">  
-                                    <input type="hidden" name="save_new_user" value="y">
-                                    <div class="bar">    
-                                        <button>Salvar novo usuário</button>                            
-                                    </div>
-                                    <div class="form">
-                                        <input type="text" name="name" id="name" value="<?= htmlspecialchars(@$_GET['search_user']) ?>">
-                                        <input type="text" name="code1" id="code1" value="" placeholder="Identificador adicional 1"><br>
-                                        <input type="text" name="code2" id="code2" value="" placeholder="Identificador adicional 2">
-                                    </div>  
-                                </form>                        
-                            </div>  
-                        </fieldset>                         
+                        <p id="lnk-new-user">                        
+                            <a href="javascript:;" onclick="show_new_user()">Registrar novo solicitante...</a>
+                        </p> 
+                        <?php form_user(NULL) ; ?>                         
                     <?php endif; ?>
 
                 </div>
