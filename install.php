@@ -22,7 +22,13 @@ $queries = array(
     "CREATE TABLE IF NOT EXISTS patrimony (
             id $INT PRIMARY KEY $AUTO_INCREMENT_KEYWORD, 
             model_id $INT NOT NULL,
-            num $TEXT NOT NULL 
+            number1 $TEXT NOT NULL,
+            number2 $TEXT NOT NULL,
+            serial_number $TEXT NOT NULL,
+            usable $BYTE NOT NULL DEFAULT 1,
+            found $BYTE NOT NULL DEFAULT 1,
+            loan_block $BYTE NOT NULL DEFAULT 0,
+            obs $TEXT
         );",
     "CREATE TABLE IF NOT EXISTS loan (
             id $INT PRIMARY KEY $AUTO_INCREMENT_KEYWORD, 
@@ -42,6 +48,9 @@ $queries = array(
         );",   
     
 );
+
+$queries[] = file_get_contents('legacy/sql/01-user.sql');
+$queries[] = file_get_contents('legacy/sql/02-model.sql');
 
 Database::executeQueries($queries);
 exit(header('Location: .'));

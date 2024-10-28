@@ -118,14 +118,19 @@
                                                 <input type="hidden" name="loan_new_item" value="y">
                                                 
                                                 <div class="bar">        
-                                                    <button <?= $search_one_item ? 'autofocus' : ''?>>Emprestar <?= $item['patrimony_number'] ?></button>                            
+                                                    <button <?= $search_one_item ? 'autofocus' : ''?>>Emprestar <?= $item['patrimony_number1'] ?></button>                            
                                                 </div>
                                                 <div class="form">
                                                 <input type="hidden" name="model_id" value="<?= $item['model_id'] ?>">
                                                 <input type="hidden" name="patrimony_id" value="<?= $item['patrimony_id'] ?>">
                                                 <input type="hidden" name="user_id" value="<?= $selected_user['id'] ?>">
-                                                    <textarea disabled name="item_name" id="item_name" placeholder="Nome do item"><?= $item['model_name'] ?></textarea><br>
-                                                    <input maxlength="1" type="number" name="original_count" id="original_count" value="<?= $loan_multiplier ?>" placeholder="Quantidade (padrão: 1)">
+                                                    <div class="item_detail p1">
+                                                        <input class= "original_count" maxlength="1" type="number" name="original_count" value="<?= $loan_multiplier ?>" placeholder="Quantidade (padrão: 1)"> &times; 
+                                                    </div>
+                                                    <div class="item_detail p2">
+                                                        <span class="model_name"><?= $item['model_name'] ?></span>
+                                                        <!-- <textarea disabled name="item_name" id="item_name" placeholder="Nome do item"></textarea><br> -->
+                                                    </div>
                                                 </div> 
                                             </form> 
                                         </div>

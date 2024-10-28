@@ -97,12 +97,18 @@ section.left button{
 section.left textarea:disabled{
     border:0
 }
-section.left textarea,
-section.left input[type="number"],
-section.left input[type="text"]{
-    min-width: 220px;
+section.left .original_count{
+    width: 30px;
+    text-align: right;
 }
-
+section.left fieldset {
+    overflow-x: scroll;
+    max-height: 720px;
+}
+section.left .item_detail {
+    display: inline-block;
+    min-height: 10px;
+}
 section .bar{
     float: right;
 }

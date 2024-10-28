@@ -77,7 +77,7 @@ if ($action_reset_user) {
         $patrs = explode("\n", @$post_clear['unique_codes']);
         header("Content-Type: text/plain");
         foreach($patrs as $p){
-            $query = "INSERT INTO patrimony (model_id, num) VALUES (?,?)";
+            $query = "INSERT INTO patrimony (model_id, number1) VALUES (?,?)";
             $params = array($model_id, $p);
             var_dump($query);
             var_dump($params);            
@@ -129,7 +129,9 @@ if ($action_search_user) {
                         m.name AS model_name, 
                         m.code AS model_code, 
                         has_patrimony, 
-                        num as patrimony_number, 
+                        number1 as patrimony_number1,
+                        number2 as patrimony_number2,                         
+                        serial_number as patrimony_serial_number,
                         p.id AS patrimony_id 
                 FROM model m  
                 LEFT JOIN patrimony p ON (model_id = m.id)
@@ -159,7 +161,9 @@ if ($selected_user){
                      m.code as model_code, 
                      p.id as patrimony_id, 
                      n.tstamp as loan_date, 
-                     p.num as patrimony_number, 
+                     p.number1 as patrimony_number, 
+                     p.number2 as patrimony_number2, 
+                     p.serial_number as patrimony_serial_number, 
                      original_count,
                      original_count - sum(diff) as count_remaining, 
                      group_concat(details, '<br>') as all_details ,
