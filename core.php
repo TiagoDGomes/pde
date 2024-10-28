@@ -81,6 +81,7 @@ if ($action_reset_user) {
             Database::execute($query, $params);
         }
     }
+    exit(header("Location: ?reg_item=y&code=" . $post_clear['model_code']));
 
 } else if ($action_loan_new_item){
     $loan_diff = $post_clear['loan_diff'] > 0 ? $post_clear['loan_diff'] : 1;
