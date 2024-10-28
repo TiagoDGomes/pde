@@ -16,13 +16,13 @@ body, textarea{
     box-sizing: border-box;
 
 }
-#content-input.user, footer.user{
+#content-input.user, .display-user{
     background-color: #196700; 
 }
-footer.user a{
+.display-user a{
     color:white;
 }
-footer.user .bar{
+.display-user .bar{
     display: inline-block;
     font-size: .5em;
 }
@@ -44,17 +44,17 @@ header{
     border: 0;
     color: white;
 } 
-footer {
+.display-user {
+    color: white;
+    font-size: var(--bars-font-size); 
     position: fixed;
     top: 0;
-    right: 0;
+    right: 0; 
     width: 65%;
-    color: white;
-    font-size: var(--bars-font-size);  
-    padding: 4px .5em 7px .5em;
+    padding: 8px .5em 7px .5em;
 
 }
-footer:empty{
+.display-user:empty{
     height: 0;
     padding: 0;
 }

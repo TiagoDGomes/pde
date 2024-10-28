@@ -12,18 +12,38 @@
         <header id="content-input" class="mode <?= $selected_user ? 'code': 'user'?>">
             <?php if ($selected_user):?>
 
-            <div id="block-code">
-                <form>
-                    <input <?= $search_one_item ? '' : 'autofocus'?> type="text" name="code" id="code"  value="<?= htmlspecialchars(@$_GET['code']) ?>">
-                </form>
-            </div>
+                <div class="display-user">
+                    <i class="picture"></i>
+                    <span id="edit_name" contenteditable="false"><?= $selected_user['name'] ?></span>&nbsp;
+                    <!-- <small><span id="edit_code1" contenteditable="true" style="display:none"><?= $selected_user['code1'] ?></span></small>&nbsp;
+                    <small><span id="edit_code2" contenteditable="true" style="display:none"><?= $selected_user['code2'] ?></span></small>   -->
+                    <div class="bar">        
+                        <a id="lnk_edit_user" onclick="edit_user()" href="javascript:;">editar</a>
+                        <a style="display: none" id="lnk_save_user" onclick="save_user()" href="javascript:;">salvar</a> 
+                        <a href="?reset">trocar</a>                           
+                    </div>    
+                    <script>
+                        function edit_user(){
+                            var form_edit_user = document.getElementById('form_edit_user');
+                            form_edit_user.style.display = form_edit_user.style.display == 'none' ? 'block' : 'none';
+                            return false;
+                        }
+                    </script>        
+                </div>
+
+
+                <div id="block-code">
+                    <form>
+                        <input <?= $search_one_item ? '' : 'autofocus'?> type="text" name="code" id="code"  value="<?= htmlspecialchars(@$_GET['code']) ?>">
+                    </form>
+                </div>
             <?php else:?>
 
-            <div id="block-user">
-                <form>
-                    <input autofocus type="text" name="search_user" id="search_user" value="<?= htmlspecialchars(@$_GET['search_user']) ?>">
-                </form>
-            </div>
+                <div id="block-user">
+                    <form>
+                        <input autofocus type="text" name="search_user" id="search_user" value="<?= htmlspecialchars(@$_GET['search_user']) ?>">
+                    </form>
+                </div>
             <?php endif; ?>
 
         </header>
@@ -53,7 +73,11 @@
                             </div>      
 
                         </fieldset>
-                    <?php endif; ?>
+                        
+                    <?php endif;?>
+
+
+
                     <?php if (count($search_user_values) > 1): ?>
 
                         <fieldset>
@@ -219,7 +243,7 @@
                         
                     <?php endif; ?> 
                     <?php $last_date = $this_date; ?> 
-                                                             
+
                         <tr>
                             <td>
                                 <input type="checkbox" id="loan_<?= $item['loan_id'] ?>">
@@ -258,26 +282,7 @@
                 <?php endif;?>
             </section>
         </main>
-        <?php if ($selected_user):?>
-        <footer class="user">
-            <i class="picture"></i>
-            <span id="edit_name" contenteditable="false"><?= $selected_user['name'] ?></span>&nbsp;
-            <!-- <small><span id="edit_code1" contenteditable="true" style="display:none"><?= $selected_user['code1'] ?></span></small>&nbsp;
-            <small><span id="edit_code2" contenteditable="true" style="display:none"><?= $selected_user['code2'] ?></span></small>   -->
-            <div class="bar">        
-                <a id="lnk_edit_user" onclick="edit_user()" href="javascript:;">editar</a>
-                <a style="display: none" id="lnk_save_user" onclick="save_user()" href="javascript:;">salvar</a> 
-                <a href="?reset">trocar</a>                           
-            </div>    
-            <script>
-                function edit_user(){
-                    var form_edit_user = document.getElementById('form_edit_user');
-                    form_edit_user.style.display = form_edit_user.style.display == 'none' ? 'block' : 'none';
-                    return false;
-                }
-            </script>        
-        </footer>
-        <?php endif;?>
+
     </div>
     <script src='main.js'></script>
 
