@@ -1,3 +1,5 @@
 *.db
 config.php
 database.db
+legacy
+*.sqlite3
