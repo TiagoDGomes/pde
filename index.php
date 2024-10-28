@@ -118,15 +118,15 @@
                                                 <input type="hidden" name="loan_new_item" value="y">
                                                 
                                                 <div class="bar">        
-                                                    <button <?= $search_one_item ? 'autofocus' : ''?>>Emprestar</button>                            
+                                                    <button <?= $search_one_item ? 'autofocus' : ''?>>Emprestar <?= $item['patrimony_number'] ?></button>                            
                                                 </div>
                                                 <div class="form">
                                                 <input type="hidden" name="model_id" value="<?= $item['model_id'] ?>">
-                                                <input type="hidden" name="patrimony_id" value="<?= $item['patrimony_id'] ?>">
+                                                <input type="text" name="patrimony_id" value="<?= $item['patrimony_id'] ?>">
                                                 <input type="hidden" name="user_id" value="<?= $_SESSION['selected_user']['id'] ?>">
                                                     <textarea disabled name="item_name" id="item_name" placeholder="Nome do item"><?= $item['model_name'] ?></textarea><br>
                                                     <input maxlength="1" type="number" name="loan_diff" id="loan_diff" value="<?= $loan_multiplier ?>" placeholder="Quantidade (padrão: 1)">
-                                                </div>  
+                                                </div> 
                                             </form> 
                                         </div>
                                     <?php endforeach;?> 
@@ -174,8 +174,8 @@
             </section>
             <section class="right">
                 <?php if ($_SESSION['selected_user']):?>
-                <pre><?php //var_dump($search_user_loans) ?></pre>
-                <table class="items">
+                <pre><?php //var_dump($query_search_user_loans) ?></pre>                
+                <pre><?php //var_dump($search_user_loans) ?></pre><table class="items">
                     <tr>
                         <th>Nome do item</th>
                         <th>Código</th>
