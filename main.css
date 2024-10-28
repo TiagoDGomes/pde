@@ -228,7 +228,9 @@ fieldset{
     color: white;
     float: right;
     font-size: 28px;
-    font-weight: bold;
+    font-weight: bold;   
+    position: absolute;
+    right: 20px;
   }
   
   .close:hover,
@@ -238,13 +240,20 @@ fieldset{
     cursor: pointer;
   }
   
-  .modal-header,   
-  .modal-footer  {
-    padding: 2px 16px;
+  .modal legend  {
+    padding: 9px 11px 0px 15px;
     background-color: #5cb85c;
     color: white;
     min-height: 2.5em;
+    display: block;
+    width: 100%;
+    margin-left: -13px;
+  }
+  .modal-header{
+    margin-right: 3em;
+  }
+  .modal fieldset{
+    border: 0;
   }
   
-  .modal-body {padding: 10px 16px;}
   

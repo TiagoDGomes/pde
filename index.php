@@ -151,7 +151,7 @@
                                                                     type="number" 
                                                                     name="original_count" 
                                                                     value="<?= $item['has_patrimony'] ? 1 : $loan_multiplier ?>" 
-                                                                    placeholder="Quantidade (padrão: 1)"> &times; 
+                                                                    placeholder="Quantidade (padrão: 1)">
                                                     </td>
                                                     <td class="form">
 
