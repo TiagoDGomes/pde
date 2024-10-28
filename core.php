@@ -140,13 +140,19 @@ if ($action_select_user) {
 
 
 if ($_SESSION['selected_user']){
-    $query = "SELECT m.id as model_id, m.name as model_name, 
-                    p.id as patrimony_id, p.num as patrimony_number, sum(diff) as count_remaining 
-                FROM model m
-                INNER JOIN patrimony p ON (p.model_id = m.id)
-                INNER JOIN loan n ON (n.model_id = m.id)
-                LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
-                WHERE n.user_id = ?
+    $query = "SELECT m.id as model_id, 
+                     m.name as model_name,
+                     m.code as model_code, 
+                     p.id as patrimony_id, 
+                     p.num as patrimony_number, 
+                     sum(diff) as count_remaining , 
+                     group_concat(details, '<br>') as all_details 
+                FROM loan n
+                INNER JOIN model m ON (n.model_id = m.id)
+                INNER JOIN log_loan nn ON (nn.loan_id = n.id)
+                LEFT JOIN patrimony p ON (p.model_id = m.id)
+                WHERE n.user_id =  ?
+                GROUP BY n.id
                 ";
     $params = array($_SESSION['selected_user']['id']);
     $search_user_loans = Database::fetchAll($query, $params);
