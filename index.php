@@ -114,6 +114,7 @@
                                     
                                     <?php foreach ($search_items_values as $item): ?>
                                         <form method="POST" action=".">  
+                                            <input type="hidden" name="code" value="<?= $get_clear['code'] ?>">
                                             <input type="hidden" name="model_id" value="<?= $item['model_id'] ?>">
                                             <input type="hidden" name="patrimony_id" value="<?= $item['patrimony_id'] ?>">
                                             <input type="hidden" name="user_id" value="<?= $selected_user['id'] ?>">

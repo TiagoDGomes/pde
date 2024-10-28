@@ -96,7 +96,7 @@ if ($action_reset_user) {
     $query = "INSERT INTO log_loan (loan_id, diff) VALUES (?,?)";
     $params = array($loan_id, $original_count);
     Database::execute($query, $params);
-    exit(header("Location: ?loan_new_item=y"));
+    exit(header("Location: ?loan_new_item=y&code=" . $post_clear['code']));
 } else if ($action_log_loan){
     $loan_id = $get_clear['loan_id'];
     $diff = $get_clear['diff'] * -1;
