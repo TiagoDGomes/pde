@@ -89,7 +89,7 @@ if ($action_reset_user) {
     Database::execute($query, $params);
     $query = "SELECT max(id) FROM loan";
     $loan_id = Database::fetchOne($query, array());
-    $query = "INSERT INTO log_loan (load_id, diff) VALUES (?,?)";
+    $query = "INSERT INTO log_loan (loan_id, diff) VALUES (?,?)";
     $params = array($loan_id, $loan_diff);
     Database::execute($query, $params);
     $action_search_user = TRUE;
@@ -135,4 +135,17 @@ if ($action_select_user) {
         $_SESSION['selected_user'] = $search_user_values[0];
         exit(header('Location: .'));
     }
+}
+
+
+if ($_SESSION['selected_user']){
+    $query = "SELECT m.id as model_id, m.name as model_name, 
+                    p.id as patrimony_id, p.num as patrimony_number, sum(diff) as count_remaining 
+                FROM model m WHERE id = ?
+                INNER JOIN patrimony p ON (p.model_id = m.id)
+                INNER JOIN loan n ON (n.model_id = m.id)
+                LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
+                ";
+    $params = array($get_clear['user']);
+    $search_user_loans = Database::fetchAll($query, $params);
 }

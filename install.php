@@ -35,7 +35,7 @@ $queries = array(
     "CREATE TABLE IF NOT EXISTS log_loan (
             id $INT PRIMARY KEY $AUTO_INCREMENT_KEYWORD, 
             tstamp $TIMESTAMP NOT NULL DEFAULT $CURRENT_TIMESTAMP,
-            load_id $INT NOT NULL,
+            loan_id $INT NOT NULL,
             diff $INT DEFAULT 1 NOT NULL,
             details $TEXT            
         );",   
