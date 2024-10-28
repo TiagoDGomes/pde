@@ -100,11 +100,15 @@ section.left textarea:disabled{
 section.left .original_count{
     width: 30px;
     text-align: right;
+    border: 1px solid silver;
+}
+section.left table.item td:first-child::after{
+    content: 'x';
 }
 section.left fieldset {
-    overflow-y: scroll;
-    max-height: 720px;
-    min-height: 400px;
+    overflow-y: scroll;    
+    height: calc(100vh - (250px));
+
 }
 section.left .item_detail {
     display: inline-block;
@@ -120,7 +124,7 @@ section.left table.item tr{
 section.left table.item td:first-child,
 section.left table.item td:last-child
 {
-    width: 14%;
+    width: 4em;
 }
 section .bar{
     float: right;
