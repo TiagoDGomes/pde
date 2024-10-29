@@ -126,7 +126,9 @@
                                                         </span>
                                                         <?php if ($item['loan_diff'] > 0) : ?>
                                                         <span class="last_user">
-                                                            <small>Emprestado para: <?= nl2br(trim($item['last_user_name'])) ?></small>
+                                                            <small>Emprestado para: 
+                                                                <a href="javascript:;" onclick="window.location = ('?code=<?= @$get_clear['code'] ?>&user=<?= $item['last_user_id'] ?>')"><?= nl2br(trim($item['last_user_name'])) ?></a>
+                                                            </small>
                                                         </span>
                                                         <?php endif; ?>
                                                         

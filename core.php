@@ -111,7 +111,8 @@ if ($action_search_user) {
                             sum(nn.diff) as loan_diff,
                             p.obs as obs,
                             max(n.id) as last_loan_id,
-                            u.name AS last_user_name
+                            u.name AS last_user_name,
+                            u.id AS last_user_id
                     FROM model m  
                     LEFT JOIN patrimony p ON (p.model_id = m.id)
                     LEFT JOIN loan n ON (n.patrimony_id = p.id)
@@ -137,7 +138,8 @@ if ($action_search_user) {
                             0 as loan_diff ,
                             NULL as obs,                            
                             0 as last_loan_id,
-                            NULL AS last_user_name
+                            NULL AS last_user_name,
+                            NULL AS last_user_id
                     FROM model m  
                     WHERE has_patrimony = 0 
                         AND 
