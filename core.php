@@ -69,7 +69,7 @@ if ($action_reset_user) {
     $query = "INSERT INTO log_loan (loan_id, diff) VALUES (?,?)";
     $params = array($loan_id, $diff);
     Database::execute($query, $params);
-    exit(header("Location: ?&redirect_log_loan=y"));
+    exit(header("Location: ?&redirect_log_loan=y&code=" . @$get_clear['code']));
 }
 
 
@@ -90,25 +90,51 @@ if ($action_search_user) {
     $loan_multiplier = @$code_search[1] * 1;
     if ($loan_multiplier < 1){
         $loan_multiplier = 1;
-    }        
-    $query = "SELECT m.id as model_id, 
+    }  
+    $query = "";  
+    $query .= "SELECT m.id as model_id, 
                         m.name AS model_name, 
                         m.code AS model_code, 
                         has_patrimony, 
                         number1 as patrimony_number1,
                         number2 as patrimony_number2,                         
                         serial_number as patrimony_serial_number,
-                        p.id AS patrimony_id 
+                        p.id AS patrimony_id,
+                        sum(nn.diff) as loan_diff
                 FROM model m  
-                LEFT JOIN patrimony p ON (model_id = m.id)
-                WHERE model_code = ? 
-                    OR patrimony_number1 = ? 
-                    OR patrimony_number2 = ? 
-                    OR serial_number = ? 
-                    OR name LIKE ?
-                ORDER BY has_patrimony ASC, m.name, number1
-                ";
-    $params = array(strtoupper($code),strtoupper($code),strtoupper($code),strtoupper($code), "%$code%");
+                LEFT JOIN patrimony p ON (p.model_id = m.id)
+                LEFT JOIN loan n ON (n.patrimony_id = p.id)
+                LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
+                WHERE has_patrimony = 1 
+                    AND 
+                        (model_code = ?                     
+                        OR patrimony_number1 = ? 
+                        OR patrimony_number2 = ? 
+                        OR serial_number = ? 
+                        OR name LIKE ?)                    
+                
+                UNION "; 
+    $query .= "SELECT m.id as model_id, 
+                        m.name AS model_name, 
+                        m.code AS model_code, 
+                        has_patrimony, 
+                        NULL as patrimony_number1,
+                        NULL as patrimony_number2,                         
+                        NULL as patrimony_serial_number,
+                        NULL AS patrimony_id ,
+                        0 as loan_diff 
+                FROM model m  
+                WHERE has_patrimony = 0 
+                    AND 
+                        (model_code = ?   
+                        OR name LIKE ?)
+                " ;  
+    $query .= "ORDER BY has_patrimony DESC, m.name, number1";
+    
+    $params = array(
+                strtoupper($code),strtoupper($code),strtoupper($code),strtoupper($code), "%$code%",
+                strtoupper($code), "%$code%"
+        );
     $search_items_values = Database::fetchAll($query, $params);
     if (count($search_items_values) == 1){
         $search_one_item = TRUE;

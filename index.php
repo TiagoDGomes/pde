@@ -124,7 +124,7 @@
                                                         
                                                     </td> 
                                                     <td class="">        
-                                                        <button type="submit"<?= $item['has_patrimony'] && !$item['patrimony_number1'] ? ' disabled' : '' ?><?= $search_one_item ? ' autofocus' : ''?>>
+                                                        <button type="submit"<?= $item['has_patrimony'] && (!$item['patrimony_number1'] || $item['loan_diff'] > 0) ? ' disabled' : '' ?><?= $search_one_item ? ' autofocus' : ''?>>
                                                             Emprestar <?= $item['patrimony_number1'] ?>                                                            
                                                         </button>                         
                                                     </td>
@@ -194,7 +194,7 @@
                                 <span class="return">
                                 <?php if ($item['count_remaining'] >  0 ): ?>
                                     
-                                        <a href="?log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=-1">
+                                        <a href="?log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=-1&code=<?= @$get_clear['code'] ?>">
                                             <span class="button-minus">-</span>  
                                         </a>
                                     
@@ -205,7 +205,7 @@
                                 <span class="return">        
                                 <?php if ($item['count_remaining'] <  $item['original_count'] ): ?>
                                     
-                                        <a href="?log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=1">
+                                        <a href="?log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=1&code=<?= @$get_clear['code'] ?>">
                                             <span class="button-plus">+</span>     
                                         </a>
                                     
