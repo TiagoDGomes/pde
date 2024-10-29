@@ -72,16 +72,18 @@ if ($action_reset_user) {
     exit(header("Location: ?user_id=$current_user_id&reg_item=y&code=" . $post_clear['model_code']));
 
 } else if ($action_loan_new_item){
+    $model_id = $post_clear['model_id'];
+    $patrimony_id = $post_clear['patrimony_id'] ;
     $original_count = $post_clear['original_count'] > 0 ? $post_clear['original_count'] : 1;
     $query = "INSERT INTO loan (user_id, model_id, patrimony_id, original_count) VALUES (?,?,?,?)";
-    $params = array($post_clear['user_id'], $post_clear['model_id'], $post_clear['patrimony_id'], $original_count);
+    $params = array($post_clear['user_id'], $model_id, $patrimony_id, $original_count);
     Database::execute($query, $params);
     $query = "SELECT max(id) FROM loan";
     $loan_id = Database::fetchOne($query, array());
     $query = "INSERT INTO log_loan (loan_id, diff) VALUES (?,?)";
     $params = array($loan_id, $original_count);
     Database::execute($query, $params);
-    exit(header("Location: ?user_id=$current_user_id&loan_new_item=y&highlight_loan=$loan_id&code=" . $post_clear['code']));
+    exit(header("Location: ?user_id=$current_user_id&loan_new_item=y&highlight_patrimony=$patrimony_id&highlight_model=$model_id&highlight_loan=$loan_id&code=" . $post_clear['code']));
 } else if ($action_log_loan){
     $loan_id = $get_clear['loan_id'];
     $diff = $get_clear['diff'] * -1;

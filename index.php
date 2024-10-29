@@ -120,7 +120,13 @@
                                                     <td class="details">
 
                                                         <span class="model_name">
-                                                            <a href="javascript:;"><?= trim($item['model_name']) ?></a>
+                                                            <?php if ($item['patrimony_id']) : ?>
+                                                                <a href="javascript:;" id="highlight_patrimony_<?= $item['patrimony_id'] ?>"><?= trim($item['model_name']) ?></a>
+                                                            <?php else: ?>
+                                                                <a href="javascript:;" id="highlight_model_<?= $item['model_id'] ?>"><?= trim($item['model_name']) ?></a>
+                                                            <?php endif; ?>
+                                                            <!-- <a href="javascript:;"><?= trim($item['model_name']) ?></a> -->
+
                                                         </span><br>
                                                         <span class="obs">
                                                             <small><?= nl2br(trim($item['obs'])) ?></small>
