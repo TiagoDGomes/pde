@@ -116,7 +116,7 @@
                                                             value="<?= $item['has_patrimony'] ? 1 : $loan_multiplier ?>" 
                                                             placeholder="Quantidade (padrão: 1)">
                                                     </td>
-                                                    <td class="form">
+                                                    <td class="details">
 
                                                         <span class="model_name">
                                                             <a href="javascript:;"><?= trim($item['model_name']) ?></a>
@@ -124,6 +124,11 @@
                                                         <span class="obs">
                                                             <small><?= nl2br(trim($item['obs'])) ?></small>
                                                         </span>
+                                                        <?php if ($item['loan_diff'] > 0) : ?>
+                                                        <span class="last_user">
+                                                            <small>Emprestado para: <?= nl2br(trim($item['last_user_name'])) ?></small>
+                                                        </span>
+                                                        <?php endif; ?>
                                                         
                                                         
                                                     </td> 

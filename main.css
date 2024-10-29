@@ -58,6 +58,14 @@ header{
     height: 0;
     padding: 0;
 }
+.reg_items .item .details span{
+    display: block;
+}
+.reg_items .item .details .last_user{
+    background-color: rgba(255, 0, 0, 0.39);
+    padding: 2px;
+    border-radius: 3px;
+}
 @media screen and (min-width: 1100px) {            
     section.left{
         width: 28%;

@@ -109,18 +109,21 @@ if ($action_search_user) {
                             serial_number as patrimony_serial_number,
                             p.id AS patrimony_id,
                             sum(nn.diff) as loan_diff,
-                            p.obs as obs
+                            p.obs as obs,
+                            max(n.id) as last_loan_id,
+                            u.name AS last_user_name
                     FROM model m  
                     LEFT JOIN patrimony p ON (p.model_id = m.id)
                     LEFT JOIN loan n ON (n.patrimony_id = p.id)
                     LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
+                    LEFT JOIN user u ON (n.user_id = u.id)
                     WHERE has_patrimony = 1 
                         AND 
                             (model_code = ?                     
                             OR patrimony_number1 = ? 
                             OR patrimony_number2 = ? 
                             OR serial_number = ? 
-                            OR name LIKE ?)                    
+                            OR m.name LIKE ?)                    
                     GROUP BY p.id
                     UNION "; 
         $query .= "SELECT m.id as model_id, 
@@ -132,12 +135,14 @@ if ($action_search_user) {
                             NULL as patrimony_serial_number,
                             NULL AS patrimony_id ,
                             0 as loan_diff ,
-                            NULL as obs
+                            NULL as obs,                            
+                            0 as last_loan_id,
+                            NULL AS last_user_name
                     FROM model m  
                     WHERE has_patrimony = 0 
                         AND 
                             (model_code = ?   
-                            OR name LIKE ?)
+                            OR m.name LIKE ?)
                     " ;  
         $query .= "ORDER BY has_patrimony DESC, m.name, patrimony_number1, patrimony_number2, patrimony_serial_number";
         
