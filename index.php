@@ -173,7 +173,7 @@
                         <?php if (!is_null($last_date)) echo '</table>' ?>
 
                         <input type="checkbox" id="loan_date_<?= str_replace("/","_", $this_date) ?>">
-                        <label for="loan_date_<?= str_replace("/","_", $this_date) ?>" class="date"><?= $this_date ?></div> 
+                        <label for="loan_date_<?= str_replace("/","_", $this_date) ?>" class="date"><?= $this_date ?></label> 
 
                         <?php echo '<table class="items">' ?>
                         
