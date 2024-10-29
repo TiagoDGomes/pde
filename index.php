@@ -142,26 +142,9 @@
                                 <a href="javascript:;" onclick="show_new_model()">Registrar novo modelo de item...</a>
                             </p> 
 
-                        <?php endif;?>       
-                        <fieldset id="block-new-model-item" style="display:none">
-                            <legend>Novo item:</legend>
-                            <div class="new block">
-                                <form method="POST" action=".">  
-                                    <input type="hidden" name="save_item" value="y">
-                                    <div class="bar">        
-                                        <button>Salvar</button>                            
-                                    </div>
-                                    <div class="form">
-                                        <input type="text" name="model_name" id="model_name" value="" placeholder="Nome do modelo do item"><br>
-                                        <input type="hidden" name="model_id" id="model_id" value="">
-                                        <input type="text" name="model_code" id="model_code" value="" placeholder="Identificador para busca rápida"><br>
-                                        <input onclick="select_patrimony(1)" type="radio" name="model_unique" id="model_unique" value="1" checked><label for="unique">Modelo com identificador único (patrimoniado)</label><br>
-                                        <input onclick="select_patrimony(0)" type="radio" name="model_unique" id="model_multiple" value="0"><label for="multiple">Modelo múltiplo (não patrimoniado)</label><br>
-                                        <textarea name="unique_codes" id="unique_codes" rows="5" placeholder="Insira os patrimônios aqui (um por linha)."></textarea>
-                                    </div>  
-                                </form> 
-                            </div>
-                        </fieldset>
+                        <?php endif;?>   
+                        <?php form_model(NULL) ; ?>    
+   
                     </div>
                 
                 <?php endif;?>

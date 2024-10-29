@@ -6,24 +6,24 @@ function form_user($user){
         $user,
         array(                                
             array(
-                "description" => "Nome",
                 "name" => "name",
                 "type" => "text",
                 "value" => @$user['name'],
-                "placeholder" => "",  
+                "data-description" => "Nome",  
+                "placeholder" => "Nome",  
             ),                        
             array(
-                "description" => "Identificador adicional 1",
                 "name" => "code1",
                 "type" => "text",
                 "value" => @$user['code1'],
+                "data-description" => "Identificador adicional 1",
                 "placeholder" => "Identificador adicional 1",  
             ) ,                        
             array(
-                "description" => "Identificador adicional 2",
                 "name" => "code2",
                 "type" => "text",
                 "value" => @$user['code2'],
+                "data-description" => "Identificador adicional 2",  
                 "placeholder" => "Identificador adicional 2",  
             )
         )                        

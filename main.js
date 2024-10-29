@@ -75,7 +75,7 @@ function show_modal(queryElem){
 
 
 function show_new_model(){
-    show_modal('#block-new-model-item');
+    show_modal('#form_new_model');
 }
 function show_new_user(){
     show_modal("#form_new_user");
@@ -86,3 +86,5 @@ function select_patrimony(unique){
 function edit_user(){
     show_modal('#form_edit_user');
 }
+
+console.log('main.js loaded.');
