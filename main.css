@@ -131,14 +131,20 @@ section .bar{
 }
 .date-items{
     padding-top: 1em;
-    border-bottom: 1px solid silver;
 }
 
 .date-items .date{
-    padding-left: 1em;
+    font-weight: bold;
+
+}
+.date-items .loan_top_checkbox{ 
+    margin-left: 7px;
 }
 table.items{
+
+    border-top: 1px solid silver;
     width: 100%;
+    margin-bottom: 1em;
 }
 table.itens th{    
     position: fixed;
