@@ -186,7 +186,28 @@ fieldset{
     border-radius: 6px;
 }
 
+table td.return span.return{ 
+    display: inline-block;
+    min-width: 20px;    
+}
+table td.return span.return span{
+    display: inline-block;
+    min-width: 20px;
+    border-radius: 6px;  
+}
+table td.return span.return a{
+    color: white;
+}
+table td.return:hover span.button-minus{
+    background-color: rgba(255, 0, 0, 0.3);
+}
+table td.return:hover span.button-plus{
+    background-color: rgba(0, 128, 0, 0.3);
+}
 
+table tr.complete td {
+    color: silver;
+}
 
 /* The Modal (background) */
 .modal {

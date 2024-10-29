@@ -180,7 +180,7 @@
                     <?php endif; ?> 
                     <?php $last_date = $this_date; ?> 
 
-                        <tr>
+                        <tr class="<?= $item['count_remaining'] == $item['original_count'] ? 'complete' : 'remaining' ?>">
                             <td>
                                 <input type="checkbox" id="loan_<?= $item['loan_id'] ?>">
                                 <label for="loan_<?= $item['loan_id'] ?>"><?= $item['model_name'] ?></label>
@@ -188,21 +188,29 @@
                             <td><?= $item['model_code'] ?></td>
                             <td><?= $item['patrimony_number'] ?></td>
                             <td><?= $item['original_count'] ?></td>
-                            <td>
+                            <td class="return">
                                 
+                                
+                                <span class="return">
+                                <?php if ($item['count_remaining'] >  0 ): ?>
+                                    
+                                        <a href="?log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=-1">
+                                            <span class="button-minus">-</span>  
+                                        </a>
+                                    
+                                <?php endif;?>
+                                </span>        
                                 <?= $item['count_remaining'] ?>
 
-                                <?php if ($item['count_remaining'] >=  $item['original_count'] ): ?>
-
-                                    <a href="?log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=-1">[-]</a>
-
-                                <?php endif;?>
-
+                                <span class="return">        
                                 <?php if ($item['count_remaining'] <  $item['original_count'] ): ?>
-
-                                    <a href="?log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=1">[+]</a>
-
+                                    
+                                        <a href="?log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=1">
+                                            <span class="button-plus">+</span>     
+                                        </a>
+                                    
                                 <?php endif;?>
+                                </span>
 
                             </td>
                             <td><?= $item['all_details'] ?></td>
