@@ -25,6 +25,7 @@
                 </div>
                 <div id="block-code">
                     <form>
+                        <input type="hidden" name="user_id" value="<?= $current_user_id ?>">
                         <input <?= $search_one_item ? '' : 'autofocus'?> type="text" name="code" id="code"  value="<?= htmlspecialchars(@$_GET['code']) ?>">
                     </form>
                 </div>
@@ -62,7 +63,7 @@
                                     
                                 </div>
                                 <div class="form">                            
-                                    <a href="?user=<?= @$item['id']; ?>"><?= $item['name']; ?></a><br>
+                                    <a href="?user_id=<?= @$item['id']; ?>"><?= $item['name']; ?></a><br>
                                     <small><?= @$item['code1']; ?> <?= @$item['code2']; ?></small>
                                 </div>
                             </div>      
@@ -127,7 +128,7 @@
                                                         <?php if ($item['loan_diff'] > 0) : ?>
                                                         <span class="last_user">
                                                             <small>Emprestado para: 
-                                                                <a href="javascript:;" onclick="window.location = ('?code=<?= @$get_clear['code'] ?>&user=<?= $item['last_user_id'] ?>')"><?= nl2br(trim($item['last_user_name'])) ?></a>
+                                                                <a href="javascript:;" onclick="window.location = ('?code=<?= @$get_clear['code'] ?>&user_id=<?= $item['last_user_id'] ?>')"><?= nl2br(trim($item['last_user_name'])) ?></a>
                                                             </small>
                                                         </span>
                                                         <?php endif; ?>
@@ -205,7 +206,7 @@
                                 <span class="return">
                                 <?php if ($item['count_remaining'] >  0 ): ?>
                                     
-                                        <a href="?log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=-1&code=<?= @$get_clear['code'] ?>">
+                                        <a href="?user_id=<?= $current_user_id ?>&log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=-1&code=<?= @$get_clear['code'] ?>">
                                             <span class="button-minus">-</span>  
                                         </a>
                                     
@@ -216,7 +217,7 @@
                                 <span class="return">        
                                 <?php if ($item['count_remaining'] <  $item['original_count'] ): ?>
                                     
-                                        <a href="?log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=1&code=<?= @$get_clear['code'] ?>">
+                                        <a href="?user_id=<?= $current_user_id ?>&log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=1&code=<?= @$get_clear['code'] ?>">
                                             <span class="button-plus">+</span>     
                                         </a>
                                     

@@ -42,6 +42,6 @@ function form_user_save_edit($post_clear){
     $query = "UPDATE user SET name = ?, code1 = ?, code2 = ? WHERE id = ?";
     $params = array(strtoupper($post_clear['name']), strtoupper($post_clear['code1']), strtoupper($post_clear['code2']), $post_clear['id']);
     Database::execute($query, $params);
-    $get_clear['user'] = @$post_clear['id'];
+    $get_clear['user_id'] = @$post_clear['id'];
     $_SESSION['selected_user'] = Database::fetch("SELECT * FROM user WHERE id = ?", array($post_clear['id']));
 }
