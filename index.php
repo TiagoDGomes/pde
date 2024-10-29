@@ -96,9 +96,9 @@
 
                                 <fieldset class="reg_items">
                                     <legend>Itens registrados:</legend>
-                                    
+                                    <?php $count = 0; ?>
                                     <?php foreach ($search_items_values as $item): ?>
-
+                                        <?php $count++; ?>
                                         <form method="POST" action=".">  
                                             <input type="hidden" name="code" value="<?= $get_clear['code'] ?>">
                                             <input type="hidden" name="model_id" value="<?= $item['model_id'] ?>">
@@ -106,7 +106,7 @@
                                             <input type="hidden" name="user_id" value="<?= $selected_user['id'] ?>">
                                             <input type="hidden" name="loan_new_item" value="y">
                                             <table class="item">
-                                                <tr class="block">                                               
+                                                <tr class="block <?= $count % 2 ? 'odd': 'even' ?>">                                               
                                                     
                                                     <td>
                                                         <input <?= $item['has_patrimony'] ? 'disabled' : '' ?>  

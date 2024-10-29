@@ -99,6 +99,9 @@ section.left .block{
 section.left .block:last-child{
     border-bottom-width: 0;
 }
+section.left .block.odd{
+    background-color: #fbfbfb;
+}
 section.left button{
     min-width: 120px;
 }
