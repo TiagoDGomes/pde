@@ -1,23 +1,47 @@
-<?php function form_user($user){ ?>
-<fieldset id="<?= $user ? 'form_edit_user' : 'form_new_user' ?>" style="display:none">
-    <legend>Solicitante:</legend>
-    <div class="already block">
-        <form method="POST">  
-            <input type="hidden" name="<?= $user ? 'save_edit_user' : 'save_new_user' ?>" value="y">
-            <input type="hidden" name="id" value="<?= @$user['id'] ?>">
-            <dl>
-                <dt>Nome:</dt>
-                <dd><input type="text" name="name" id="name" value="<?= @$user['name'] ?>" placeholder="Nome"></dd>
-                <dt>Identificador adicional 1:</dt>  
-                <dd><input type="text" name="code1" id="code1" value="<?= @$user['code1'] ?>" placeholder="Identificador adicional 1"></dd>
-                <dt>Identificador adicional 2:</dt>
-                <dd><input type="text" name="code2" id="code2" value="<?= @$user['code2'] ?>" placeholder="Identificador adicional 2"></dd>
-                <dt>&nbsp;</dt>
-                <dd>                            
-                    <button>Salvar</button>                                
-                </dd>  
-            </dl>              
-        </form>    
-    </div>
-</fieldset>
-<?php } ?>
+<?php 
+function form_user($user){ 
+    form_generator(
+        "Solicitante",
+        "user",
+        $user,
+        array(                                
+            array(
+                "description" => "Nome",
+                "name" => "name",
+                "type" => "text",
+                "value" => @$user['name'],
+                "placeholder" => "",  
+            ),                        
+            array(
+                "description" => "Identificador adicional 1",
+                "name" => "code1",
+                "type" => "text",
+                "value" => @$user['code1'],
+                "placeholder" => "Identificador adicional 1",  
+            ) ,                        
+            array(
+                "description" => "Identificador adicional 2",
+                "name" => "code2",
+                "type" => "text",
+                "value" => @$user['code2'],
+                "placeholder" => "Identificador adicional 2",  
+            )
+        )                        
+    ) ;
+}
+
+
+function form_user_save_new($post_clear){
+    $query = "INSERT INTO user (name, code1, code2) VALUES (?,?,?)";
+    $params = array(strtoupper($post_clear['name']), strtoupper($post_clear['code1']), strtoupper($post_clear['code2']));
+    Database::execute($query, $params);
+    $_SESSION['selected_user'] = Database::fetch("SELECT id, name, code1, code2, max(id) FROM user ORDER BY id DESC", array());
+}
+
+function form_user_save_edit($post_clear){
+    $query = "UPDATE user SET name = ?, code1 = ?, code2 = ? WHERE id = ?";
+    $params = array(strtoupper($post_clear['name']), strtoupper($post_clear['code1']), strtoupper($post_clear['code2']), $post_clear['id']);
+    Database::execute($query, $params);
+    $get_clear['user'] = @$post_clear['id'];
+    $_SESSION['selected_user'] = Database::fetch("SELECT * FROM user WHERE id = ?", array($post_clear['id']));
+}

@@ -3,6 +3,7 @@ session_start();
 
 require_once 'config.php';
 require_once 'database.php';
+require_once 'include/form.generic.php';
 require_once 'include/form.user.php';
 
 Database::startInstance($CONFIG_PDO_CONN, $CONFIG_PDO_USER, $CONFIG_PDO_PASS);
@@ -40,18 +41,12 @@ if ($action_reset_user) {
     exit(header('Location: .'));
 
 } else if ($action_save_new_user) {
-    $query = "INSERT INTO user (name, code1, code2) VALUES (?,?,?)";
-    $params = array(strtoupper($post_clear['name']), strtoupper($post_clear['code1']), strtoupper($post_clear['code2']));
-    Database::execute($query, $params);
-    $_SESSION['selected_user'] = Database::fetch("SELECT id, name, code1, code2, max(id) FROM user ORDER BY id DESC", array());
+    form_user_save_new($post_clear);
     exit(header('Location: .'));
 
 } else if ($action_save_edit_user) {
-    $query = "UPDATE user SET name = ?, code1 = ?, code2 = ? WHERE id = ?";
-    $params = array(strtoupper($post_clear['name']), strtoupper($post_clear['code1']), strtoupper($post_clear['code2']), $post_clear['id']);
-    Database::execute($query, $params);
-    $action_select_user = TRUE;
-    $get_clear['user'] = @$post_clear['id'];
+    form_user_save_edit($post_clear);
+    exit(header('Location: .'));
 
 } else if ($action_save_item){
     if (!isset($_POST['model_id']) || $post_clear['model_id'] == ''){
