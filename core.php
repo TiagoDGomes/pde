@@ -101,9 +101,14 @@ if ($action_search_user) {
                         p.id AS patrimony_id 
                 FROM model m  
                 LEFT JOIN patrimony p ON (model_id = m.id)
-                WHERE code = ? OR name LIKE ?
+                WHERE model_code = ? 
+                    OR patrimony_number1 = ? 
+                    OR patrimony_number2 = ? 
+                    OR serial_number = ? 
+                    OR name LIKE ?
+                ORDER BY has_patrimony ASC, m.name, number1
                 ";
-    $params = array(strtoupper($code), "%$code%");
+    $params = array(strtoupper($code),strtoupper($code),strtoupper($code),strtoupper($code), "%$code%");
     $search_items_values = Database::fetchAll($query, $params);
     if (count($search_items_values) == 1){
         $search_one_item = TRUE;
