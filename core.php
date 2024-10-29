@@ -17,7 +17,7 @@ $action_select_user = isset($_GET['user']);
 $action_reset_user = isset($_GET['reset']);
 $action_save_new_user = isset($_POST['save_new_user']);
 $action_save_edit_user = isset($_POST['save_edit_user']);
-$action_save_item = isset($_POST['save_item']);
+$action_save_new_model = isset($_POST['save_new_model']);
 $action_loan_new_item = isset($_POST['loan_new_item']);
 $action_log_loan = isset($_GET['log_loan']);
 $search_user_values = array();
@@ -36,7 +36,6 @@ foreach($_POST as $key => $value){
 }
 
 
-
 if ($action_reset_user) {
     $_SESSION['selected_user'] = NULL;
     exit(header('Location: .'));
@@ -49,39 +48,8 @@ if ($action_reset_user) {
     form_user_save_edit($post_clear);
     exit(header('Location: .'));
 
-} else if ($action_save_item){
-    if (!isset($_POST['model_id']) || $post_clear['model_id'] == ''){
-        $query = "INSERT INTO model (name, code, has_patrimony) VALUES (?,?,?)";
-        $params = array($post_clear['model_name'], 
-                        strtoupper($post_clear['model_code']), 
-                        $post_clear['model_unique'] == "1"? 1 : 0
-                  );
-                     
-    } else {        
-        $query = "UPDATE model SET name = ?, code = ?, has_patrimony = ? WHERE id = ?";
-        $params = array($post_clear['model_name'], 
-                    strtoupper($post_clear['model_code']), 
-                    $post_clear['model_unique'] == "1"? 1 : 0,
-                    $post_clear['model_id']
-                );
-        
-    }    
-    Database::execute($query, $params);
-    $action_search_code = TRUE;
-    $get_clear['code'] = $post_clear['model_code'];
-    if ($post_clear['model_unique'] == "1"){
-        $query = "SELECT max(id) FROM model";
-        $model_id = $post_clear['model_id'] ? $post_clear['model_id'] : Database::fetchOne($query, array());
-        $patrs = explode("\n", @$post_clear['unique_codes']);
-        header("Content-Type: text/plain");
-        foreach($patrs as $p){
-            $query = "INSERT INTO patrimony (model_id, number1) VALUES (?,?)";
-            $params = array($model_id, $p);
-            var_dump($query);
-            var_dump($params);            
-            Database::execute($query, $params);
-        }
-    }
+} else if ($action_save_new_model){
+    form_model_save($post_clear);
     exit(header("Location: ?reg_item=y&code=" . $post_clear['model_code']));
 
 } else if ($action_loan_new_item){

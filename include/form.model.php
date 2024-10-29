@@ -49,3 +49,37 @@ function form_model($model){
         )                        
     ) ;
 }
+
+function form_model_save($post_clear){
+    if (!isset($_POST['model_id']) || $post_clear['model_id'] == ''){
+        $query = "INSERT INTO model (name, code, has_patrimony) VALUES (?,?,?)";
+        $params = array($post_clear['model_name'], 
+                        strtoupper($post_clear['model_code']), 
+                        $post_clear['model_unique'] == "1"? 1 : 0
+                  );
+                     
+    } else {        
+        $query = "UPDATE model SET name = ?, code = ?, has_patrimony = ? WHERE id = ?";
+        $params = array($post_clear['model_name'], 
+                    strtoupper($post_clear['model_code']), 
+                    $post_clear['model_unique'] == "1"? 1 : 0,
+                    $post_clear['model_id']
+                );
+        
+    }    
+    Database::execute($query, $params);
+    $action_search_code = TRUE;
+    $get_clear['code'] = $post_clear['model_code'];
+    if (@$post_clear['model_unique'] == "1"){
+        $query = "SELECT max(id) FROM model";
+        $model_id = @$post_clear['model_id'] ? $post_clear['model_id'] : Database::fetchOne($query, array());
+        $patrs = explode("\n", @$post_clear['unique_codes']);
+        foreach($patrs as $p){
+            $query = "INSERT INTO patrimony (model_id, number1) VALUES (?,?)";
+            $params = array($model_id, $p);
+            var_dump($query);
+            var_dump($params);            
+            Database::execute($query, $params);
+        }
+    }
+}
