@@ -12,7 +12,7 @@ Database::startInstance($CONFIG_PDO_CONN, $CONFIG_PDO_USER, $CONFIG_PDO_PASS);
 $selected_user = NULL;
 
 $action_search_user = isset($_GET['search_user']);
-$action_search_code = isset($_GET['code']);
+$action_search_code = isset($_GET['code']) && @$_GET['code'] != '';
 $action_select_user = isset($_GET['user']);
 $action_reset_user = isset($_GET['reset']);
 $action_save_new_user = isset($_POST['save_new_user']);
@@ -87,58 +87,68 @@ if ($action_search_user) {
 } else if ($action_search_code) {
     $code_search = explode("*",$get_clear['code']);
     $code = $code_search[0];
-    $loan_multiplier = @$code_search[1] * 1;
-    if ($loan_multiplier < 1){
-        $loan_multiplier = 1;
-    }  
-    $query = "";  
-    $query .= "SELECT m.id as model_id, 
-                        m.name AS model_name, 
-                        m.code AS model_code, 
-                        has_patrimony, 
-                        number1 as patrimony_number1,
-                        number2 as patrimony_number2,                         
-                        serial_number as patrimony_serial_number,
-                        p.id AS patrimony_id,
-                        sum(nn.diff) as loan_diff
-                FROM model m  
-                LEFT JOIN patrimony p ON (p.model_id = m.id)
-                LEFT JOIN loan n ON (n.patrimony_id = p.id)
-                LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
-                WHERE has_patrimony = 1 
-                    AND 
-                        (model_code = ?                     
-                        OR patrimony_number1 = ? 
-                        OR patrimony_number2 = ? 
-                        OR serial_number = ? 
-                        OR name LIKE ?)                    
-                
-                UNION "; 
-    $query .= "SELECT m.id as model_id, 
-                        m.name AS model_name, 
-                        m.code AS model_code, 
-                        has_patrimony, 
-                        NULL as patrimony_number1,
-                        NULL as patrimony_number2,                         
-                        NULL as patrimony_serial_number,
-                        NULL AS patrimony_id ,
-                        0 as loan_diff 
-                FROM model m  
-                WHERE has_patrimony = 0 
-                    AND 
-                        (model_code = ?   
-                        OR name LIKE ?)
-                " ;  
-    $query .= "ORDER BY has_patrimony DESC, m.name, number1";
-    
-    $params = array(
-                strtoupper($code),strtoupper($code),strtoupper($code),strtoupper($code), "%$code%",
-                strtoupper($code), "%$code%"
-        );
-    $search_items_values = Database::fetchAll($query, $params);
-    if (count($search_items_values) == 1){
-        $search_one_item = TRUE;
+    if ($code == ''){
+        // nope
+    } else {
+        if (isset($code_search[1]) && $code_search[1] != ''){
+            $loan_multiplier = @$code_search[1] * 1;
+        } else {
+            $loan_multiplier = 1;
+        }
+        
+        if ($loan_multiplier < 1){
+            $loan_multiplier = 1;
+        }  
+        $query = "";  
+        $query .= "SELECT m.id as model_id, 
+                            m.name AS model_name, 
+                            m.code AS model_code, 
+                            has_patrimony, 
+                            number1 as patrimony_number1,
+                            number2 as patrimony_number2,                         
+                            serial_number as patrimony_serial_number,
+                            p.id AS patrimony_id,
+                            sum(nn.diff) as loan_diff
+                    FROM model m  
+                    LEFT JOIN patrimony p ON (p.model_id = m.id)
+                    LEFT JOIN loan n ON (n.patrimony_id = p.id)
+                    LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
+                    WHERE has_patrimony = 1 
+                        AND 
+                            (model_code = ?                     
+                            OR patrimony_number1 = ? 
+                            OR patrimony_number2 = ? 
+                            OR serial_number = ? 
+                            OR name LIKE ?)                    
+                    
+                    UNION "; 
+        $query .= "SELECT m.id as model_id, 
+                            m.name AS model_name, 
+                            m.code AS model_code, 
+                            has_patrimony, 
+                            NULL as patrimony_number1,
+                            NULL as patrimony_number2,                         
+                            NULL as patrimony_serial_number,
+                            NULL AS patrimony_id ,
+                            0 as loan_diff 
+                    FROM model m  
+                    WHERE has_patrimony = 0 
+                        AND 
+                            (model_code = ?   
+                            OR name LIKE ?)
+                    " ;  
+        $query .= "ORDER BY has_patrimony DESC, m.name, number1";
+        
+        $params = array(
+                    strtoupper($code),strtoupper($code),strtoupper($code),strtoupper($code), "%$code%",
+                    strtoupper($code), "%$code%"
+            );
+        $search_items_values = Database::fetchAll($query, $params);
+        if (count($search_items_values) == 1){
+            $search_one_item = TRUE;
+        }
     }
+    
 }
 
 if ($action_select_user) {
