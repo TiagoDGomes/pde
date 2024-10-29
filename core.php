@@ -97,17 +97,17 @@ if ($action_reset_user) {
 
 if ($action_search_user) {
     $su = strtoupper(@$get_clear['search_user']);
-    $query = "SELECT * FROM user WHERE name LIKE ? OR code1 = ? OR code2 = ?";
-    $params = array("%$su%", $su, $su);
+    $query = "SELECT * FROM user WHERE normalize(name) LIKE ? OR code1 = ? OR code2 = ?";
+    $params = array(normalize("%$su%"), $su, $su);
     $search_user_values = Database::fetchAll($query, $params);
     if (count($search_user_values) == 1) {
         $_SESSION['selected_user'] = $search_user_values[0];
-        exit(header('Location: .'));
+        exit(header('Location: ?user_id=' . $_SESSION['selected_user']['id']));
     }
 
 } else if ($action_search_code) {
     $code_search = explode("*",$get_clear['code']);
-    $code = $code_search[0];
+    $code = normalize($code_search[0]);
     if ($code == ''){
         // nope
     } else {
@@ -145,7 +145,7 @@ if ($action_search_user) {
                             OR patrimony_number1 = ? 
                             OR patrimony_number2 = ? 
                             OR serial_number = ? 
-                            OR m.name LIKE ?)                    
+                            OR normalize(m.name) LIKE ?)                    
                     GROUP BY p.id
                     UNION "; 
         $query .= "SELECT m.id as model_id, 
@@ -165,7 +165,7 @@ if ($action_search_user) {
                     WHERE has_patrimony = 0 
                         AND 
                             (model_code = ?   
-                            OR m.name LIKE ?)
+                            OR normalize(m.name) LIKE ?)
                     " ;  
         $query .= "ORDER BY has_patrimony DESC, m.name, patrimony_number1, patrimony_number2, patrimony_serial_number";
         

@@ -1,11 +1,16 @@
 <?php
 
+function normalize($str){
+    return strtr(utf8_decode($str), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
+}
+
 class Database {
     public static PDO $db_file;
     public static string $key;
 
     public static function startInstance($cmd, $username, $password) {
         Database::$db_file = new PDO($cmd, $username, $password);
+        Database::$db_file->sqliteCreateFunction('normalize', 'normalize');
     }
 
     public static function beginTransaction() {
