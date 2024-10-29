@@ -120,7 +120,11 @@
 
                                                         <span class="model_name">
                                                             <a href="javascript:;"><?= trim($item['model_name']) ?></a>
+                                                        </span><br>
+                                                        <span class="obs">
+                                                            <small><?= nl2br(trim($item['obs'])) ?></small>
                                                         </span>
+                                                        
                                                         
                                                     </td> 
                                                     <td class="">        

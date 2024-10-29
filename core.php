@@ -108,7 +108,8 @@ if ($action_search_user) {
                             number2 as patrimony_number2,                         
                             serial_number as patrimony_serial_number,
                             p.id AS patrimony_id,
-                            sum(nn.diff) as loan_diff
+                            sum(nn.diff) as loan_diff,
+                            p.obs as obs
                     FROM model m  
                     LEFT JOIN patrimony p ON (p.model_id = m.id)
                     LEFT JOIN loan n ON (n.patrimony_id = p.id)
@@ -120,7 +121,7 @@ if ($action_search_user) {
                             OR patrimony_number2 = ? 
                             OR serial_number = ? 
                             OR name LIKE ?)                    
-                    
+                    GROUP BY p.id
                     UNION "; 
         $query .= "SELECT m.id as model_id, 
                             m.name AS model_name, 
@@ -130,14 +131,15 @@ if ($action_search_user) {
                             NULL as patrimony_number2,                         
                             NULL as patrimony_serial_number,
                             NULL AS patrimony_id ,
-                            0 as loan_diff 
+                            0 as loan_diff ,
+                            NULL as obs
                     FROM model m  
                     WHERE has_patrimony = 0 
                         AND 
                             (model_code = ?   
                             OR name LIKE ?)
                     " ;  
-        $query .= "ORDER BY has_patrimony DESC, m.name, number1";
+        $query .= "ORDER BY has_patrimony DESC, m.name, patrimony_number1, patrimony_number2, patrimony_serial_number";
         
         $params = array(
                     strtoupper($code),strtoupper($code),strtoupper($code),strtoupper($code), "%$code%",
