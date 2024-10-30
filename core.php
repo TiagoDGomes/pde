@@ -2,7 +2,9 @@
 session_start();
 
 require_once 'config.php';
-require_once 'database.php';
+require_once 'classes/Filter.php';
+require_once 'classes/Database.php';
+require_once 'classes/HTTPResponse.php';
 require_once 'include/form.generic.php';
 require_once 'include/form.user.php';
 require_once 'include/form.model.php';
@@ -39,7 +41,7 @@ foreach($_POST as $key => $value){
 
 if (!$action_reset_user) {
     if (!isset($_GET['user_id']) && !isset($_POST['user_id']) && !is_null(@$_SESSION['selected_user'])){
-        exit('user_id empty');
+        HTTPResponse::forbidden('user_id empty');
     }
     $current_user_id = @$get_clear['user_id'] ? @$get_clear['user_id'] : @$post_clear['user_id'];
     if ($current_user_id != @$_SESSION['selected_user']['id']){
@@ -48,7 +50,7 @@ if (!$action_reset_user) {
         $search_user_values = Database::fetchAll($query, $params);
         if (count($search_user_values) == 1) {
             $_SESSION['selected_user'] = $search_user_values[0];
-            exit(header("Location: ?show_loan=y&user_id=$current_user_id"));
+            HTTPResponse::redirect("?show_loan=y&user_id=$current_user_id");
         }
     }
     
@@ -57,19 +59,19 @@ $current_user_id = @$_SESSION['selected_user']['id'];
 
 if ($action_reset_user) {
     $_SESSION['selected_user'] = NULL;
-    exit(header('Location: .'));
+    HTTPResponse::redirect('.');
 
 } else if ($action_save_new_user) {
     form_user_save_new($post_clear);
-    exit(header('Location: .'));
+    HTTPResponse::redirect('.');
 
 } else if ($action_save_edit_user) {
     form_user_save_edit($post_clear);
-    exit(header('Location: .'));
+    HTTPResponse::redirect('.');
 
 } else if ($action_save_new_model){
     form_model_save($post_clear);
-    exit(header("Location: ?user_id=$current_user_id&reg_item=y&code=" . $post_clear['model_code']));
+    HTTPResponse::redirect("?user_id=$current_user_id&reg_item=y&code=" . $post_clear['model_code']);
 
 } else if ($action_loan_new_item){
     $model_id = $post_clear['model_id'];
@@ -83,14 +85,14 @@ if ($action_reset_user) {
     $query = "INSERT INTO log_loan (loan_id, diff) VALUES (?,?)";
     $params = array($loan_id, $original_count);
     Database::execute($query, $params);
-    exit(header("Location: ?user_id=$current_user_id&loan_new_item=y&highlight_patrimony=$patrimony_id&highlight_model=$model_id&highlight_loan=$loan_id&code=" . $post_clear['code']));
+    HTTPResponse::redirect("?user_id=$current_user_id&loan_new_item=y&highlight_patrimony=$patrimony_id&highlight_model=$model_id&highlight_loan=$loan_id&code=" . $post_clear['code']);
 } else if ($action_log_loan){
     $loan_id = $get_clear['loan_id'];
     $diff = $get_clear['diff'] * -1;
     $query = "INSERT INTO log_loan (loan_id, diff) VALUES (?,?)";
     $params = array($loan_id, $diff);
     Database::execute($query, $params);
-    exit(header("Location: ?user_id=$current_user_id&redirect_log_loan=y&highlight_loan=$loan_id&code=" . @$get_clear['code']));
+    HTTPResponse::redirect("?user_id=$current_user_id&redirect_log_loan=y&highlight_loan=$loan_id&code=" . @$get_clear['code']);
 }
 
 
@@ -102,7 +104,7 @@ if ($action_search_user) {
     $search_user_values = Database::fetchAll($query, $params);
     if (count($search_user_values) == 1) {
         $_SESSION['selected_user'] = $search_user_values[0];
-        exit(header('Location: ?user_id=' . $_SESSION['selected_user']['id']));
+        HTTPResponse::redirect('?user_id=' . $_SESSION['selected_user']['id']);
     }
 
 } else if ($action_search_code) {
