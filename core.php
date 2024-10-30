@@ -75,11 +75,11 @@ if ($action_reset_user) {
     HTTPResponse::redirect("?user_id=$current_user_id&reg_item=y&code=" . $post_clear['model_code']);
 
 } else if ($action_loan_new_item){
-    $model_id = $post_clear['model_id'];
-    $patrimony_id = $post_clear['patrimony_id'] ;
-    $original_count = $post_clear['original_count'] > 0 ? $post_clear['original_count'] : 1;
+    $model_id = @$post_clear['model_id'];
+    $patrimony_id = @$post_clear['patrimony_id'] ;
+    $original_count = @$post_clear['original_count'] > 0 ? @$post_clear['original_count'] : 1;
     $query = "INSERT INTO loan (user_id, model_id, patrimony_id, original_count) VALUES (?,?,?,?)";
-    $params = array($post_clear['user_id'], $model_id, $patrimony_id, $original_count);
+    $params = array(@$post_clear['user_id'], $model_id, $patrimony_id, $original_count);
     Database::execute($query, $params);
     $query = "SELECT max(id) FROM loan";
     $loan_id = Database::fetchOne($query, array());
