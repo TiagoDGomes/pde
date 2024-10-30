@@ -155,11 +155,14 @@
                                 </fieldset>
 
                             <?php endif;?> 
-
+                            <?php if (!is_numeric($get_clear['code']) ) : ?>
                             <p id="lnk-new-model-item">                        
                                 <a href="javascript:;" onclick="show_new_model()">Registrar novo modelo de item...</a>
                             </p> 
-
+                            <?php else: ?>
+                                <p>Faça uma busca por texto para ter opções de novo registro.</p>
+                                
+                            <?php endif; ?>
                         <?php endif;?>   
                         <?php form_model(NULL) ; ?>    
    
