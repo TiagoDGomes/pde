@@ -38,7 +38,7 @@ foreach($_POST as $key => $value){
 
 
 if (!$action_reset_user) {
-    if (!isset($_GET['user_id']) && !isset($_POST['user_id']) && !is_null($_SESSION['selected_user'])){
+    if (!isset($_GET['user_id']) && !isset($_POST['user_id']) && !is_null(@$_SESSION['selected_user'])){
         exit('user_id empty');
     }
     $current_user_id = @$get_clear['user_id'] ? @$get_clear['user_id'] : @$post_clear['user_id'];
