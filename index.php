@@ -26,14 +26,14 @@
                 <div id="block-code">
                     <form>
                         <input type="hidden" name="user_id" value="<?= $current_user_id ?>">
-                        <input <?= $search_one_item ? '' : 'autofocus'?> type="text" name="code" id="code"  value="<?= htmlspecialchars(@$_GET['code']) ?>">
+                        <input <?= $search_one_item ? '' : 'autofocus'?> type="text" name="code" id="code"  value="<?= @htmlspecialchars(@$_GET['code']) ?>">
                     </form>
                 </div>
             <?php else:?>
 
                 <div id="block-user">
                     <form>
-                        <input autofocus type="text" name="search_user" id="search_user" value="<?= htmlspecialchars(@$_GET['search_user']) ?>">
+                        <input autofocus type="text" name="search_user" id="search_user" value="<?= @htmlspecialchars(@$_GET['search_user']) ?>">
                     </form>
                 </div>
             <?php endif; ?>

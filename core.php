@@ -31,10 +31,10 @@ $get_clear = array();
 $post_clear = array();
 
 foreach($_GET as $key => $value){
-    $get_clear[$key] = htmlspecialchars(trim($value));
+    $get_clear[$key] = @htmlspecialchars(trim($value));
 }
 foreach($_POST as $key => $value){
-    $post_clear[$key] = htmlspecialchars(trim($value));
+    $post_clear[$key] = @htmlspecialchars(trim($value));
 }
 
 
