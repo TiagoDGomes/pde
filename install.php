@@ -1,7 +1,7 @@
 <?php
 
 require_once 'config.php';
-require_once 'database.php';
+require_once 'include/Database.php';
 
 Database::startInstance($CONFIG_PDO_CONN,$CONFIG_PDO_USER, $CONFIG_PDO_PASS);
 
