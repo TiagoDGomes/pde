@@ -41,7 +41,8 @@ foreach($_POST as $key => $value){
 
 if (!$action_reset_user) {
     if (!isset($_GET['user_id']) && !isset($_POST['user_id']) && !is_null(@$_SESSION['selected_user'])){
-        HTTPResponse::forbidden('user_id empty');
+        $_SESSION['selected_user'] = NULL;
+        HTTPResponse::redirect('.');
     }
     $current_user_id = @$get_clear['user_id'] ? @$get_clear['user_id'] : @$post_clear['user_id'];
     if ($current_user_id != @$_SESSION['selected_user']['id']){
