@@ -12,7 +12,6 @@
     <div id="main">
         <header id="content-input" class="mode <?= $selected_user ? 'code': 'user'?>">
             <?php if ($selected_user):?>
-
                 <div class="display-user">
                     <i class="picture"></i>
                     <span id="edit_name" contenteditable="false"><?= $selected_user['name'] ?></span>&nbsp;
@@ -42,7 +41,7 @@
         </header>
 
         <main>            
-            <section class="left">
+            <section class="left search_results">
                 
                 <div class="user">
                     <?php if ($selected_user):?>
@@ -172,11 +171,12 @@
                 <?php endif;?>
                 
             </section>
-            <section class="right">
+            <section class="right content">
                 <?php if ($selected_user):?>
                 <pre><?php //var_dump($query_search_user_loans) ?></pre>                
                 <pre><?php //var_dump($search_user_loans) ?></pre>
-                <table class="items">
+                <div class="items">
+                <table>
                     <tr>
                         <th>Nome do item</th>
                         <th>Código</th>
@@ -244,7 +244,7 @@
                     <?php if (!is_null($last_date)) echo '</table>' ?>   
 
                 </div>
-                  
+                </div>  
                 <?php endif;?>
             </section>
         </main>
