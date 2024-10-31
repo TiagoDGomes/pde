@@ -1,144 +1,517 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset='utf-8'>
-        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-        <meta name='viewport' content='width=device-width, initial-scale=1'>
-        <title>Empréstimos</title>
-        <style>
-            :root{
-                --header-height: 3rem;
-                --footer-height: 2rem;
-                --root-padding-left: 15px;
-                --tools-width: 300px;
-            }
-            *{
-                box-sizing: border-box;
-            }
-            body{
-                margin: 0;
-                padding: 0;
-                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-                font-size: .9em;
-            }
-            header{
-                background-color: rgba(0, 128, 0, 0.418);
-                /*background-image: linear-gradient(red, orange, yellow, green, blue);*/
-                min-height: var(--header-height);
-            }
-            header, footer{                
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Empréstimos</title>
+    <style>
+        :root {
+            --header-height: 3rem;
+            --footer-height: 3rem;
+            --root-padding-left: 15px;
+            --search_results-width: 300px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        td[contenteditable="true"]:focus {
+            border: 0;
+        }
+
+        a,
+        a:hover,
+        a:visited {
+            color: blue;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-size: .9em;
+        }
+
+        body,
+        textarea,
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        button {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: .9em;
+        }
+
+        header {
+            background-color: #a4dba2;
+            min-height: var(--header-height);
+            background-image: linear-gradient(#a4dba2, #ffffff);
+        }
+
+        header form {
+            display: inline;
+        }
+
+        header,
+        footer {
+            width: 100%;
+            vertical-align: middle;
+            text-shadow: 2px 2px 4px #76ab74;
+        }
+
+        footer {
+            background-color: rgba(54, 112, 57, 0.507);
+            min-height: var(--footer-height);
+            background-image: linear-gradient(#ffffff, #a4dba2);
+        }
+
+        #q {
+            font-size: 1.5em;
+            outline: none;
+        }
+
+        section {
+            padding: 1px 4px 1px 4px;
+            overflow-y: auto;
+        }
+
+        header ul,
+        header li,
+        footer ul,
+        footer li {
+            list-style-type: none;
+            padding-inline-start: 0;
+            margin-left: 3px
+        }
+
+        section {
+            padding-left: var(--root-padding-left);
+        }
+
+        @media screen and (max-width: 919px) {
+            #q {
                 width: 100%;
+                display: block;
             }
-            footer{    
-                background-color: rgba(54, 112, 57, 0.507);
-                min-height: var(--footer-height);
+
+            header ul {
+                display: block;
             }
-            header, section.tools {
+
+            main .items {
+                overflow-x: scroll;
+            }
+
+            main table {
+                min-width: 800px;
+            }
+
+            header li:last-child {
+                position: absolute;
+                right: 3px;
+                top: 3em;
+            }
+
+            header {
+                border: 1px solid silver
+            }
+        }
+
+        @media screen and (min-width: 920px) {
+            body {
+                overflow: hidden;
+            }
+
+            header,
+            footer {
                 padding-left: var(--root-padding-left);
             }
-            section{                
-                background-color: blueviolet;    
-                padding: 1px 4px 1px 4px ;
-                overflow-y: auto;
+
+            main section {
+                height: calc(100vh - (var(--footer-height) + var(--header-height)));
+                display: inline-block;
             }
-            @media screen and (max-width: 919px){
-                /* footer{
-                    position: absolute;
-                    bottom: 0;
-                } */
+
+            #q,
+            section.search_results {
+                width: var(--search_results-width);
             }
-            @media screen and (min-width: 920px) {
-                body{                    
-                    overflow: hidden;
-                }
-                main section{
-                    height: calc(100vh - (var(--footer-height) + var(--header-height) ));
-                    display: inline-block;
-                }
-                section.tools{
-                    width: var(--tools-width);
-                } 
-                section.content{
-                    width: calc(100% - var(--tools-width) - var(--root-padding-left) );
-                    float: right;
-                }       
+
+            section.content {
+                width: calc(100% - var(--search_results-width) - var(--root-padding-left));
+                float: right;
             }
-            
-        </style>
-    </head>
+
+            header,
+            footer {
+                display: flex;
+                align-items: center;
+            }
+
+            header ul,
+            header li,
+            footer ul,
+            footer li {
+                display: inline;
+            }
+
+            #q {
+                margin-right: 1em;
+            }
+
+            main table {
+                width: 100%;
+            }
+        }
+
+        .search_item {
+            min-height: 10em;
+            background-color: aquamarine;
+        }
+
+        .units {
+            width: 3em;
+            text-align: right;
+        }
+
+        .result {
+            border-bottom: 1px solid silver;
+            padding-bottom: 10px;
+            padding-right: 6px;
+        }
+
+        .result .title {
+            font-weight: bold;
+            padding-bottom: 4px;
+        }
+
+        .result .actions {
+            padding-top: 4px;
+            text-align: right;
+        }
+
+        .details {
+            font-size: .85em;
+        }
+
+        .result .patrimony {
+            float: left;
+        }
+
+        .patrimony {
+            background-color: #0202b8;
+            color: white;
+            min-width: 6em;
+            padding: 4px;
+            border-radius: 4px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: .85em;
+            text-align: center;
+            display: inline-block;
+            box-shadow: 1px 1px 1px 1px #0000ff55;
+        }
+
+        .result .alert {
+            padding: 4px;
+            margin-top: 5px;
+            background-color: #ff00006e;
+            color: white;
+            border-radius: 4px;
+            /* box-shadow: 2px 2px 1px 1px #ff000040; */
+        }
+
+        .result .alert a {
+            color: white;
+        }
+
+
+
+        table td.return span.return {
+            display: inline-block;
+            min-width: 20px;
+        }
+
+        table td.return span.return span {
+            display: inline-block;
+            min-width: 20px;
+            border-radius: 6px;
+        }
+
+        table td.return span.return a {
+            color: white;
+        }
+
+        table td.return:hover span.button-minus {
+            background-color: rgba(255, 0, 0, 0.3);
+        }
+
+        table td.return:hover span.button-plus {
+            background-color: rgba(0, 128, 0, 0.3);
+        }
+
+        .content table {
+            border-collapse: collapse;
+        }
+
+        .content table tr.date td {
+            padding-top: 1.5em;
+
+        }
+
+        .content table tr.date {
+            border-bottom: 1px solid silver;
+            font-weight: bold;
+        }
+
+        table tr.complete td {
+            color: silver;
+        }
+
+        table tr.complete .patrimony {
+            background-color: #0000ff3f;
+        }
+
+        .content table td.number {
+            text-align: center;
+            width: 10em;
+        }
+
+        .content table th:first-child,
+        .content table td:first-child {
+            width: 2em;
+            text-align: left;
+        }
+
+        .content table td:last-child {
+            word-wrap: break-word;
+            width: 15em;
+        }
+
+        .content table tr:hover:not(:has(th)) {
+            background-color: #4b75581a;
+        }
+
+        .content th:has(.date) {
+            vertical-align: middle;
+            text-align: left;
+        }
+
+        .content td {
+            vertical-align: top;
+        }
+    </style>
+</head>
+
 <body>
-    <div id="main">
-        <header>
-            <div class="left">A</div>
-            <div class="right">B</div>
-        </header>
+    <noscript>
+        <p>O Javascript não está disponível em seu navegador.</p>
+    </noscript>
+    <div id="main" style="display: none;">
+        <form>
+            <header>
+                <input type="text" name="q" id="q" autofocus>
+
+                <ul>
+                    <li>
+                        <input checked type="radio" name="t" value="user" id="chk_user">
+                        <label for="chk_user">pessoa</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="t" value="item" id="chk_item">
+                        <label for="chk_item">item</label>
+                    </li>
+                    <li>
+                        <label for="chk_date_before">Entre:</label>
+                        <input type="date" name="db" value="2024-01-01" min="2024-01-01" id="chk_date_before">
+                        <label for="chk_date_after">a</label>
+                        <input type="date" name="da" value="2024-10-30" max="2024-10-30" id="chk_date_after">
+                    </li>
+                    <li>
+                        <button type="submit">Procurar</button>
+                    </li>
+                </ul>
+
+            </header>
+        </form>
         <main>
-            <section class="tools">
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent purus neque, venenatis sit amet velit vitae, luctus convallis velit. Donec rutrum accumsan iaculis. Curabitur feugiat rhoncus metus ac vehicula. Morbi quis efficitur diam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris dolor urna, varius ut quam eu, mollis feugiat velit. Sed dui nisl, posuere sed lobortis id, placerat id libero. Nam laoreet sapien non risus vulputate, eget interdum felis dignissim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla sit amet felis risus. Quisque eget nisi nulla. Aliquam accumsan pulvinar suscipit.
-                    </p>
-                    <p>
-                    Fusce semper mi a nisl pulvinar iaculis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec iaculis pharetra lorem eu dignissim. Nam eget bibendum dui, nec fermentum erat. Pellentesque id leo sollicitudin, semper nisl ac, tincidunt felis. Sed id est sagittis, fringilla mi a, mollis nulla. Praesent ut dui mauris. Etiam tempor volutpat quam, vel auctor lorem. Sed pretium sollicitudin ultricies. In risus orci, convallis nec nisl tempor, lacinia porttitor orci. Etiam sit amet neque mauris. Integer vitae pulvinar nibh. Aliquam ut tortor nibh. Sed id nibh quam. Fusce rutrum risus leo, consectetur bibendum tortor mollis quis.
-                    </p>
-                    <p>
-                    Proin urna nibh, maximus non lacus in, congue cursus est. Morbi nec consequat est. Sed leo mauris, gravida ut est id, finibus sagittis massa. Mauris iaculis nibh velit. Aenean consectetur feugiat orci, eget viverra tellus auctor vel. Integer varius tincidunt neque id faucibus. Duis luctus nibh id ultricies interdum. Nunc mi diam, pharetra eget eleifend ac, mattis vel massa. Aliquam varius ut nisi eu suscipit. Vestibulum eleifend malesuada eros finibus efficitur. Quisque ante sapien, aliquet a euismod in, semper a metus. Nunc massa risus, semper a felis ut, tristique feugiat quam. Vivamus elementum diam quis pharetra lobortis. Etiam tincidunt finibus aliquet. Duis id fermentum metus, non pulvinar est. Maecenas bibendum, nisl vel pharetra eleifend, arcu dolor congue nisi, vel hendrerit quam libero et turpis.
-                    </p>
-                    <p>
-                    Pellentesque viverra leo sagittis ex venenatis, in varius neque molestie. Nam eleifend consequat nulla id hendrerit. Maecenas porta, nulla quis dignissim rutrum, metus ex sollicitudin justo, quis consectetur tortor tellus non justo. Quisque aliquam ligula sed quam semper rutrum. Integer ut tincidunt ligula, ornare facilisis nunc. Aliquam ullamcorper, velit in condimentum consequat, orci dolor viverra odio, et imperdiet odio mi ut sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </p>
-                    <p>
-                    Pellentesque sed ipsum sit amet mi vulputate convallis. Ut porttitor lectus magna, ut placerat velit dapibus ut. Nunc egestas vulputate ornare. Quisque ac turpis dignissim, accumsan arcu vitae, tincidunt orci. Phasellus a dapibus mauris. Nunc suscipit semper felis, a congue nulla hendrerit a. Pellentesque sit amet malesuada augue. Pellentesque pellentesque nulla a lobortis tempor. Maecenas eget diam risus. Nulla eu risus sit amet nulla semper maximus. Fusce porttitor suscipit convallis. Nunc iaculis commodo urna, a cursus nisl.
-                    </p>
+            <section class="search_results">
+                <div class="result item">
+                    <div class="title">
+                        <a href="?i=1234">Velit luctus convallis velit donec rutrum accumsan iaculis</a>
+                    </div>
+                    <div class="details">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent purus neque, venenatis sit
+                        amet
+                        velit vitae, luctus convallis velit. Donec rutrum accumsan iaculis. Curabitur feugiat rhoncus
+                        metus
+                        ac vehicula.
+                    </div>
+                    <div class="actions">
+                        <input name="un" class="units" name="units" type="number" value="1"> &times; <button>Emprestar</button>
+                    </div>
+
+                </div>
+                <div class="result item">
+                    <div class="title">
+                        <a href="?i=456&p=12345">Taciti sociosqu ad litora torquent per conubia
+                            nostra
+                        </a>
+                    </div>
+                    <div class="details">
+                        Fusce semper mi a nisl pulvinar iaculis. Vestibulum ante ipsum primis in faucibus orci luctus et
+                        ultrices posuere cubilia curae; Donec iaculis pharetra lorem eu dignissim. Nam eget bibendum
+                        dui,
+                        nec fermentum erat.
+                    </div>
+                    <div class="alert">
+                        Emprestado para <a href="#">FULANO BELTRANO</a>
+                    </div>
+                    <div class="actions"></div>
+                    <div class="actions">
+                        <a href="#">
+                            <span class="patrimony">
+                                12345
+                            </span>
+                        </a>
+                        <input disabled class="units" name="units" type="number" value="1"> &times; <button>Devolver</button>
+                    </div>
+
+                </div>
+                <div class="result item">
+                    <div class="title">
+                        <a href="#">
+                            Aptent taciti sociosqu ad litora torquent per conubia
+                            nostra
+                        </a>
+                    </div>
+                    <div class="details"></div>
+                    <div class="actions"></div>
+                    <div class="actions">
+                        <a href="#"><span class="patrimony">23456</span></a>
+                        <input disabled class="units" name="units" type="number" value="1"> &times; <button>Emprestar</button>
+                    </div>
+                </div>
+
+                <div class="result user">
+                    <div class="title">
+                        <a href="#">Lorem ipsum dolor</a>
+                    </div>
+                    <div class="details">
+
+                    </div>
+                    <div class="actions"></div>
+                    <div class="actions">
+                        <button>Editar</button>
+                        <button>Selecionar</button>
+                    </div>
+                </div>
+
+
             </section>
             <section class="content">
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent purus neque, venenatis sit amet velit vitae, luctus convallis velit. Donec rutrum accumsan iaculis. Curabitur feugiat rhoncus metus ac vehicula. Morbi quis efficitur diam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris dolor urna, varius ut quam eu, mollis feugiat velit. Sed dui nisl, posuere sed lobortis id, placerat id libero. Nam laoreet sapien non risus vulputate, eget interdum felis dignissim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla sit amet felis risus. Quisque eget nisi nulla. Aliquam accumsan pulvinar suscipit.
-                    </p>
-                    <p>
-                    Fusce semper mi a nisl pulvinar iaculis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec iaculis pharetra lorem eu dignissim. Nam eget bibendum dui, nec fermentum erat. Pellentesque id leo sollicitudin, semper nisl ac, tincidunt felis. Sed id est sagittis, fringilla mi a, mollis nulla. Praesent ut dui mauris. Etiam tempor volutpat quam, vel auctor lorem. Sed pretium sollicitudin ultricies. In risus orci, convallis nec nisl tempor, lacinia porttitor orci. Etiam sit amet neque mauris. Integer vitae pulvinar nibh. Aliquam ut tortor nibh. Sed id nibh quam. Fusce rutrum risus leo, consectetur bibendum tortor mollis quis.
-                    </p>
-                    <p>
-                    Proin urna nibh, maximus non lacus in, congue cursus est. Morbi nec consequat est. Sed leo mauris, gravida ut est id, finibus sagittis massa. Mauris iaculis nibh velit. Aenean consectetur feugiat orci, eget viverra tellus auctor vel. Integer varius tincidunt neque id faucibus. Duis luctus nibh id ultricies interdum. Nunc mi diam, pharetra eget eleifend ac, mattis vel massa. Aliquam varius ut nisi eu suscipit. Vestibulum eleifend malesuada eros finibus efficitur. Quisque ante sapien, aliquet a euismod in, semper a metus. Nunc massa risus, semper a felis ut, tristique feugiat quam. Vivamus elementum diam quis pharetra lobortis. Etiam tincidunt finibus aliquet. Duis id fermentum metus, non pulvinar est. Maecenas bibendum, nisl vel pharetra eleifend, arcu dolor congue nisi, vel hendrerit quam libero et turpis.
-                    </p>
-                    <p>
-                    Pellentesque viverra leo sagittis ex venenatis, in varius neque molestie. Nam eleifend consequat nulla id hendrerit. Maecenas porta, nulla quis dignissim rutrum, metus ex sollicitudin justo, quis consectetur tortor tellus non justo. Quisque aliquam ligula sed quam semper rutrum. Integer ut tincidunt ligula, ornare facilisis nunc. Aliquam ullamcorper, velit in condimentum consequat, orci dolor viverra odio, et imperdiet odio mi ut sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </p>
-                    <p>
-                    Pellentesque sed ipsum sit amet mi vulputate convallis. Ut porttitor lectus magna, ut placerat velit dapibus ut. Nunc egestas vulputate ornare. Quisque ac turpis dignissim, accumsan arcu vitae, tincidunt orci. Phasellus a dapibus mauris. Nunc suscipit semper felis, a congue nulla hendrerit a. Pellentesque sit amet malesuada augue. Pellentesque pellentesque nulla a lobortis tempor. Maecenas eget diam risus. Nulla eu risus sit amet nulla semper maximus. Fusce porttitor suscipit convallis. Nunc iaculis commodo urna, a cursus nisl.
-                    </p>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent purus neque, venenatis sit amet velit vitae, luctus convallis velit. Donec rutrum accumsan iaculis. Curabitur feugiat rhoncus metus ac vehicula. Morbi quis efficitur diam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris dolor urna, varius ut quam eu, mollis feugiat velit. Sed dui nisl, posuere sed lobortis id, placerat id libero. Nam laoreet sapien non risus vulputate, eget interdum felis dignissim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla sit amet felis risus. Quisque eget nisi nulla. Aliquam accumsan pulvinar suscipit.
-                        </p>
-                        <p>
-                        Fusce semper mi a nisl pulvinar iaculis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec iaculis pharetra lorem eu dignissim. Nam eget bibendum dui, nec fermentum erat. Pellentesque id leo sollicitudin, semper nisl ac, tincidunt felis. Sed id est sagittis, fringilla mi a, mollis nulla. Praesent ut dui mauris. Etiam tempor volutpat quam, vel auctor lorem. Sed pretium sollicitudin ultricies. In risus orci, convallis nec nisl tempor, lacinia porttitor orci. Etiam sit amet neque mauris. Integer vitae pulvinar nibh. Aliquam ut tortor nibh. Sed id nibh quam. Fusce rutrum risus leo, consectetur bibendum tortor mollis quis.
-                        </p>
-                        <p>
-                        Proin urna nibh, maximus non lacus in, congue cursus est. Morbi nec consequat est. Sed leo mauris, gravida ut est id, finibus sagittis massa. Mauris iaculis nibh velit. Aenean consectetur feugiat orci, eget viverra tellus auctor vel. Integer varius tincidunt neque id faucibus. Duis luctus nibh id ultricies interdum. Nunc mi diam, pharetra eget eleifend ac, mattis vel massa. Aliquam varius ut nisi eu suscipit. Vestibulum eleifend malesuada eros finibus efficitur. Quisque ante sapien, aliquet a euismod in, semper a metus. Nunc massa risus, semper a felis ut, tristique feugiat quam. Vivamus elementum diam quis pharetra lobortis. Etiam tincidunt finibus aliquet. Duis id fermentum metus, non pulvinar est. Maecenas bibendum, nisl vel pharetra eleifend, arcu dolor congue nisi, vel hendrerit quam libero et turpis.
-                        </p>
-                        <p>
-                        Pellentesque viverra leo sagittis ex venenatis, in varius neque molestie. Nam eleifend consequat nulla id hendrerit. Maecenas porta, nulla quis dignissim rutrum, metus ex sollicitudin justo, quis consectetur tortor tellus non justo. Quisque aliquam ligula sed quam semper rutrum. Integer ut tincidunt ligula, ornare facilisis nunc. Aliquam ullamcorper, velit in condimentum consequat, orci dolor viverra odio, et imperdiet odio mi ut sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </p>
-                        <p>
-                        Pellentesque sed ipsum sit amet mi vulputate convallis. Ut porttitor lectus magna, ut placerat velit dapibus ut. Nunc egestas vulputate ornare. Quisque ac turpis dignissim, accumsan arcu vitae, tincidunt orci. Phasellus a dapibus mauris. Nunc suscipit semper felis, a congue nulla hendrerit a. Pellentesque sit amet malesuada augue. Pellentesque pellentesque nulla a lobortis tempor. Maecenas eget diam risus. Nulla eu risus sit amet nulla semper maximus. Fusce porttitor suscipit convallis. Nunc iaculis commodo urna, a cursus nisl.
-                        </p>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent purus neque, venenatis sit amet velit vitae, luctus convallis velit. Donec rutrum accumsan iaculis. Curabitur feugiat rhoncus metus ac vehicula. Morbi quis efficitur diam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris dolor urna, varius ut quam eu, mollis feugiat velit. Sed dui nisl, posuere sed lobortis id, placerat id libero. Nam laoreet sapien non risus vulputate, eget interdum felis dignissim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla sit amet felis risus. Quisque eget nisi nulla. Aliquam accumsan pulvinar suscipit.
-                            </p>
-                            <p>
-                            Fusce semper mi a nisl pulvinar iaculis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec iaculis pharetra lorem eu dignissim. Nam eget bibendum dui, nec fermentum erat. Pellentesque id leo sollicitudin, semper nisl ac, tincidunt felis. Sed id est sagittis, fringilla mi a, mollis nulla. Praesent ut dui mauris. Etiam tempor volutpat quam, vel auctor lorem. Sed pretium sollicitudin ultricies. In risus orci, convallis nec nisl tempor, lacinia porttitor orci. Etiam sit amet neque mauris. Integer vitae pulvinar nibh. Aliquam ut tortor nibh. Sed id nibh quam. Fusce rutrum risus leo, consectetur bibendum tortor mollis quis.
-                            </p>
-                            <p>
-                            Proin urna nibh, maximus non lacus in, congue cursus est. Morbi nec consequat est. Sed leo mauris, gravida ut est id, finibus sagittis massa. Mauris iaculis nibh velit. Aenean consectetur feugiat orci, eget viverra tellus auctor vel. Integer varius tincidunt neque id faucibus. Duis luctus nibh id ultricies interdum. Nunc mi diam, pharetra eget eleifend ac, mattis vel massa. Aliquam varius ut nisi eu suscipit. Vestibulum eleifend malesuada eros finibus efficitur. Quisque ante sapien, aliquet a euismod in, semper a metus. Nunc massa risus, semper a felis ut, tristique feugiat quam. Vivamus elementum diam quis pharetra lobortis. Etiam tincidunt finibus aliquet. Duis id fermentum metus, non pulvinar est. Maecenas bibendum, nisl vel pharetra eleifend, arcu dolor congue nisi, vel hendrerit quam libero et turpis.
-                            </p>
-                            <p>
-                            Pellentesque viverra leo sagittis ex venenatis, in varius neque molestie. Nam eleifend consequat nulla id hendrerit. Maecenas porta, nulla quis dignissim rutrum, metus ex sollicitudin justo, quis consectetur tortor tellus non justo. Quisque aliquam ligula sed quam semper rutrum. Integer ut tincidunt ligula, ornare facilisis nunc. Aliquam ullamcorper, velit in condimentum consequat, orci dolor viverra odio, et imperdiet odio mi ut sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            </p>
-                            <p>
-                            Pellentesque sed ipsum sit amet mi vulputate convallis. Ut porttitor lectus magna, ut placerat velit dapibus ut. Nunc egestas vulputate ornare. Quisque ac turpis dignissim, accumsan arcu vitae, tincidunt orci. Phasellus a dapibus mauris. Nunc suscipit semper felis, a congue nulla hendrerit a. Pellentesque sit amet malesuada augue. Pellentesque pellentesque nulla a lobortis tempor. Maecenas eget diam risus. Nulla eu risus sit amet nulla semper maximus. Fusce porttitor suscipit convallis. Nunc iaculis commodo urna, a cursus nisl.
-                            </p>
-            </section>            
+                <h2>Fulano Beltrano</h2>
+                <div class="items">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" name="chk_all"></th>
+                                <th>Nome do item</th>
+                                <th>Código</th>
+                                <th>Patrimônio</th>
+                                <th>Quantidade emprestada</th>
+                                <th>Quantidade devolvida</th>
+                                <th>Detalhes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="date">
+                                <th>
+                                    <input class="loan_top_checkbox" type="checkbox" id="loan_date_30_10_2024">
+                                    </td>
+                                <th colspan="6">
+                                    <label for="loan_date_30_10_2024" class="date">30/10/2024</label>
+                                </th>
+                            </tr>
+                            <tr class="remaining">
+                                <td>
+                                    <input type="checkbox" id="loan_98">
+                                </td>
+                                <td>
+                                    <label for="loan_98">circuito integrado 74123</label>
+                                </td>
+                                <td class="number">2</td>
+                                <td class="number">
+                                    <span class="patrimony">3</span>
+                                </td>
+                                <td class="number">4</td>
+                                <td class="number return">
+                                    <span class="return">
+
+                                        <a href="?user_id=2&amp;log_loan=y&amp;loan_id=48&amp;diff=-1&amp;code=mult">
+                                            <span class="button-minus">-</span>
+                                        </a>
+
+                                    </span>
+                                    4
+                                    <span class="return">
+
+                                        <a href="?user_id=2&amp;log_loan=y&amp;loan_id=48&amp;diff=1&amp;code=mult">
+                                            <span class="button-plus">+</span>
+                                        </a>
+
+                                    </span>
+
+
+                                </td>
+                                <td class="details" contenteditable="true"> </td>
+                            </tr>
+                            <tr class="complete">
+                                <td>
+                                    <input type="checkbox" id="loan_85">
+                                </td>
+                                <td>
+                                    <label for="loan_85">Paquímetro Universal 150mm, aço inox</label>
+                                </td>
+                                <td></td>
+                                <td class="number">
+                                    <span class="patrimony">11230261</span>
+                                </td>
+                                <td class="number">1</td>
+                                <td class="number return">
+                                    <span class="return">
+                                        <a href="?user_id=2&amp;log_loan=y&amp;loan_id=84&amp;diff=-1&amp;code=mult">
+                                            <span class="button-minus">-</span>
+                                        </a>
+                                    </span>
+                                    1
+                                    <span class="return">
+                                    </span>
+
+                                </td>
+                                <td class="details" contenteditable="true">Proin urna nibh, maximus non lacus in, congue cursus est. Morbi nec
+                                    consequat est. Sed leo mauris,
+                                    gravida ut est id, finibus sagittis massa.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
         </main>
         <footer>
+
         </footer>
     </div>
+    <script>
+        document.getElementById('main').style.display = 'block';
+    </script>
 </body>
+
 </html>
