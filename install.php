@@ -3,7 +3,47 @@
 require_once 'config.php';
 require_once 'classes/Database.php';
 
+header('Content-Type: text/plain');
+
 Database::startInstance($CONFIG_PDO_CONN,$CONFIG_PDO_USER, $CONFIG_PDO_PASS);
+
+$dsn_type = explode(":", $CONFIG_PDO_CONN)[0];
+if ($dsn_type == 'sqlite'){
+    $AUTO_INCREMENT_KEYWORD = 'AUTOINCREMENT';
+    $TEXT = 'TEXT';   
+    $LONG_TEXT = 'TEXT';
+    $BYTE = 'INTEGER';
+    $INT = 'INTEGER';
+    $LONG_INT = 'INTEGER';
+    $TIMESTAMP = 'TEXT';
+    $CURRENT_TIMESTAMP = "(datetime('now','localtime'))";
+    $QUERY_NORMALIZE = '';
+} else {
+    $AUTO_INCREMENT_KEYWORD = 'AUTO_INCREMENT';
+    $TEXT = 'VARCHAR(255)';   
+    $LONG_TEXT = 'TEXT';
+    $BYTE = 'INT';
+    $INT = 'INT';
+    $LONG_INT = 'LONGINT';
+    $TIMESTAMP = 'TIMESTAMP';
+    $CURRENT_TIMESTAMP = "CURRENT_TIMESTAMP";
+    $QUERY_NORMALIZE =  "
+        DROP FUNCTION IF EXISTS normalize;
+        DELIMITER //
+
+        CREATE FUNCTION normalize (txt TEXT)
+            RETURNS TEXT
+
+            BEGIN
+            RETURN txt;
+            END //
+        DELIMITER ;";
+}
+
+
+
+
+
 
 $queries = array(
 
@@ -54,8 +94,10 @@ $queries = array(
             FOREIGN KEY (loan_id)
                 REFERENCES loan (id)      
         );",   
-    
+    $QUERY_NORMALIZE
 );
+
+
 
 $queries[] = file_get_contents('legacy/sql/01-user.sql');
 $queries[] = file_get_contents('legacy/sql/02-model.sql');

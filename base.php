@@ -7,9 +7,7 @@ require_once 'classes/Filter.php';
 require_once 'classes/Database.php';
 require_once 'classes/HTTPResponse.php';
 require_once 'classes/HTMLUtil.php';
-require_once 'include/form.generic.php';
-require_once 'include/form.user.php';
-require_once 'include/form.model.php';
+include_once 'include/fatal_error.php';
 
 Database::startInstance($CONFIG_PDO_CONN, $CONFIG_PDO_USER, $CONFIG_PDO_PASS);
 
@@ -138,10 +136,10 @@ if ($is_searching){
                     LEFT JOIN user u ON (n.user_id = u.id)
                     WHERE has_patrimony = 1 
                         AND 
-                            (model_code = ?                     
-                            OR patrimony_number1 = ? 
-                            OR patrimony_number2 = ? 
-                            OR serial_number = ? 
+                            (m.code = ?                     
+                            OR p.number1 = ? 
+                            OR p.number2 = ? 
+                            OR p.serial_number = ? 
                             OR normalize(m.name) LIKE ?)               
                     GROUP BY p.id
                     UNION "; 
@@ -164,10 +162,10 @@ if ($is_searching){
                     FROM model m  
                     WHERE has_patrimony = 0 
                         AND 
-                            (model_code = ?   
+                            (m.code = ?   
                             OR normalize(m.name) LIKE ?)  
                     " ;  
-        $query .= "ORDER BY is_match DESC, has_patrimony DESC, patrimony_number1, patrimony_number2, m.name,  patrimony_serial_number";
+        $query .= "ORDER BY is_match DESC, has_patrimony DESC, patrimony_number1, patrimony_number2, name,  patrimony_serial_number";
         $params = array(
             $query_string, $query_string, $query_string,
             strtoupper($query_string),strtoupper($query_string),strtoupper($query_string),strtoupper($query_string), "%$query_string%",

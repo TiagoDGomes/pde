@@ -2,14 +2,8 @@
 
 
 $CONFIG_PDO_CONN = "sqlite:" . __DIR__ . "/database.db";
-$CONFIG_PDO_USER = '';
-$CONFIG_PDO_PASS = '';
+$CONFIG_PDO_CONN = "mysql:dbname=pde;host=localhost";
+$CONFIG_PDO_USER = 'pde';
+$CONFIG_PDO_PASS = 'pde';
 
-$AUTO_INCREMENT_KEYWORD = 'AUTOINCREMENT';
-$TEXT = 'TEXT';   
-$LONG_TEXT = 'TEXT';
-$BYTE = 'INTEGER';
-$INT = 'INTEGER';
-$LONG_INT = 'INTEGER';
-$TIMESTAMP = 'TEXT';
-$CURRENT_TIMESTAMP = "(datetime('now','localtime'))";
+
