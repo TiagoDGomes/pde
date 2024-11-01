@@ -50,6 +50,8 @@ $is_changed_user = @$form_clear['uid'] != '' &&((is_null($last_user_selected)) |
 
 $current_date_now = (new DateTimeImmutable('+1 day'))->format('Y-m-d');
 
+$search_one_item = FALSE;
+
 if (isset($_SESSION['default_date_after'])){
     $default_date_after = $_SESSION['default_date_after'];
 }  else {
@@ -124,7 +126,11 @@ if ($is_searching){
                             u.name AS last_user_name,
                             u.id AS last_user_id,                            
                             'patrimony' as result_type,
-                            1 as query_units
+                            1 as query_units,
+                            CASE WHEN number1 = ? THEN 1
+                                 WHEN number2 = ? THEN 1
+                                 WHEN serial_number = ? THEN 1
+                                 ELSE 0 END AS is_match
                     FROM model m  
                     LEFT JOIN patrimony p ON (p.model_id = m.id)
                     LEFT JOIN loan n ON (n.patrimony_id = p.id)
@@ -153,21 +159,24 @@ if ($is_searching){
                             NULL AS last_user_name,
                             NULL AS last_user_id,                            
                             'item' as result_type,
-                            ? as query_units
+                            ? AS query_units,
+                            0 as is_match
                     FROM model m  
                     WHERE has_patrimony = 0 
                         AND 
                             (model_code = ?   
                             OR normalize(m.name) LIKE ?)  
                     " ;  
-        $query .= "ORDER BY has_patrimony DESC, m.name, patrimony_number1, patrimony_number2, patrimony_serial_number";
+        $query .= "ORDER BY is_match DESC, has_patrimony DESC, patrimony_number1, patrimony_number2, m.name,  patrimony_serial_number";
         $params = array(
+            $query_string, $query_string, $query_string,
             strtoupper($query_string),strtoupper($query_string),strtoupper($query_string),strtoupper($query_string), "%$query_string%",
             $query_units,strtoupper($query_string), "%$query_string%"
             );
     }
     $search_results = Database::fetchAll($query, $params);
     if (count($search_results) == 1) {
+        $search_one_item = TRUE;
         //HTTPResponse::redirect('?act=select&uid=' . $_SESSION['selected_user']['id']);
     }
 }

@@ -14,7 +14,7 @@
     <div id="main" style="display: none;">
         <form action="?">
             <header>
-                <input type="text" name="q" id="q" autofocus value="<?= @$form_clear['q'] ?>">
+                <input type="text" name="q" id="q" <?= $search_one_item ? '': 'autofocus' ?> value="<?= @$form_clear['q'] ?>">
                 <?php HTMLUtil::generate_input_hidden(array('uid' => $current_user_id)); ?>
                 <ul>
                     <li>
