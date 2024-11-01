@@ -40,6 +40,19 @@ $option_search_item_checked = (@$form_clear['t'] == 'item') ||
 $last_user_selected = @$_SESSION['last_user_selected'];                            
 $is_changed_user = @$form_clear['uid'] != '' &&((is_null($last_user_selected)) || $last_user_selected['id'] != $form_clear['uid']);
 
+$current_date_now = (new DateTimeImmutable())->format('Y-m-d');
+$default_date_after = $current_date_now;
+$current_date_after = isset($form_clear['after']) ? 
+                        (new DateTimeImmutable($form_clear['after']))->format('Y-m-d') :
+                            $default_date_after;
+
+$default_date_before = (new DateTimeImmutable("-6 month"))->format('Y-m-d');                        
+$current_date_before = isset($form_clear['before']) ? 
+                        (new DateTimeImmutable($form_clear['before']))->format('Y-m-d') :
+                        $default_date_before;
+
+
+
 if (!isset($form_clear['uid'])){
     $last_user_selected = NULL;
     $_SESSION['last_user_selected'] = NULL;
@@ -158,10 +171,10 @@ if ($is_selecting_user){
                 INNER JOIN model m ON (n.model_id = m.id)
                 INNER JOIN log_loan nn ON (nn.loan_id = n.id)
                 LEFT JOIN patrimony p ON (n.patrimony_id = p.id)
-                WHERE n.user_id =  ?
+                WHERE n.user_id =  ? AND n.tstamp BETWEEN ? AND ?
                 GROUP BY n.id
                 ORDER BY n.tstamp DESC
                 ";
-    $params = array($form_clear['uid']);
+    $params = array($form_clear['uid'], $current_date_before,$current_date_after);
     $selected_user_loans = Database::fetchAll($query_search_user_loans, $params);
 }

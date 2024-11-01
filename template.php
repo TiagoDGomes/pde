@@ -18,12 +18,6 @@
                 <?php HTMLUtil::generate_input_hidden(@$form_clear, ['q', 't', 'before', 'after']); ?>
                 <ul>
                     <li>
-                        <button type="submit">
-                            <i class="icon search"></i>
-                            Procurar
-                        </button>
-                    </li>
-                    <li>
                         <input type="radio" name="t" value="user" id="chk_user" <?= $option_search_user_checked ?>>
                         <label for="chk_user">pessoa</label>
                     </li>
@@ -32,12 +26,11 @@
                         <label for="chk_item">item</label>
                     </li>
                     <li>
-                        <label for="chk_date_before">Entre:</label>
-                        <input type="date" name="before" id="chk_date_before" value="<?= @$form_clear['before'] ?>">
-                        <label for="chk_date_after">a</label>
-                        <input type="date" name="after" id="chk_date_after" value="<?= @$form_clear['after'] ?>">
-                    </li>
-
+                        <button type="submit">
+                            <i class="icon search"></i>
+                            Procurar
+                        </button>
+                    </li>                    
                 </ul>
                 
             </header>
