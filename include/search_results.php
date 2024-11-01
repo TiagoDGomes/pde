@@ -8,10 +8,15 @@
             <?= $result['obs'] ?>
         </div>   
         <?php if (isset($result['last_user_name'])) : ?>
-        <div class="alert">
-            <i class="icon cart"></i>
-            Emprestado para <a href="?uid=<?= $result['last_user_id'] ?>"><?= $result['last_user_name'] ?></a>
-        </div>
+            <div class="<?= ($result['loan_diff'] > 0) ? 'alert': 'info'?>">            
+                <?php if ($result['loan_diff'] > 0): ?>
+                    <i class="icon cart"></i>
+                    Emprestado para 
+                <?php else: ?>
+                    Última vez por 
+                <?php endif; ?>
+                <a href="?uid=<?= $result['last_user_id'] ?>"><?= $result['last_user_name'] ?></a>
+            </div>
         <?php endif; ?>
         <div class="actions">
             <?php if ($is_search_type_user): ?>
@@ -26,15 +31,20 @@
                 </form>
 
             <?php else: ?>
-                <form method="POST" action=".">
-                    <?php HTMLUtil::generate_input_hidden($form_clear,['act','before','after','iid','pid','units']); ?>
-
-                    <input type="hidden" name="iid" value="<?= $result['model_id'] ?>"> 
+                <form action="?">
+                    <?php $input_hidden = array(); ?>
+                    <?php $input_hidden['iid'] = $result['model_id']; ?> 
+                    <?php $input_hidden['uid'] = $current_user_id; ?> 
+                    <?php $input_hidden['t'] = $current_query_type_string; ?> 
+                    <?php $input_hidden['q'] = $current_query_string; ?> 
 
                     <?php if ($result['has_patrimony'] && $result['patrimony_id'] != ''): ?>
-                        <input type="hidden" name="pid" value="<?= $result['patrimony_id'] ?>">
+                        <?php $input_hidden['pid'] = $result['patrimony_id']; ?>                        
                         <a href="?pid=<?= $result['patrimony_id'] ?>">
-                            <span class="patrimony"><i class="icon pat"></i> <?= $result['patrimony_number1'] ?></span>
+                            <span class="patrimony">
+                                <i class="icon pat"></i> 
+                                <?= $result['patrimony_number1'] ?>
+                            </span>
                         </a>
                     <?php endif; ?>    
                         
@@ -44,19 +54,22 @@
                                 type="number" 
                                 value="<?= $result['has_patrimony'] ? 1 : $query_units?>"> &times;
 
-                    <?php if ($result['last_loan_id']): ?>
-                        <input type="hidden" name="act" value="ret">
+                    <?php if ($result['loan_diff'] > 0): ?>
+                        <?php $input_hidden['act'] = 'ret'; ?> 
+                        <?php $input_hidden['diff'] = '-1'; ?> 
+                        <?php $input_hidden['nid'] = $result['last_loan_id']; ?> 
                         <button>
                             <i class="icon check"></i>
                             Marcar como devolvido
                         </button>
                     <?php else: ?> 
-                        <input type="hidden" name="act" value="loan">
+                        <?php $input_hidden['act'] = 'loan'; ?> 
                         <button <?= ($result['has_patrimony'] && $result['patrimony_id'] == '' ? 'disabled':'') ?>>
                             <i class="icon cart"></i>
                             Emprestar
                         </button>
                     <?php endif; ?>  
+                    <?php HTMLUtil::generate_input_hidden($input_hidden); ?>
                 </form>
             <?php endif; ?>
         </div>    

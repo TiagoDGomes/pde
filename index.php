@@ -12,10 +12,10 @@
 
 <body>
     <div id="main" style="display: none;">
-        <form>
+        <form action="?">
             <header>
                 <input type="text" name="q" id="q" autofocus value="<?= @$form_clear['q'] ?>">
-                <?php HTMLUtil::generate_input_hidden(@$form_clear, ['q', 't', 'before', 'after']); ?>
+                <?php HTMLUtil::generate_input_hidden(array('uid' => $current_user_id)); ?>
                 <ul>
                     <li>
                         <input type="radio" name="t" value="user" id="chk_user" <?= $option_search_user_checked ?>>

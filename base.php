@@ -23,11 +23,19 @@ foreach($_POST as $key => $value){
 
 $search_results = array();
 
+
+$current_query_string = @$form_clear['q'];
+$current_query_type_string = @$form_clear['t'];
+
 $is_search_type_item = @$form_clear['t'] == 'item';
 $is_search_type_user = !$is_search_type_item;
 
-$is_searching = isset($_GET['q']) && @$form_clear['q'] != '';
+
+
+$is_searching = isset($_GET['q']) && $current_query_string != '';
 $is_selecting_user = isset($_GET['uid']) && @$form_clear['uid'] != '';
+
+$is_returning_item = isset($_GET['nid']) && @$_GET['act'] == 'ret';
 
 $option_search_user_checked = (!isset($form_clear['t'])) || 
                               (@$form_clear['t'] == 'user') ? 
@@ -40,17 +48,32 @@ $option_search_item_checked = (@$form_clear['t'] == 'item') ||
 $last_user_selected = @$_SESSION['last_user_selected'];                            
 $is_changed_user = @$form_clear['uid'] != '' &&((is_null($last_user_selected)) || $last_user_selected['id'] != $form_clear['uid']);
 
-$current_date_now = (new DateTimeImmutable())->format('Y-m-d');
-$default_date_after = $current_date_now;
+$current_date_now = (new DateTimeImmutable('+1 day'))->format('Y-m-d');
+
+if (isset($_SESSION['default_date_after'])){
+    $default_date_after = $_SESSION['default_date_after'];
+}  else {
+    $default_date_after = $current_date_now;
+    $_SESSION['default_date_after'] = $default_date_after;
+} 
+
+if (isset($_SESSION['default_date_before'])){
+    $default_date_before = $_SESSION['default_date_before'];
+}  else {
+    $default_date_before = (new DateTimeImmutable("-6 month"))->format('Y-m-d');
+    $_SESSION['default_date_before'] = $default_date_before;
+}                             
+                 
 $current_date_after = isset($form_clear['after']) ? 
                         (new DateTimeImmutable($form_clear['after']))->format('Y-m-d') :
                             $default_date_after;
 
-$default_date_before = (new DateTimeImmutable("-6 month"))->format('Y-m-d');                        
 $current_date_before = isset($form_clear['before']) ? 
                         (new DateTimeImmutable($form_clear['before']))->format('Y-m-d') :
                         $default_date_before;
 
+
+$is_loaning = @$form_clear['act'] == 'loan';
 
 
 if (!isset($form_clear['uid'])){
@@ -75,19 +98,16 @@ $query_units = 1;
 if ($is_searching){
     $params = array();    
     if ($is_search_type_user){        
-        $su = strtoupper($form_clear['q']);
+        $su = strtoupper($current_query_string);
         $query = "SELECT id, name, 
                     code1, code2,
                     0 as has_patrimony, 
                     'user' as result_type,
                     code1 || '<br>' || code2 as obs 
                   FROM user WHERE normalize(name) LIKE ? OR code1 = ? OR code2 = ?";
-        $params = array(normalize("%$su%"), $su, $su);    
-        
-        
-        
+        $params = array(normalize("%$su%"), $su, $su);  
     } else {
-        $query_string_full = explode("*", $form_clear['q']);
+        $query_string_full = explode("*", $current_query_string);
         $query_string = normalize($query_string_full[0]);
         $query_units = is_numeric(@$query_string_full[1]) ?  $query_string_full[1] : 1;
         $query = "SELECT m.id as model_id, 
@@ -177,4 +197,52 @@ if ($is_selecting_user){
                 ";
     $params = array($form_clear['uid'], $current_date_before,$current_date_after);
     $selected_user_loans = Database::fetchAll($query_search_user_loans, $params);
+}
+
+if ($is_loaning){
+    header('Content-Type: text/plain');
+    $user_id = @$form_clear['uid'];
+    $model_id = @$form_clear['iid'];
+    $patrimony_id = @$form_clear['pid'] ;
+    $original_count = @$form_clear['units'] > 0 ? @$form_clear['units'] : 1;
+    $query = "INSERT INTO loan (user_id, model_id, patrimony_id, original_count) VALUES (?,?,?,?)";
+    $params = array($user_id, $model_id, $patrimony_id, $original_count);
+   
+    Database::execute($query, $params);
+    $query = "SELECT max(id) FROM loan";
+    $loan_id = Database::fetchOne($query, array());
+    $query = "INSERT INTO log_loan (loan_id, diff) VALUES (?,?)";
+    $params = array($loan_id, $original_count);
+    Database::execute($query, $params);
+    $redirect_url = http_build_query(array(
+        'uid' => $current_user_id,
+        'q'=> $current_query_string,
+        't' => $current_query_type_string,
+        'before' => $current_date_before,
+        'after' => $current_date_after,
+        'act' => 'success_loan'
+    ));
+    HTTPResponse::redirect("?$redirect_url");
+} 
+if ($is_returning_item){
+    header('Content-Type: text/plain');
+    $loan_id = $form_clear['nid'];
+    $diff = isset($form_clear['diff']) ? $form_clear['diff'] * 1 : -1;
+
+    $query = "INSERT INTO log_loan (loan_id, diff) VALUES (?,?)";
+    $params = array($loan_id, $diff);
+    Database::execute($query, $params);
+    $redirect_url = http_build_query(array(
+        'uid' => $current_user_id,
+        'q'=> $current_query_string,
+        't' => $current_query_type_string,
+        'before' => $current_date_before,
+        'after' => $current_date_after,
+        'act' => 'success_returning',
+        'nid' => $loan_id
+    ));
+    var_dump($query);
+    var_dump($params);
+    //exit();
+    HTTPResponse::redirect("?$redirect_url");
 }
