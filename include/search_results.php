@@ -1,13 +1,21 @@
 <?php require_once __DIR__ . '/../base.php'; ?>
 <?php foreach ($search_results as $result): ?>
-
-    <?php $is_loaned = $result['loan_diff'] > 0; ?>
-    <?php $has_user_last_loan = !is_null($result['last_user_name']); ?>
-    <?php $has_patrimony = $result['has_patrimony'] == 1; ?>
-    <?php $allow_loan = ($current_user_id > 0) && (
-                                ($has_patrimony && $is_loaned) ||
-                                (!$has_patrimony)
-                        ) ; ?>
+    <?php if ($is_search_type_user){
+        $is_loaned = FALSE;
+        $has_user_last_loan = FALSE;
+        $has_patrimony = FALSE;
+        $has_patrimony_number = FALSE;
+    } else {
+        $is_loaned = $result['loan_diff'] > 0;
+        $has_user_last_loan = !is_null($result['last_user_name']);
+        $has_patrimony = $result['has_patrimony'] == 1; 
+        $has_patrimony_number = $result['patrimony_number1'] > 0;
+        $allow_loan = ($current_user_id > 0) && (
+            ($has_patrimony && !$is_loaned && $has_patrimony_number) ||
+            (!$has_patrimony)
+        ) ;
+    }?> 
+    
 
     <div class="result <?= $is_search_type_user ? 'user' : 'item' ?>">
         <div class="title">                           
@@ -16,6 +24,13 @@
         <div class="details">
             <?= $result['obs'] ?>
         </div>   
+
+        <?php if (!$has_patrimony_number && $has_patrimony) : ?>
+            <div class="message alert">            
+                Este item é um item patrimoniado mas não tem nenhum número associado.
+                <a href="javascript:;">Adicionar números</a>
+            </div>
+        <?php endif; ?>
 
         <?php if ($has_user_last_loan) : ?>
             <div class="message <?= ($is_loaned) ? 'alert': 'info'?>">            
@@ -78,7 +93,7 @@
                         </button>
                     <?php else: ?> 
                         <?php $input_hidden['act'] = 'loan'; ?>                         
-                        <button <?= $is_loaned ? 'disabled': '' ?> 
+                        <button <?= $allow_loan ? '': 'disabled' ?> 
                                 <?= $search_one_item  ? 'autofocus': '' ?>
                             >
                             <i class="icon cart"></i>
