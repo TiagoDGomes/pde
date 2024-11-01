@@ -1,5 +1,14 @@
 <?php require_once __DIR__ . '/../base.php'; ?>
 <?php foreach ($search_results as $result): ?>
+
+    <?php $is_loaned = $result['loan_diff'] > 0; ?>
+    <?php $has_user_last_loan = !is_null($result['last_user_name']); ?>
+    <?php $has_patrimony = $result['has_patrimony'] == 1; ?>
+    <?php $allow_loan = ($current_user_id > 0) && (
+                                ($has_patrimony && $is_loaned) ||
+                                (!$has_patrimony)
+                        ) ; ?>
+
     <div class="result <?= $is_search_type_user ? 'user' : 'item' ?>">
         <div class="title">                           
             <?php HTMLUtil::link_title_from_result($result) ?>
@@ -7,9 +16,10 @@
         <div class="details">
             <?= $result['obs'] ?>
         </div>   
-        <?php if (isset($result['last_user_name'])) : ?>
-            <div class="<?= ($result['loan_diff'] > 0) ? 'alert': 'info'?>">            
-                <?php if ($result['loan_diff'] > 0): ?>
+
+        <?php if ($has_user_last_loan) : ?>
+            <div class="<?= ($is_loaned) ? 'alert': 'info'?>">            
+                <?php if ($is_loaned): ?>
                     <i class="icon cart"></i>
                     Emprestado para 
                 <?php else: ?>
@@ -18,6 +28,7 @@
                 <a href="?uid=<?= $result['last_user_id'] ?>"><?= $result['last_user_name'] ?></a>
             </div>
         <?php endif; ?>
+
         <div class="actions">
             <?php if ($is_search_type_user): ?>
                 <form>
@@ -32,6 +43,8 @@
 
             <?php else: ?>
                 <form action="?">
+                    
+                    <?php //var_dump($result); ?>
                     <?php $input_hidden = array(); ?>
                     <?php $input_hidden['iid'] = $result['model_id']; ?> 
                     <?php $input_hidden['uid'] = $current_user_id; ?> 
@@ -47,14 +60,14 @@
                             </span>
                         </a>
                     <?php endif; ?>    
-                        
-                    <input <?= $result['has_patrimony']  ? 'disabled':'' ?> 
+                          
+                    <input <?= $has_patrimony  ? 'disabled':'' ?> 
                                 class="units" 
                                 name="units" 
                                 type="number" 
                                 value="<?= $result['has_patrimony'] ? 1 : $query_units?>"> &times;
 
-                    <?php if ($result['loan_diff'] > 0): ?>
+                    <?php if ($is_loaned): ?>
                         <?php $input_hidden['act'] = 'ret'; ?> 
                         <?php $input_hidden['diff'] = '-1'; ?> 
                         <?php $input_hidden['nid'] = $result['last_loan_id']; ?> 
@@ -64,7 +77,7 @@
                         </button>
                     <?php else: ?> 
                         <?php $input_hidden['act'] = 'loan'; ?> 
-                        <button <?= ($result['has_patrimony'] && $result['patrimony_id'] == '' ? 'disabled':'') ?>>
+                        <button <?= $is_loaned ? 'disabled': '' ?>>
                             <i class="icon cart"></i>
                             Emprestar
                         </button>

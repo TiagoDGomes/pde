@@ -118,7 +118,7 @@
                             
                         <?php endif;?>
                         </span>
-                        <i class="icon loading" style="/*visibility: hidden*/"></i>
+                        <i class="icon loading"></i>
                     </td>
                     <td class="details" contenteditable="true"><?= $item['all_details'] ?></td>
                 </tr>                                

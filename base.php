@@ -200,11 +200,14 @@ if ($is_selecting_user){
 }
 
 if ($is_loaning){
-    header('Content-Type: text/plain');
+    header('Content-Type: text/plain');    
     $user_id = @$form_clear['uid'];
     $model_id = @$form_clear['iid'];
     $patrimony_id = @$form_clear['pid'] ;
-    $original_count = @$form_clear['units'] > 0 ? @$form_clear['units'] : 1;
+    if ($user_id < 0 || $model_id < 0 || $patrimony_id < 0){
+        HTTPResponse::forbidden('A requisição é inválida.');
+    }
+    $original_count = @$form_clear['units'] > 0 ? @$form_clear['units'] : 1;    
     $query = "INSERT INTO loan (user_id, model_id, patrimony_id, original_count) VALUES (?,?,?,?)";
     $params = array($user_id, $model_id, $patrimony_id, $original_count);
    
