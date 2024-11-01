@@ -8,9 +8,12 @@ class Database {
     public static PDO $db_file;
     public static string $key;
 
-    public static function startInstance($cmd, $username, $password) {
-        Database::$db_file = new PDO($cmd, $username, $password);
-        Database::$db_file->sqliteCreateFunction('normalize', 'normalize');
+    public static function startInstance($dsn, $username, $password) {
+        Database::$db_file = new PDO($dsn, $username, $password);
+        $dsn_split = explode(":",$dsn);
+        if ($dsn_split[0] == 'sqlite'){
+            Database::$db_file->sqliteCreateFunction('normalize', 'normalize');
+        }        
     }
 
     public static function beginTransaction() {
