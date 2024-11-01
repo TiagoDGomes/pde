@@ -48,7 +48,7 @@ $option_search_item_checked = (@$form_clear['t'] == 'item') ||
 $last_user_selected = @$_SESSION['last_user_selected'];                            
 $is_changed_user = @$form_clear['uid'] != '' &&((is_null($last_user_selected)) || $last_user_selected['id'] != $form_clear['uid']);
 
-$current_date_now = (new DateTimeImmutable('+1 day'))->format('Y-m-d');
+$current_date_now = (new DateTimeImmutable())->format('Y-m-d');
 
 $search_one_item = FALSE;
 
@@ -204,7 +204,9 @@ if ($is_selecting_user){
                 GROUP BY n.id
                 ORDER BY n.tstamp DESC
                 ";
-    $params = array($form_clear['uid'], $current_date_before,$current_date_after);
+    $current_date_after_1day =  (new DateTimeImmutable($current_date_after . ' +1 day'))->format('Y-m-d');     
+    
+    $params = array($form_clear['uid'], $current_date_before, $current_date_after_1day);
     $selected_user_loans = Database::fetchAll($query_search_user_loans, $params);
 }
 
