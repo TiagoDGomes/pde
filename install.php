@@ -28,7 +28,9 @@ $queries = array(
             usable $BYTE NOT NULL DEFAULT 1,
             found $BYTE NOT NULL DEFAULT 1,
             loan_block $BYTE NOT NULL DEFAULT 0,
-            obs $TEXT
+            obs $TEXT,
+            FOREIGN KEY (model_id)
+                REFERENCES model (id)
         );",
     "CREATE TABLE IF NOT EXISTS loan (
             id $INT PRIMARY KEY $AUTO_INCREMENT_KEYWORD, 
@@ -37,14 +39,20 @@ $queries = array(
             model_id $INT NOT NULL,
             patrimony_id $INT DEFAULT NULL,
             closed $BYTE DEFAULT 0 NOT NULL,
-            original_count $INT DEFAULT 1 NOT NULL
+            original_count $INT DEFAULT 1 NOT NULL,
+            FOREIGN KEY (model_id)
+                REFERENCES model (id),
+            FOREIGN KEY (user_id)
+                REFERENCES user (id)
         );",   
     "CREATE TABLE IF NOT EXISTS log_loan (
             id $INT PRIMARY KEY $AUTO_INCREMENT_KEYWORD, 
             tstamp $TIMESTAMP NOT NULL DEFAULT $CURRENT_TIMESTAMP,
             loan_id $INT NOT NULL,
             diff $INT DEFAULT 1 NOT NULL,
-            details $TEXT            
+            details $TEXT,
+            FOREIGN KEY (loan_id)
+                REFERENCES loan (id)      
         );",   
     
 );
