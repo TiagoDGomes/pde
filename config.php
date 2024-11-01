@@ -1,7 +1,7 @@
 <?php
 
 
-$CONFIG_PDO_CONN = "sqlite:database.db";
+$CONFIG_PDO_CONN = "sqlite:" . __DIR__ . "/database.db";
 $CONFIG_PDO_USER = '';
 $CONFIG_PDO_PASS = '';
 
