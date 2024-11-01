@@ -18,11 +18,12 @@
         </div>   
 
         <?php if ($has_user_last_loan) : ?>
-            <div class="<?= ($is_loaned) ? 'alert': 'info'?>">            
+            <div class="message <?= ($is_loaned) ? 'alert': 'info'?>">            
                 <?php if ($is_loaned): ?>
                     <i class="icon cart"></i>
                     Emprestado para 
                 <?php else: ?>
+                    <i class="icon check"></i>
                     Última vez por 
                 <?php endif; ?>
                 <a href="?uid=<?= $result['last_user_id'] ?>"><?= $result['last_user_name'] ?></a>
@@ -71,13 +72,15 @@
                         <?php $input_hidden['act'] = 'ret'; ?> 
                         <?php $input_hidden['diff'] = '-1'; ?> 
                         <?php $input_hidden['nid'] = $result['last_loan_id']; ?> 
-                        <button>
+                        <button <?= $search_one_item  ? 'autofocus': '' ?>>
                             <i class="icon check"></i>
                             Marcar como devolvido
                         </button>
                     <?php else: ?> 
-                        <?php $input_hidden['act'] = 'loan'; ?> 
-                        <button <?= $is_loaned ? 'disabled': '' ?>>
+                        <?php $input_hidden['act'] = 'loan'; ?>                         
+                        <button <?= $is_loaned ? 'disabled': '' ?> 
+                                <?= $search_one_item  ? 'autofocus': '' ?>
+                            >
                             <i class="icon cart"></i>
                             Emprestar
                         </button>
