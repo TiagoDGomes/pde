@@ -26,7 +26,7 @@
                 </form>
 
             <?php else: ?>
-                <form>
+                <form method="POST" action=".">
                     <?php HTMLUtil::generate_input_hidden($form_clear,['act','before','after','iid','pid','units']); ?>
 
                     <input type="hidden" name="iid" value="<?= $result['model_id'] ?>"> 
