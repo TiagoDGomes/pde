@@ -1,7 +1,3 @@
-setTimeout(function(){
-    console.log(document.activeElement);
-    document.activeElement.select();
-}, 500);
     
 function show_user (){
     show_modal("#tuser")
@@ -44,3 +40,4 @@ function show_modal(queryElem) {
         }
     });
 }
+document.querySelector('[autofocus]').focus();

@@ -87,14 +87,14 @@
                         <?php $input_hidden['act'] = 'ret'; ?> 
                         <?php $input_hidden['diff'] = '-1'; ?> 
                         <?php $input_hidden['nid'] = $result['last_loan_id']; ?> 
-                        <button <?= $search_one_item  ? 'autofocus': '' ?>>
+                        <button <?= $selected_one_item  ? 'autofocus': '' ?>>
                             <i class="icon check"></i>
                             Marcar como devolvido
                         </button>
                     <?php else: ?> 
                         <?php $input_hidden['act'] = 'loan'; ?>                         
                         <button <?= $allow_loan ? '': 'disabled' ?> 
-                                <?= $search_one_item  ? 'autofocus': '' ?>
+                                <?= $selected_one_item  ? 'autofocus': '' ?>
                             >
                             <i class="icon cart"></i>
                             Emprestar

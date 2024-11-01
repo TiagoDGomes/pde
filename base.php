@@ -258,3 +258,6 @@ if ($is_returning_item){
     //exit();
     HTTPResponse::redirect("?$redirect_url");
 }
+
+$search_query_focus = (!$search_one_item || isset($form_clear['act']));
+$selected_one_item = !$search_query_focus;

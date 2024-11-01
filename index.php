@@ -14,7 +14,7 @@
     <div id="main" style="display: none;">
         <form action="?">
             <header>
-                <input type="text" name="q" id="q" <?= $search_one_item ? '': 'autofocus' ?> value="<?= @$form_clear['q'] ?>">
+                <input type="text" name="q" id="q" <?= $search_query_focus ? 'autofocus': '' ?> value="<?= @$form_clear['q'] ?>">
                 <?php HTMLUtil::generate_input_hidden(array('uid' => $current_user_id)); ?>
                 <ul>
                     <li>
@@ -80,8 +80,16 @@
         <p>O Javascript não está disponível em seu navegador.</p>
     </noscript>
     <script>
-        document.getElementById('main').style.display = 'block';        
-    </script>    
+        document.getElementById('main').style.display = 'block';                
+    </script>
+    <?php if ($search_query_focus): ?>    
+        <script>
+            setTimeout(function(){
+                console.log(document.activeElement);
+                document.activeElement.select();
+            }, 500);
+        </script>
+    <?php endif; ?>    
     <script src='script.js'></script>
 </body>
 
