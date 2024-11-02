@@ -119,6 +119,9 @@ if ($is_searching){
             $query_units = 1;
         }
         $query = "SELECT m.id as model_id, 
+                            loan_block,
+                            usable,
+                            found,
                             m.name AS name, 
                             m.code AS model_code, 
                             has_patrimony, 
@@ -151,7 +154,10 @@ if ($is_searching){
                             OR normalize(m.name) LIKE ?)               
                     GROUP BY p.id
                     UNION "; 
-        $query .= "SELECT m.id as model_id, 
+        $query .= "SELECT m.id as model_id,
+                            0 AS loan_block,
+                            1 AS usable, 
+                            1 AS found, 
                             m.name AS name, 
                             m.code AS model_code, 
                             has_patrimony, 

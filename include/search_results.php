@@ -7,13 +7,20 @@
         $has_patrimony_number = FALSE;
     } else {
         $is_loaned = $result['loan_diff'] > 0;
+        $loan_block = $result['loan_block'] != 0;
+        $found = $result['found'] != 0;
+        $usable = $result['usable'] != 0;
         $has_user_last_loan = !is_null($result['last_user_name']);
         $has_patrimony = $result['has_patrimony'] == 1; 
         $has_patrimony_number = $result['patrimony_number1'] > 0;
-        $allow_loan = ($current_user_id > 0) && (
-            ($has_patrimony && !$is_loaned && $has_patrimony_number) ||
-            (!$has_patrimony)
-        ) ;
+        $allow_loan = (!$loan_block) && 
+                        ($usable) && 
+                        ($found) && 
+                        ($current_user_id > 0) && 
+                        (
+                            ($has_patrimony && !$is_loaned && $has_patrimony_number) ||
+                            (!$has_patrimony)
+                        ) ;
     }?> 
     
 
@@ -24,7 +31,21 @@
         <div class="details">
             <?= $result['obs'] ?>
         </div>   
-
+        <?php if ($loan_block) : ?>
+            <div class="message alert">            
+                Este item foi bloqueado para empréstimo.
+            </div>
+        <?php endif; ?>
+        <?php if (!$usable) : ?>
+            <div class="message alert">            
+                Este item não é mais usável.
+            </div>
+        <?php endif; ?>
+        <?php if (!$found) : ?>
+            <div class="message alert">            
+                A localização deste item é desconhecida.
+            </div>
+        <?php endif; ?>
         <?php if (!$has_patrimony_number && $has_patrimony) : ?>
             <div class="message alert">            
                 Este item é um item patrimoniado mas não tem nenhum número associado.
@@ -41,22 +62,16 @@
                     <i class="icon check"></i>
                     Última vez por 
                 <?php endif; ?>
-                <a href="?uid=<?= $result['last_user_id'] ?>"><?= $result['last_user_name'] ?></a>
+                <a target="_blank" href="?uid=<?= $result['last_user_id'] ?>"><?= $result['last_user_name'] ?></a>
             </div>
         <?php endif; ?>
 
         <div class="actions">
-            <?php if ($is_search_type_user): ?>
-                <form>
-                    <button>Editar</button>
-                    <input type="hidden" name="act" value="edit">
-                    <input type="hidden" name="uid" value="<?= $result['id'] ?>">
-                </form>
+            <?php if ($is_search_type_user): ?>                
                 <form>
                     <button>Selecionar</button>
                     <input type="hidden" name="uid" value="<?= $result['id'] ?>">
                 </form>
-
             <?php else: ?>
                 <form action="?">
                     
