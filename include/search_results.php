@@ -1,11 +1,17 @@
 <?php require_once __DIR__ . '/../base.php'; ?>
 <?php foreach ($search_results as $result): ?>
-    <?php if ($is_search_type_user){
-        $is_loaned = FALSE;
-        $has_user_last_loan = FALSE;
-        $has_patrimony = FALSE;
-        $has_patrimony_number = FALSE;
-    } else {
+    
+    <?php 
+    $is_loaned = FALSE;
+    $has_user_last_loan = FALSE;
+    $has_patrimony = FALSE;
+    $has_patrimony_number = FALSE;
+    $loan_block = FALSE;
+    $found = TRUE;
+    $usable = TRUE;
+    $allow_loan = TRUE;
+    
+    if (!$is_search_type_user){
         $is_loaned = $result['loan_diff'] > 0;
         $loan_block = $result['loan_block'] != 0;
         $found = $result['found'] != 0;
