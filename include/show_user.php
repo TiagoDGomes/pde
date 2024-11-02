@@ -31,6 +31,7 @@
 
 
 <h2>
+    <i class="icon user"></i>
     <?= $last_user_selected['name'] ?>
 </h2>
 <div>
