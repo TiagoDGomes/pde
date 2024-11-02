@@ -445,8 +445,8 @@ table tr.date th{
 
 
 .search_results .result.item{
-    background-color: #bbbbbb30;
+    background-image: linear-gradient(308deg, #acddab61, transparent);
 }
 .search_results .result.user{
-    background-color: #cbffff30;
+    background-image: linear-gradient(342deg, #d5dbd6, transparent);
 }
