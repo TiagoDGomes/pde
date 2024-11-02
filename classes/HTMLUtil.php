@@ -21,4 +21,12 @@ class HTMLUtil{
             <a onclick="show_item(<?= $result['model_id'] ?>);return false;" href="?iid=<?= $result['model_id'] ?>"><?= $result['name'] ?></a>
         <?php } 
     }
+    public static function render_patrimony($id, $number){ ?>
+        <a href="?pid=<?= $id ?>">
+            <span class="patrimony">
+                <i class="icon pat"></i> 
+                <?= $number ?>
+            </span>
+        </a>
+    <?php }
 }

@@ -78,10 +78,7 @@
                         </td>
                         <td class="number">
                             <?php if ($item['patrimony_number']): ?>
-                                <span class="patrimony">
-                                    <i class="icon pat"></i> 
-                                    <?= $item['patrimony_number'] ?>
-                                </span>
+                                <?php HTMLUtil::render_patrimony($item['patrimony_id'], $item['patrimony_number'] ); ?> 
                             <?php endif; ?>
                         </td>
                         <td>

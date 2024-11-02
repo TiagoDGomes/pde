@@ -43,8 +43,13 @@
                     <?php include_once 'include/search_results_item.php'; ?>
                 <?php endif; ?>      
             </section>
-            <section class="content">                
-                <?php include_once 'include/contents.php'; ?>                
+            <section class="content">  
+                <?php if ($is_show_patrimony): ?> 
+                    <?php include_once 'include/show_patrimony.php'; ?> 
+                <?php else: ?>    
+
+                    <?php include_once 'include/contents.php'; ?>   
+                <?php endif; ?>             
             </section>
         </main>
         <footer>

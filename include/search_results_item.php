@@ -3,13 +3,13 @@
 <?php foreach ($search_results as $result): ?>
     
     <?php 
-        $is_loaned = $result['loan_diff'] > 0;
-        $loan_block = $result['loan_block'] != 0;
-        $found = $result['found'] != 0;
-        $usable = $result['usable'] != 0;
-        $has_user_last_loan = !is_null($result['last_user_name']);
         $has_patrimony = $result['has_patrimony'] == 1; 
         $has_patrimony_number = $result['patrimony_number1'] > 0;
+        $is_loaned = $has_patrimony_number && $result['loan_diff'] > 0;
+        $loan_block = $has_patrimony_number && $result['loan_block'] != 0;
+        $found = !$has_patrimony_number || $result['found'] != 0;
+        $usable = !$has_patrimony_number || $result['usable'] != 0;
+        $has_user_last_loan = !is_null($result['last_user_name']);
         $allow_loan = (!$loan_block) && 
                         ($usable) && 
                         ($found) && 
@@ -81,12 +81,7 @@
 
                     <?php $input_hidden['pid'] = $result['patrimony_id']; ?>    
 
-                    <a href="?pid=<?= $result['patrimony_id'] ?>">
-                        <span class="patrimony">
-                            <i class="icon pat"></i> 
-                            <?= $result['patrimony_number1'] ?>
-                        </span>
-                    </a>
+                    <?php HTMLUtil::render_patrimony($result['patrimony_id'], $result['patrimony_number1'] ); ?>                    
 
                 <?php endif; ?>    
                 

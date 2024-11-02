@@ -27,7 +27,7 @@ $current_query_type_string = @$form_clear['t'];
 $is_search_type_item = @$form_clear['t'] == 'item';
 $is_search_type_user = !$is_search_type_item;
 
-
+$is_show_patrimony = isset($_GET['pid']);
 
 $is_searching = isset($_GET['q']) && $current_query_string != '';
 $is_selecting_user = isset($_GET['uid']) && @$form_clear['uid'] != '';
@@ -274,6 +274,15 @@ if ($is_returning_item){
     var_dump($params);
     //exit();
     HTTPResponse::redirect("?$redirect_url");
+}
+
+$selected_patrimony = NULL;
+
+if ($is_show_patrimony){
+    $query = "SELECT * FROM patrimony p
+                INNER JOIN model m ON m.id = p.model_id
+                WHERE p.id = ?";
+    $selected_patrimony = Database::fetch($query, array($form_clear['pid']));        
 }
 
 $search_query_focus = (!$search_one_item || isset($form_clear['act']));
