@@ -51,6 +51,13 @@ $current_date_now = (new DateTimeImmutable())->format('Y-m-d');
 
 $search_one_item = FALSE;
 
+if (isset($form_clear['after'])){
+    unset($_SESSION['default_date_after']);
+}
+if (isset($form_clear['before'])){
+    unset($_SESSION['default_date_before']);
+}
+
 if (isset($_SESSION['default_date_after'])){
     $default_date_after = $_SESSION['default_date_after'];
 }  else {
