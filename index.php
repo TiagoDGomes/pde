@@ -48,7 +48,7 @@
                     <?php include_once 'include/show_patrimony.php'; ?> 
                 <?php else: ?>    
 
-                    <?php include_once 'include/contents.php'; ?>   
+                    <?php include_once 'include/show_user.php'; ?>   
                 <?php endif; ?>             
             </section>
         </main>
