@@ -1,3 +1,5 @@
+<?php isset($PDE) or die('Nope');?> 
+
 <?php foreach ($search_results as $result): ?>
     <div class="result user">
         <div class="title">                           

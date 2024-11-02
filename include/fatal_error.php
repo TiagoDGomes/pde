@@ -1,6 +1,8 @@
+<?php
 
+isset($PDE) or die('Nope');
 
-<?php function format_error( $errno, $errstr, $errfile, $errline ) {
+function format_error( $errno, $errstr, $errfile, $errline ) {
     $trace = print_r( debug_backtrace( false ), true );
 
     $content = "

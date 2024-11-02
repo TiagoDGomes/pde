@@ -1,4 +1,5 @@
 <?php 
+isset($PDE) or die('Nope');
 
 class HTTPResponse {
     public static function forbidden($message){

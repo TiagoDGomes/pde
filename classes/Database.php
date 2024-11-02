@@ -1,4 +1,5 @@
 <?php
+isset($PDE) or die('Nope');
 
 function normalize($str){
     return Filter::normalize($str);

@@ -1,4 +1,5 @@
 <?php 
+isset($PDE) or die('Nope');
 
 class Filter{
     public static function onlyAlphaNumeric($string){

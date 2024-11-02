@@ -1,4 +1,4 @@
-<?php require_once __DIR__ . '/../base.php'; ?>
+<?php isset($PDE) or die('Nope'); ?>
 
 
 <pre><?php //var_dump($search_user_values); ?></pre>

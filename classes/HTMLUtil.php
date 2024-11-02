@@ -1,5 +1,5 @@
 <?php
-
+isset($PDE) or die('Nope');
 
 class HTMLUtil{
     public static function generate_input_hidden($arr, $arr_key_ignore = array()){
