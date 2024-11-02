@@ -16,9 +16,9 @@ class HTMLUtil{
     }
     public static function link_title_from_result($result){
         if ($result['result_type'] == 'user'){ ?>
-            <a  href="?uid=<?= $result['id'] ?>"><?= $result['name'] ?></a>
+            <a href="?uid=<?= $result['id'] ?>"><?= $result['name'] ?></a>
         <?php } else {  ?>
-            <a onclick="show_item(<?= $result['model_id'] ?>);return false;" href="?iid=<?= $result['model_id'] ?>"><?= $result['name'] ?></a>
+            <a href="?iid=<?= $result['model_id'] ?>"><?= $result['name'] ?></a>
         <?php } 
     }
     public static function render_patrimony($id, $number){ ?>
