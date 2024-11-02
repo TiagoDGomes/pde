@@ -2,6 +2,7 @@
 <?php foreach ($search_results as $result): ?>
     
     <?php 
+    //var_dump($result);
     $is_loaned = FALSE;
     $has_user_last_loan = FALSE;
     $has_patrimony = FALSE;
@@ -36,7 +37,12 @@
         </div>
         <div class="details">
             <?= $result['obs'] ?>
-        </div>   
+        </div> 
+        <?php if ($is_loaned && !$has_patrimony) : ?>
+            <div class="message info">            
+                Unidades deste item emprestadas: <?= $result['loan_diff'] ?>
+            </div>
+        <?php endif; ?>  
         <?php if ($loan_block) : ?>
             <div class="message alert">            
                 Este item foi bloqueado para empréstimo.
@@ -89,22 +95,29 @@
                     <?php $input_hidden['q'] = $current_query_string; ?> 
 
                     <?php if ($result['has_patrimony'] && $result['patrimony_id'] != ''): ?>
-                        <?php $input_hidden['pid'] = $result['patrimony_id']; ?>                        
+
+                        <?php $input_hidden['pid'] = $result['patrimony_id']; ?>    
+
                         <a href="?pid=<?= $result['patrimony_id'] ?>">
                             <span class="patrimony">
                                 <i class="icon pat"></i> 
                                 <?= $result['patrimony_number1'] ?>
                             </span>
                         </a>
-                    <?php endif; ?>    
-                          
-                    <input <?= $has_patrimony  ? 'disabled':'' ?> 
-                                class="units" 
-                                name="units" 
-                                type="number" 
-                                value="<?= $result['has_patrimony'] ? 1 : $query_units?>"> &times;
 
-                    <?php if ($is_loaned): ?>
+                    <?php endif; ?>    
+                    
+                    <?php if ($result['has_patrimony']) : ?>
+
+                        <input type="hidden" name="units" value="1">
+
+                    <?php else: ?> 
+
+                        <input type="number" name="units" value="<?= $query_units ?>" class="units"> &times;
+
+                    <?php endif; ?>   
+
+                    <?php if ($is_loaned && $has_patrimony): ?>
                         <?php $input_hidden['act'] = 'ret'; ?> 
                         <?php $input_hidden['diff'] = '-1'; ?> 
                         <?php $input_hidden['nid'] = $result['last_loan_id']; ?> 

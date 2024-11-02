@@ -165,7 +165,7 @@ if ($is_searching){
                             NULL as patrimony_number2,                         
                             NULL as patrimony_serial_number,
                             NULL AS patrimony_id ,
-                            0 as loan_diff ,
+                            sum(nn.diff) as loan_diff,
                             NULL as obs,                            
                             0 as last_loan_id,
                             NULL AS last_user_name,
@@ -174,10 +174,13 @@ if ($is_searching){
                             ? AS query_units,
                             0 as is_match
                     FROM model m  
+                    LEFT JOIN loan n ON (n.model_id = m.id)
+                    LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
                     WHERE has_patrimony = 0 
                         AND 
                             (m.code = ?   
-                            OR normalize(m.name) LIKE ?)  
+                            OR normalize(m.name) LIKE ?) 
+                    GROUP BY m.id 
                     " ;  
         $query .= "ORDER BY is_match DESC, has_patrimony DESC, patrimony_number1, patrimony_number2, name,  patrimony_serial_number";
         $params = array(
