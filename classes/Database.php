@@ -3,6 +3,13 @@
 function normalize($str){
     return Filter::normalize($str);
 }
+function php_concat(...$str){
+    $ret = '';
+    foreach ($str as $s) {
+        $ret .= $s;
+    }
+    return $ret;
+}
 
 class Database {
     public static PDO $db_file;
@@ -13,6 +20,7 @@ class Database {
         $dsn_split = explode(":",$dsn);
         if ($dsn_split[0] == 'sqlite'){
             Database::$db_file->sqliteCreateFunction('normalize', 'normalize');
+            Database::$db_file->sqliteCreateFunction('concat', 'php_concat');
         }        
     }
 
