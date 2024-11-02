@@ -17,7 +17,7 @@ if ($dsn_type == 'sqlite'){
     $LONG_INT = 'INTEGER';
     $TIMESTAMP = 'TEXT';
     $CURRENT_TIMESTAMP = "(datetime('now','localtime'))";
-    $QUERY_NORMALIZE = '';
+    $QUERY_NORMALIZE = 'SELECT 1';
 } else {
     $AUTO_INCREMENT_KEYWORD = 'AUTO_INCREMENT';
     $TEXT = 'VARCHAR(255)';   
@@ -93,7 +93,23 @@ $queries = array(
             details $TEXT,
             FOREIGN KEY (loan_id)
                 REFERENCES loan (id)      
-        );",   
+        );",  
+      "CREATE TABLE IF NOT EXISTS kit (
+            id $INT PRIMARY KEY $AUTO_INCREMENT_KEYWORD,             
+            description $TEXT,
+            code $INT NOT NULL
+        );",  
+       "CREATE TABLE IF NOT EXISTS kit_model (
+            id $INT PRIMARY KEY $AUTO_INCREMENT_KEYWORD,
+            model_id $INT NOT NULL,
+            patrimony_id $INT DEFAULT NULL,
+            FOREIGN KEY (model_id)
+                REFERENCES model (id),
+            FOREIGN KEY (patrimony_id)
+                REFERENCES patrimony (id)                
+        );",  
+        
+         
     $QUERY_NORMALIZE
 );
 
