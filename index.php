@@ -1,4 +1,4 @@
-<?php require 'base.php'; ?><!DOCTYPE html>
+<?php $PDE = 1; require 'base.php'; ?><!DOCTYPE html>
 <html>
 
 <head>
@@ -36,8 +36,12 @@
             </header>
         </form>
         <main>
-            <section class="search_results">                 
-                <?php include_once 'include/search_results.php'; ?>
+            <section class="search_results">  
+                <?php if ($is_search_type_user): ?>
+                    <?php include_once 'include/search_results_user.php'; ?>
+                <?php else: ?>  
+                    <?php include_once 'include/search_results_item.php'; ?>
+                <?php endif; ?>      
             </section>
             <section class="content">                
                 <?php include_once 'include/contents.php'; ?>                

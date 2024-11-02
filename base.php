@@ -1,5 +1,5 @@
 <?php
-
+isset($PDE) or die('Nope');
 session_start();
 
 require_once 'config.php';
