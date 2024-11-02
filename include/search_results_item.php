@@ -113,7 +113,7 @@ $selected_one_item = !$search_query_focus;
                         );
     ?>    
 
-    <div class="result item">
+    <div class="result item <?= $selected_one_item ? 'one': '' ?>">
         <div class="title">                           
             <?php HTMLUtil::link_title_from_result($result) ?>
         </div>

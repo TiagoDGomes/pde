@@ -433,3 +433,12 @@ table tr.date th{
     }
 }
 
+.search_results .one .actions button:focus {
+    animation: blinker 1s cubic-bezier(0, 1.25, 0.32, 0.8) infinite
+  }
+  
+  @keyframes blinker {
+    50% {
+      opacity: 0.1;
+    }
+  }
