@@ -7,7 +7,6 @@ require_once 'classes/Filter.php';
 require_once 'classes/Database.php';
 require_once 'classes/HTTPResponse.php';
 require_once 'classes/HTMLUtil.php';
-include_once 'include/fatal_error.php';
 
 Database::startInstance($CONFIG_PDO_CONN, $CONFIG_PDO_USER, $CONFIG_PDO_PASS);
 
@@ -103,7 +102,7 @@ if ($is_searching){
                     code1, code2,
                     0 as has_patrimony, 
                     'user' as result_type,
-                    code1 || '<br>' || code2 as obs 
+                    concat(code1, '<br>', code2) as obs 
                   FROM user WHERE normalize(name) LIKE ? OR code1 = ? OR code2 = ?";
         $params = array(normalize("%$su%"), $su, $su);  
     } else {
