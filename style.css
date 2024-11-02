@@ -270,10 +270,10 @@ footer li {
     font-size: .8em;    
 }
 .result .message.alert {
-    background-color: #ff000030;    
+    background-color: #ff00005c;    
 }
 .result .message.info {
-    background-color: #0000ff1f;
+    background-color: #0000ff5c;
 }
 .result .actions {
     text-align: right;
@@ -390,3 +390,46 @@ table tr.date th{
 .modal legend{
     box-sizing: content-box;
 }
+
+@media (prefers-color-scheme: dark) {
+    body, input{
+        background-color: black;
+        color: white;
+    }
+    header {
+        background-color: #a4dba2;
+        min-height: var(--header-height);
+        background-image: linear-gradient(#046d00, #000000);
+    }
+    a, a:hover, a:visited{
+        color: yellow
+    }
+    footer {
+        background-color: rgba(54, 112, 57, 0.507);
+        min-height: var(--footer-height);
+        background-image: linear-gradient(#000000, #046d00);
+    }
+    i.icon{
+        filter: invert(1);
+    }
+    button{
+        border: 1px solid yellow;
+        background-color: rgb(39, 39, 39);
+        color:white;  
+        border-radius: 3px;     
+    }
+    button:hover{
+        box-shadow: 1px 2px 9px 2px yellow;
+    }
+    .patrimony{
+        background-color: #598809;
+    }
+    table tr.complete .patrimony {
+        background-color: #ffee003f;
+        color: #787878;
+    }
+    table tr.complete td{
+        color: rgb(68, 68, 68);
+    }
+}
+
