@@ -1,5 +1,35 @@
 <?php isset($PDE) or die('Nope'); ?>
 
+<?php
+
+    $query_search_user_loans = "SELECT m.id as model_id, 
+                     m.name as model_name,
+                     m.code as model_code, 
+                     p.id as patrimony_id, 
+                     n.tstamp as loan_date, 
+                     p.number1 as patrimony_number, 
+                     p.number2 as patrimony_number2, 
+                     p.serial_number as patrimony_serial_number, 
+                     original_count,
+                     original_count - sum(diff) as count_remaining, 
+                     group_concat(details, '<br>') as all_details ,
+                     n.id as loan_id
+                FROM loan n
+                INNER JOIN model m ON (n.model_id = m.id)
+                INNER JOIN log_loan nn ON (nn.loan_id = n.id)
+                LEFT JOIN patrimony p ON (n.patrimony_id = p.id)
+                WHERE n.user_id =  ? AND n.tstamp BETWEEN ? AND ?
+                GROUP BY n.id
+                ORDER BY n.tstamp DESC
+                ";
+    $current_date_after_1day =  (new DateTimeImmutable($current_date_after . ' +1 day'))->format('Y-m-d');     
+    
+    $params = array($form_clear['uid'], $current_date_before, $current_date_after_1day);
+    $selected_user_loans = Database::fetchAll($query_search_user_loans, $params);
+
+?>
+
+
 <h2>
     <?= $last_user_selected['name'] ?>
 </h2>
