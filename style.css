@@ -442,3 +442,11 @@ table tr.date th{
       opacity: 0.1;
     }
   }
+
+
+.search_results .result.item{
+    background-color: #bbbbbb30;
+}
+.search_results .result.user{
+    background-color: #cbffff30;
+}
