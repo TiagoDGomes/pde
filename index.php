@@ -14,7 +14,7 @@
     <div id="main" style="display: none;">
         <form action="?">
             <header>
-                <input type="text" name="q" id="q" <?= $search_query_focus ? 'autofocus': '' ?> value="<?= @$form_clear['q'] ?>">
+                <input type="text" name="q" id="q" value="<?= @$form_clear['q'] ?>">
                 <?php HTMLUtil::generate_input_hidden(array('uid' => $current_user_id)); ?>
                 <ul>
                     <li>
@@ -98,10 +98,11 @@
     </script>
     <?php if ($search_query_focus): ?>    
         <script>
-            setTimeout(function(){
-                console.log(document.activeElement);
-                document.activeElement.select();
-            }, 500);
+            setTimeout(function(){           
+                var q = document.getElementById("q"); 
+                q.focus();    
+                q.select();
+            }, 300);
         </script>
     <?php endif; ?>    
     <script src='script.js'></script>

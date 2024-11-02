@@ -1,6 +1,99 @@
 <?php isset($PDE) or die('Nope');?> 
+<?php 
+$query_string_full = explode("*", $current_query_string);
+        $query_string = normalize($query_string_full[0]);
+        if (isset($query_string_full[1])){
+            if (!is_numeric($query_string_full[1]) || ($query_string_full[0] < $query_string_full[1])){
+                $query_units = $query_string_full[0] > 0 ? $query_string_full[0] : 1;
+                $query_string = normalize(@$query_string_full[1]);
+            } else {                
+                $query_units = $query_string_full[1];                               
+            }
+        } else {
+            $query_units = 1;
+        }
+        $query = "SELECT m.id as model_id, 
+                            loan_block,
+                            usable,
+                            found,
+                            m.name AS name, 
+                            m.code AS model_code, 
+                            has_patrimony, 
+                            number1 as patrimony_number1,
+                            number2 as patrimony_number2,                         
+                            serial_number as patrimony_serial_number,
+                            p.id AS patrimony_id,
+                            sum(nn.diff) as loan_diff,
+                            p.obs as obs,
+                            max(n.id) as last_loan_id,
+                            u.name AS last_user_name,
+                            u.id AS last_user_id,                            
+                            'patrimony' as result_type,
+                            1 as query_units,
+                            CASE WHEN number1 = ? THEN 1
+                                 WHEN number2 = ? THEN 1
+                                 WHEN serial_number = ? THEN 1
+                                 ELSE 0 END AS is_match
+                    FROM model m  
+                    LEFT JOIN patrimony p ON (p.model_id = m.id)
+                    LEFT JOIN loan n ON (n.patrimony_id = p.id)
+                    LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
+                    LEFT JOIN user u ON (n.user_id = u.id)
+                    WHERE has_patrimony = 1 
+                        AND 
+                            (m.code = ?                     
+                            OR p.number1 = ? 
+                            OR p.number2 = ? 
+                            OR p.serial_number = ? 
+                            OR normalize(m.name) LIKE ?)               
+                    GROUP BY p.id
+                    UNION "; 
+        $query .= "SELECT m.id as model_id,
+                            0 AS loan_block,
+                            1 AS usable, 
+                            1 AS found, 
+                            m.name AS name, 
+                            m.code AS model_code, 
+                            has_patrimony, 
+                            NULL as patrimony_number1,
+                            NULL as patrimony_number2,                         
+                            NULL as patrimony_serial_number,
+                            NULL AS patrimony_id ,
+                            sum(nn.diff) as loan_diff,
+                            NULL as obs,                            
+                            0 as last_loan_id,
+                            NULL AS last_user_name,
+                            NULL AS last_user_id,                            
+                            'item' as result_type,
+                            ? AS query_units,
+                            0 as is_match
+                    FROM model m  
+                    LEFT JOIN loan n ON (n.model_id = m.id)
+                    LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
+                    WHERE has_patrimony = 0 
+                        AND 
+                            (m.code = ?   
+                            OR normalize(m.name) LIKE ?) 
+                    GROUP BY m.id 
+                    " ;  
+        $query .= "ORDER BY is_match DESC, has_patrimony DESC, patrimony_number1, patrimony_number2, name,  patrimony_serial_number";
+        $params = array(
+            $query_string, $query_string, $query_string,
+            strtoupper($query_string),strtoupper($query_string),strtoupper($query_string),strtoupper($query_string), "%$query_string%",
+            $query_units,strtoupper($query_string), "%$query_string%"
+            );
+    
+    $search_results = Database::fetchAll($query, $params);
+    if (count($search_results) == 1) {
+        $search_one_item = TRUE;
+        //HTTPResponse::redirect('?act=select&uid=' . $_SESSION['selected_user']['id']);
+    }
 
-<?php foreach ($search_results as $result): ?>
+    $search_query_focus = (!$search_one_item || isset($form_clear['act']));
+    $selected_one_item = !$search_query_focus;
+
+
+   foreach ($search_results as $result): ?>
     
     <?php 
         $has_patrimony = $result['has_patrimony'] == 1; 
