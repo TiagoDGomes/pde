@@ -18,7 +18,7 @@ function show_modal(queryElem) {
     close_icon.className = 'close';
     close_icon.innerHTML = "&times;";
     close_icon.onclick = function () {
-        modal_window.style.display = "none";
+        modal_window.remove();
     }
     var elem_child = document.querySelector(queryElem).content.cloneNode(true);
     modal_header.className = 'modal-header';
