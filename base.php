@@ -109,7 +109,16 @@ if ($is_searching){
     } else {
         $query_string_full = explode("*", $current_query_string);
         $query_string = normalize($query_string_full[0]);
-        $query_units = is_numeric(@$query_string_full[1]) ?  $query_string_full[1] : 1;
+        if (isset($query_string_full[1])){
+            if (!is_numeric($query_string_full[1]) || ($query_string_full[0] < $query_string_full[1])){
+                $query_units = $query_string_full[0] > 0 ? $query_string_full[0] : 1;
+                $query_string = normalize(@$query_string_full[1]);
+            } else {                
+                $query_units = $query_string_full[1];                               
+            }
+        } else {
+            $query_units = 1;
+        }
         $query = "SELECT m.id as model_id, 
                             m.name AS name, 
                             m.code AS model_code, 
