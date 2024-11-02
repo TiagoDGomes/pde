@@ -46,8 +46,7 @@
             <section class="content">  
                 <?php if ($is_show_patrimony): ?> 
                     <?php include_once 'include/show_patrimony.php'; ?> 
-                <?php else: ?>    
-
+                <?php elseif ($last_user_selected) : ?>
                     <?php include_once 'include/show_user.php'; ?>   
                 <?php endif; ?>             
             </section>
