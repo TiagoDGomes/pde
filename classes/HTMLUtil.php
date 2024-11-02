@@ -22,11 +22,11 @@ class HTMLUtil{
         <?php } 
     }
     public static function render_patrimony($id, $number){ ?>
-        <a href="?pid=<?= $id ?>">
+        <?php if (!is_null($id)) : ?><a href="?pid=<?= $id ?>"><?php endif; ?>
             <span class="patrimony">
                 <i class="icon pat"></i> 
                 <?= $number ?>
             </span>
-        </a>
+        <?php if (!is_null($id)) : ?></a><?php endif; ?>
     <?php }
 }
