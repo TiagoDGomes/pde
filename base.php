@@ -27,9 +27,9 @@ $current_query_type_string = @$form_clear['t'];
 $is_search_type_item = @$form_clear['t'] == 'item';
 $is_search_type_user = !$is_search_type_item;
 
-$is_show_patrimony = isset($_GET['pid']);
+$is_show_patrimony = isset($_GET['pid']) && @$_GET['pid'] != '';
 
-$is_show_item = isset($_GET['iid']);
+$is_show_item = isset($_GET['iid']) & @$_GET['iid'] != '';
 
 $is_searching = isset($_GET['q']) && $current_query_string != '';
 $is_selecting_user = isset($_GET['uid']) && @$form_clear['uid'] != '';

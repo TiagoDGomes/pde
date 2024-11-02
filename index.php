@@ -36,12 +36,14 @@
             </header>
         </form>
         <main>
-            <section class="search_results">  
-                <?php if ($is_search_type_user): ?>
-                    <?php include_once 'include/search_results_user.php'; ?>
-                <?php else: ?>  
-                    <?php include_once 'include/search_results_item.php'; ?>
-                <?php endif; ?>      
+            <section class="search_results">
+                <?php if ($is_searching): ?>  
+                    <?php if ($is_search_type_user): ?>
+                        <?php include_once 'include/search_results_user.php'; ?>
+                    <?php else: ?>  
+                        <?php include_once 'include/search_results_item.php'; ?>
+                    <?php endif; ?>    
+                <?php endif; ?>   
             </section>
             <section class="content">  
                 <?php if ($is_show_patrimony): ?> 
@@ -50,6 +52,8 @@
                     <?php include_once 'include/show_item.php'; ?>   
                 <?php elseif ($last_user_selected) : ?>
                     <?php include_once 'include/show_user.php'; ?>   
+                <?php else: ?>
+                    <?php include_once 'include/show_default.php'; ?>   
                 <?php endif; ?>             
             </section>
         </main>
