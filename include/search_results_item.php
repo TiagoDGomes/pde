@@ -126,25 +126,34 @@ $query_string_full = explode("*", $current_query_string);
             </div>
         <?php endif; ?>  
         <?php if ($loan_block) : ?>
-            <div class="message alert">            
+            <div class="message alert">   
+                <i class="icon blocked"></i>         
                 Este item foi bloqueado para empréstimo.
             </div>
         <?php endif; ?>
         <?php if (!$usable) : ?>
-            <div class="message alert">            
+            <div class="message alert"> 
+                <i class="icon trash"></i>             
                 Este item não é mais usável.
             </div>
         <?php endif; ?>
         <?php if (!$found) : ?>
-            <div class="message alert">            
+            <div class="message alert"> 
+                <i class="icon unknown"></i>             
                 A localização deste item é desconhecida.
             </div>
         <?php endif; ?>
         <?php if (!$has_patrimony_number && $has_patrimony) : ?>
-            <div class="message alert">            
+            <div class="message alert"> 
+                <i class="icon tag-minus"></i>              
                 Este item é um item patrimoniado mas não tem nenhum número associado.
-                <a href="?iid=<?= $result['model_id'] ?>">Editar</a>
             </div>
+            <div class="message info"> 
+                <i class="icon tag-plus"></i>              
+                
+                <a href="?iid=<?= $result['model_id'] ?>">Editar item para exibir opções de patrimônio</a>
+            </div>
+            
         <?php endif; ?>
 
         <?php if ($has_user_last_loan) : ?>
