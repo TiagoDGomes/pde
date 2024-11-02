@@ -50,7 +50,7 @@
         <?php if (!$has_patrimony_number && $has_patrimony) : ?>
             <div class="message alert">            
                 Este item é um item patrimoniado mas não tem nenhum número associado.
-                <a href="javascript:;">Adicionar números</a>
+                <a href="?iid=<?= $result['model_id'] ?>">Editar</a>
             </div>
         <?php endif; ?>
 
