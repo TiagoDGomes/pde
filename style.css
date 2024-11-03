@@ -159,8 +159,11 @@ footer li {
 
 @media screen and (max-width: 919px) {
     #q {
-        width: 100%;
-        display: block;
+        margin: 0 auto;
+        width: 98%;
+        margin-top: 5px;
+        align-items: center;
+        display: flex;        
     }
 
     header ul {
