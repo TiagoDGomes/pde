@@ -306,7 +306,13 @@ footer li {
     display: inline-block;
     box-shadow: 1px 1px 1px 1px #0000ff55;
 }
-
+td .patrimony{
+    width: 100%;
+}
+td:has(.patrimony){    
+    padding-right: 5px;
+    min-width: 7em;
+}
 
 
 /* .result .alert a {
