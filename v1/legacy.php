@@ -204,7 +204,7 @@
 
                         <tr class="<?= $item['count_remaining'] == $item['original_count'] ? 'complete' : 'remaining' ?>">
                             <td>
-                                <input type="checkbox" id="loan_<?= $item['loan_id'] ?>">
+                                <input disabled type="checkbox" id="loan_<?= $item['loan_id'] ?>">
                                 <label for="loan_<?= $item['loan_id'] ?>"><?= $item['model_name'] ?></label>
                             </td>
                             <td><?= $item['model_code'] ?></td>

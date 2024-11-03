@@ -36,7 +36,7 @@ $query = "SELECT m.id as model_id,
                             ELSE 0 END AS is_match
             FROM model m  
             LEFT JOIN patrimony p ON (p.model_id = m.id)
-            LEFT JOIN loan n ON (n.patrimony_id = p.id)
+            LEFT JOIN loan n ON (n.patrimony_id = p.id AND m.id = n.model_id)
             LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
             LEFT JOIN user u ON (n.user_id = u.id)
             WHERE has_patrimony = 1 
@@ -47,6 +47,7 @@ $query = "SELECT m.id as model_id,
                     OR p.serial_number = ? 
                     OR normalize(m.name) LIKE ?)               
             GROUP BY p.id
+			HAVING n.id = max(n.id)
             UNION "; 
 $query .= "SELECT m.id as model_id,
                     0 AS loan_block,
@@ -75,6 +76,7 @@ $query .= "SELECT m.id as model_id,
                     (m.code = ?   
                     OR normalize(m.name) LIKE ?) 
             GROUP BY m.id 
+			HAVING n.id = max(n.id)
             " ;  
 $query .= "ORDER BY is_match DESC, has_patrimony DESC, patrimony_number1, patrimony_number2, name,  patrimony_serial_number";
 $params = array(
@@ -92,7 +94,7 @@ if (count($search_results) == 1) {
 $search_query_focus = (!$search_one_item || isset($form_clear['act']));
 $selected_one_item = !$search_query_focus;
 
-
+//echo "<pre>$query</pre>";
    foreach ($search_results as $result): ?>
     
     <?php 

@@ -7,24 +7,24 @@ $query = "SELECT * FROM patrimony p
 $selected_patrimony = Database::fetch($query, array($form_clear['pid']));        
 
 ?>
-<h2>
+<h2>   
+   <i class="icon item"></i>
+   <a href="?iid=<?= $selected_patrimony['model_id'] ?>"><?= $selected_patrimony['name'] ?></a> &gt;
    <?php HTMLUtil::render_patrimony(NULL, $selected_patrimony['number1']) ; ?>
-   <?= $selected_patrimony['name'] ?>
+   <?php $selected_patrimony['number2'] ? HTMLUtil::render_patrimony(NULL, $selected_patrimony['number2']) : '' ; ?>
 </h2>
 
 <div class="details"> 
-   <dl>
-      <dt>Observações:</dt>
-      <dd><?= $selected_patrimony['obs'] ?></dd>
-         
-   </dl>
-</div>
+  
+   <p><?= $selected_patrimony['obs'] ?></p>         
 
+</div>
+<p><button>Editar</button></p>
 <div class="items">
     <table>
         <thead>
             <tr>                
-                <th><input type="checkbox" name="chk_all"></th>
+                <th><input disabled type="checkbox" name="chk_all"></th>
                 <th>Nome da pessoa</th>
                 <th>Cód. Ident. 1</th>
                 <th>Cód. Ident. 2</th>
@@ -45,5 +45,3 @@ $selected_patrimony = Database::fetch($query, array($form_clear['pid']));
     </table>
 </div>
 
-
-<pre><?php var_dump($selected_patrimony); ?></pre>

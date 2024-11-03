@@ -118,7 +118,10 @@ if ($is_loaning){
     if ($user_id < 0 || $model_id < 0 || $patrimony_id < 0){
         HTTPResponse::forbidden('A requisição é inválida.');
     }
-    $original_count = @$form_clear['units'] > 0 ? @$form_clear['units'] : 1;    
+    $original_count = @$form_clear['units'] > 0 ? @$form_clear['units'] : 1;   
+    
+    
+    
     $query = "INSERT INTO loan (user_id, model_id, patrimony_id, original_count) VALUES (?,?,?,?)";
     $params = array($user_id, $model_id, $patrimony_id, $original_count);
    
@@ -140,12 +143,33 @@ if ($is_loaning){
 } 
 if ($is_returning_item){
     header('Content-Type: text/plain');
-    $loan_id = $form_clear['nid'];
+    if (!isset($form_clear['nid'])||!isset($form_clear['iid'])){
+        HTTPResponse::forbidden("Ação inválida.");
+    }
+    $model_id = $form_clear['iid'];
+    $loan_id = $form_clear['nid'];    
     $diff = isset($form_clear['diff']) ? $form_clear['diff'] * 1 : -1;
+
+    // *** Impedir devolução quando já estiver concluído: ***
+    $protection_query = "SELECT original_count, 
+                            sum(diff) as count_remaining
+                            FROM loan n 
+                            INNER JOIN model m ON (m.id = n.model_id)
+                            LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
+                            WHERE n.id = ?
+                            GROUP BY n.id";
+    $params = array($loan_id);
+    $result = Database::fetch($protection_query,$params);
+    if ($diff < $result['count_remaining'] * -1){
+        HTTPResponse::forbidden("Este empréstimo já foi devolvido.");
+    }
+    // *******
+
 
     $query = "INSERT INTO log_loan (loan_id, diff) VALUES (?,?)";
     $params = array($loan_id, $diff);
     Database::execute($query, $params);
+    $model_id = @$form_clear['iid'];
     $redirect_url = http_build_query(array(
         'uid' => $current_user_id,
         'q'=> $current_query_string,
@@ -153,11 +177,9 @@ if ($is_returning_item){
         'before' => $current_date_before,
         'after' => $current_date_after,
         'act' => 'success_returning',
-        'nid' => $loan_id
+        'nid' => $loan_id,
+        'iid' => $model_id,
     ));
-    var_dump($query);
-    var_dump($params);
-    //exit();
     HTTPResponse::redirect("?$redirect_url");
 }
 

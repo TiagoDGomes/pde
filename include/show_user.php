@@ -11,13 +11,15 @@
                      p.number2 as patrimony_number2, 
                      p.serial_number as patrimony_serial_number, 
                      original_count,
-                     original_count - sum(diff) as count_returned, 
+                     CASE 
+                        WHEN original_count - sum(diff) > original_count THEN original_count
+                        ELSE original_count - sum(diff) END as count_returned, 
                      group_concat(details, '<br>') as all_details ,
                      n.id as loan_id
                 FROM loan n
                 INNER JOIN model m ON (n.model_id = m.id)
-                INNER JOIN log_loan nn ON (nn.loan_id = n.id)
-                LEFT JOIN patrimony p ON (n.patrimony_id = p.id)
+                INNER JOIN log_loan nn ON (nn.loan_id = n.id )
+                LEFT JOIN patrimony p ON (n.patrimony_id = p.id AND m.id = p.model_id)
                 WHERE n.user_id =  ? AND n.tstamp BETWEEN ? AND ?
                 GROUP BY n.id
                 ORDER BY n.tstamp DESC
@@ -34,6 +36,7 @@
     <i class="icon user"></i>
     <?= $last_user_selected['name'] ?>
 </h2>
+<p><button>Editar</button></p>
 <div>
     <form>    
         <input type="hidden" name="uid" value="<?= $form_clear['uid'] ?>">   
@@ -69,7 +72,7 @@
     <table>
         <thead>
             <tr>
-                <th><input type="checkbox" name="chk_all"></th>
+                <th><input disabled type="checkbox" name="chk_all"></th>
                 <!-- <th>Patrimônio</th> -->
                 <th colspan="2">Nome do item</th>
                 <th>Código</th>
@@ -86,7 +89,7 @@
 
                     <tr class="date">
                         <th>
-                            <input class="loan_top_checkbox" type="checkbox" id="loan_date_<?= str_replace("/","_", $this_date) ?>">
+                            <input disabled type="checkbox" class="loan_top_checkbox" id="loan_date_<?= str_replace("/","_", $this_date) ?>">
                         </th>
                         <th colspan="6">
                             <label for="loan_date_<?= str_replace("/","_", $this_date) ?>" class="date"><?= $this_date ?></label> 
@@ -96,12 +99,13 @@
 
                 <?php endif; ?>                     
 
-                <tr class="<?= $item['count_returned'] == $item['original_count'] ? 'complete' : 'remaining' ?>">
+                <tr class="<?= $item['count_returned'] >= $item['original_count'] ? 'complete' : 'remaining' ?>">
                 
                     <td>
-                        <input type="checkbox" id="loan_<?= $item['loan_id'] ?>">
+                        <input disabled type="checkbox" id="loan_<?= $item['loan_id'] ?>">
                     </td>
                     <td class="number">
+                        <?= $item['count_returned'] . '/' . $item['original_count'] ?>
                         <?php if ($item['patrimony_number']): ?>
                             <?php HTMLUtil::render_patrimony($item['patrimony_id'], $item['patrimony_number'] ); ?> 
                         <?php endif; ?>
