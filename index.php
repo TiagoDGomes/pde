@@ -16,21 +16,24 @@
             <header>
                 <input type="text" name="q" id="q" value="<?= @$form_clear['q'] ?>">
                 <?php HTMLUtil::generate_input_hidden(array('uid' => $current_user_id)); ?>
+                
                 <ul>
-                    <li>
-                        <input type="radio" name="t" value="user" id="chk_user" <?= $option_search_user_checked ?>>
-                        <label for="chk_user">pessoa</label>
-                    </li>
-                    <li>
-                        <input type="radio" name="t" value="item" id="chk_item" <?= $option_search_item_checked ?>>
-                        <label for="chk_item">item</label>
-                    </li>
                     <li>
                         <button type="submit">
                             <i class="icon search"></i>
                             Procurar
                         </button>
-                    </li>                    
+                    </li>
+                    <li><span>Mostrar primeiro: </span></li>
+                    <li>
+                        <input type="radio" name="t" value="user" id="chk_user" <?= $option_search_user_checked ?>>
+                        <label for="chk_user">pessoas</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="t" value="item" id="chk_item" <?= $option_search_item_checked ?>>
+                        <label for="chk_item">itens</label>
+                    </li>
+                                        
                 </ul>
                 
             </header>
@@ -40,8 +43,10 @@
                 <?php if ($is_searching): ?>  
                     <?php if ($is_search_type_user): ?>
                         <?php include_once 'include/search_results_user.php'; ?>
+                        <?php include_once 'include/search_results_item.php'; ?>
                     <?php else: ?>  
                         <?php include_once 'include/search_results_item.php'; ?>
+                        <?php include_once 'include/search_results_user.php'; ?>                        
                     <?php endif; ?>    
                 <?php endif; ?>   
             </section>
