@@ -1,5 +1,5 @@
 <?php
-
+$PDE = 1;
 require_once 'config.php';
 require_once 'classes/Database.php';
 
@@ -114,10 +114,16 @@ $queries = array(
 );
 
 
+if (isset($CONFIG_ADDITIONAL_SQL_PATH)){
+    if (is_dir($CONFIG_ADDITIONAL_SQL_PATH)){
+        foreach (new DirectoryIterator($CONFIG_ADDITIONAL_SQL_PATH) as $fileInfo) {
+            if($fileInfo->isDot()) continue;
+            $queries[] = file_get_contents($CONFIG_ADDITIONAL_SQL_PATH . "/" . $fileInfo->getFilename());
+        }
+    }
+}
 
-$queries[] = file_get_contents('legacy/sql/01-user.sql');
-$queries[] = file_get_contents('legacy/sql/02-model.sql');
-$queries[] = file_get_contents('legacy/sql/03-patrimony.sql');
+
 
 Database::executeQueries($queries);
 exit(header('Location: .'));

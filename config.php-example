@@ -6,5 +6,7 @@ $CONFIG_PDO_CONN = "sqlite:" . __DIR__ . "/database.db";
 $CONFIG_PDO_USER = 'pde';
 $CONFIG_PDO_PASS = 'pde';
 
+$CONFIG_ADDITIONAL_SQL_PATH = __DIR__ . "/install-sql";
+
 
 //include_once 'include/fatal_error.php';
