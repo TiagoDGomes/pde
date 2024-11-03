@@ -101,7 +101,7 @@
     <script>
         document.getElementById('main').style.display = 'block';                
     </script>
-    <?php if ($search_query_focus): ?>    
+    <?php if ($search_query_focus || !$is_searching): ?>    
         <script>
             setTimeout(function(){           
                 var q = document.getElementById("q"); 
