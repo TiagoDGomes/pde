@@ -11,7 +11,7 @@
                      p.number2 as patrimony_number2, 
                      p.serial_number as patrimony_serial_number, 
                      original_count,
-                     original_count - sum(diff) as count_remaining, 
+                     original_count - sum(diff) as count_returned, 
                      group_concat(details, '<br>') as all_details ,
                      n.id as loan_id
                 FROM loan n
@@ -96,7 +96,7 @@
 
                 <?php endif; ?>                     
 
-                <tr class="<?= $item['count_remaining'] == $item['original_count'] ? 'complete' : 'remaining' ?>">
+                <tr class="<?= $item['count_returned'] == $item['original_count'] ? 'complete' : 'remaining' ?>">
                 
                     <td>
                         <input type="checkbox" id="loan_<?= $item['loan_id'] ?>">
@@ -122,7 +122,7 @@
                     
                         <span class="return">
                         
-                        <?php if ($item['count_remaining'] >  0 ): ?>
+                        <?php if ($item['count_returned'] >  0 ): ?>
                             
                                 <a href="?uid=<?= $current_user_id ?>&log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=-1&code=<?= @$get_clear['code'] ?>">
                                     <span class="button-minus">-</span>  
@@ -130,9 +130,9 @@
                             
                         <?php endif;?>
                         </span>        
-                        <?= $item['count_remaining'] ?>
+                        <?= $item['count_returned'] ?>
                         <span class="return">        
-                        <?php if ($item['count_remaining'] <  $item['original_count'] ): ?>
+                        <?php if ($item['count_returned'] <  $item['original_count'] ): ?>
                             
                                 <a href="?uid=<?= $current_user_id ?>&log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=1&code=<?= @$get_clear['code'] ?>">
                                     <span class="button-plus">+</span>     
