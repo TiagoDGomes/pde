@@ -136,6 +136,7 @@ if ($is_loaning){
     if (@$result['devolvidos'] < @$result['quantidade_emprestada']){
         HTTPResponse::forbidden("Este item já foi emprestado e não foi devolvido.");
     }
+    
     // *******
 
     
@@ -169,7 +170,9 @@ if ($is_returning_item){
 
     // *** Impedir devolução quando já estiver concluído: ***
     $protection_query = "SELECT original_count, 
-                            sum(diff) as count_remaining
+                            sum(diff) as count_remaining, 
+                            n.id AS last_loan_id,
+                            has_patrimony
                             FROM loan n 
                             INNER JOIN model m ON (m.id = n.model_id)
                             LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
@@ -181,6 +184,16 @@ if ($is_returning_item){
     if ($diff < $result['count_remaining'] * -1){
         HTTPResponse::forbidden("Este item já foi devolvido.");
     }
+    if ($result['has_patrimony']){
+        // *** Impedir movimentação quando já tiver outro posterior: ***
+        $protection_query = "SELECT max(id) FROM loan n ";
+        $last_loan_id = Database::fetchOne($protection_query,array());
+        //exit(var_dump($last_loan_id));
+        if ($loan_id != $last_loan_id){
+            HTTPResponse::forbidden("Ação indisponível. Um outro empréstimo posterior deste mesmo item já foi registrado.");
+        }
+    }
+
     // *******
 
 
