@@ -35,7 +35,7 @@ $query_search_loans = "SELECT m.id as model_id,
                 WHERE p.model_id =  ? 
                 -- AND n.tstamp BETWEEN ? AND ?
                 GROUP BY p.id
-			    HAVING n.id = max(n.id)
+			    HAVING n.id = max(n.id) OR n.id IS NULL
                 ORDER BY n.id DESC
         ";
         $current_date_after_1day =  (new DateTimeImmutable($current_date_after . ' +1 day'))->format('Y-m-d');     

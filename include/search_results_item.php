@@ -47,7 +47,7 @@ $query = "SELECT m.id as model_id,
                     OR p.serial_number = ? 
                     OR normalize(m.name) LIKE ?)               
             GROUP BY p.id
-			HAVING n.id = max(n.id)
+			HAVING n.id = max(n.id) OR n.id IS NULL
             UNION "; 
 $query .= "SELECT m.id as model_id,
                     0 AS loan_block,
@@ -69,15 +69,21 @@ $query .= "SELECT m.id as model_id,
                     ? AS query_units,
                     0 as is_match
             FROM model m  
-            LEFT JOIN loan n ON (n.model_id = m.id)
-            LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
+            LEFT JOIN loan n ON 
+                (n.model_id = m.id)
+            LEFT JOIN log_loan nn ON 
+                (nn.loan_id = n.id)
             WHERE has_patrimony = 0 
                 AND 
                     (m.code = ?   
                     OR normalize(m.name) LIKE ?) 
             GROUP BY m.id 
-            " ;  
-$query .= "ORDER BY is_match DESC, has_patrimony DESC, patrimony_number1, patrimony_number2, name,  patrimony_serial_number";
+            ORDER BY is_match DESC, 
+                has_patrimony DESC, 
+                patrimony_number1, 
+                patrimony_number2, 
+                name,  
+                patrimony_serial_number";
 $params = array(
     $query_string, $query_string, $query_string,
     strtoupper($query_string),strtoupper($query_string),strtoupper($query_string),strtoupper($query_string), "%$query_string%",
@@ -93,8 +99,9 @@ if (count($search_results) == 1) {
 $search_query_focus = (!$search_one_item || isset($form_clear['act']));
 $selected_one_item = !$search_query_focus;
 
-//echo "<pre>$query</pre>";
-   foreach ($search_results as $result): ?>
+//echo "<pre>" . str_replace('normalize','',str_replace("?", "'$query_string'", $query)) . "</pre>";
+
+foreach ($search_results as $result): ?>
     
     <?php 
         $has_patrimony = $result['has_patrimony'] == 1; 
