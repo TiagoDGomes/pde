@@ -120,7 +120,21 @@ if ($is_loaning){
     }
     $original_count = @$form_clear['units'] > 0 ? @$form_clear['units'] : 1;   
     
-    
+    // *** Impedir empréstimo quando já estiver emprestado: ***
+    $protection_query = "SELECT original_count,
+                            sum(diff) as count_remaining
+                            FROM model m
+                            INNER JOIN loan n ON (m.id = n.model_id)
+                            INNER JOIN log_loan nn ON (nn.loan_id = n.id)
+                            WHERE m.id = ?";
+    $params = array($model_id);
+    $result = Database::fetch($protection_query,$params);
+
+    if ($result['count_remaining'] > 1){
+        HTTPResponse::forbidden("Este item já foi emprestado.");
+    }
+    // *******
+
     
     $query = "INSERT INTO loan (user_id, model_id, patrimony_id, original_count) VALUES (?,?,?,?)";
     $params = array($user_id, $model_id, $patrimony_id, $original_count);
@@ -161,7 +175,7 @@ if ($is_returning_item){
     $params = array($loan_id);
     $result = Database::fetch($protection_query,$params);
     if ($diff < $result['count_remaining'] * -1){
-        HTTPResponse::forbidden("Este empréstimo já foi devolvido.");
+        HTTPResponse::forbidden("Este item já foi devolvido.");
     }
     // *******
 
