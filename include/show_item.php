@@ -83,8 +83,8 @@ $query_search_loans = "SELECT m.id as model_id,
             <td class="date">
                 <i class="icon <?= $item['original_count'] <= $item['count_returned'] ? 'check' : 'cart' ?>"><span></span></i>
                 <?= $item['loan_date'] ? (new DateTimeImmutable( $item['loan_date'] ))->format('d/m/Y H:i:s') : ''?>
-                <?= $item['original_count'] ?>/
-                <?= $item['count_returned'] ?>
+                
+                
             </td>
             <td><?= $item['username'] ?></td>
             <td><?= $item['code1'] ?></td>    
@@ -105,5 +105,5 @@ $query_search_loans = "SELECT m.id as model_id,
         </tbody>
     </table>
 </div>
-    <p><a href="javascript:;">Adicionar novo patrimônio</a></p>
+    <p><a href="javascript:;">Adicionar um novo patrimônio</a></p>
 <?php endif; ?>
