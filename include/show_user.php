@@ -135,39 +135,56 @@
 
                     </td>                   
 
-                    <td class="number">
+                    <td class="number return">
+                        <?php $input_hidden = array(); ?>
+                        <?php $input_hidden['iid'] = $item['model_id']; ?> 
+                        <?php $input_hidden['uid'] = $current_user_id; ?> 
+                        <?php $input_hidden['t'] = $current_query_type_string; ?> 
+                        <?php $input_hidden['q'] = $current_query_string; ?> 
+                        <?php $input_hidden['redirect_to'] = 'user'; ?> 
+                        <?php $input_hidden['act'] = 'ret'; ?> 
+                        <?php $input_hidden['nid'] = $item['loan_id']; ?>         
+                        <span class="return">
+                            
+                            <?php if ($item['count_returned'] >  0 ): ?>
+                                
+                                <?php $input_hidden['diff'] = '1'; ?> 
+                                <a href="?<?= http_build_query($input_hidden) ?>">
+                                    <span class="button-minus">-</span>  
+                                </a>
+                            <?php else:?>
+                                <span class="button-minus">&times;</span>
+                            <?php endif;?>
+
+                        </span>
+                        <span class="return">    
+                            
+                            <?php if ($item['count_returned'] <  $item['original_count'] ): ?>
+                                
+                                <?php $input_hidden['diff'] = '-1'; ?> 
+                                <a href="?<?= http_build_query($input_hidden) ?>">
+                                    <span class="button-plus">+</span>     
+                                </a>
+                            <?php else:?>
+                                <span class="button-plus">&times;</span>    
+                            <?php endif;?>
+                            
+                        </span>
 
                         <?= $item['count_returned'] . '/' . $item['original_count'] ?>
 
+                        
+                        
+
                     </td>
 
-                    <td class="number return">
+                    <td class="number ">
                     
-                        <span class="return">
-                        
-                            <?php if ($item['count_returned'] >  0 ): ?>
-                                
-                                <a href="?uid=<?= $current_user_id ?>&log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=-1&code=<?= @$get_clear['code'] ?>">
-                                    <span class="button-minus">-</span>  
-                                </a>
-                            
-                            <?php endif;?>
-
-                        </span>  
+                          
 
                         <?= $item['count_returned'] ?>
 
-                        <span class="return">    
-                            
-                        <?php if ($item['count_returned'] <  $item['original_count'] ): ?>
-                            
-                                <a href="?uid=<?= $current_user_id ?>&log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=1&code=<?= @$get_clear['code'] ?>">
-                                    <span class="button-plus">+</span>     
-                                </a>
-                            
-                        <?php endif;?>
                         
-                        </span>
                         <i class="icon loading"></i>
                     </td>
 

@@ -121,17 +121,20 @@ if ($is_loaning){
     $original_count = @$form_clear['units'] > 0 ? @$form_clear['units'] : 1;   
     
     // *** Impedir empréstimo quando já estiver emprestado: ***
-    $protection_query = "SELECT original_count,
-                            sum(diff) as count_remaining
+    $protection_query = "SELECT original_count AS quantidade_emprestada,
+                            original_count - sum(diff) as devolvidos,
+                            sum(diff) as restantes
                             FROM model m
                             INNER JOIN loan n ON (m.id = n.model_id)
-                            INNER JOIN log_loan nn ON (nn.loan_id = n.id)
-                            WHERE m.id = ?";
-    $params = array($model_id);
+							INNER JOIN patrimony p ON (p.id = n.patrimony_id AND m.id = p.model_id)
+                            INNER JOIN log_loan nn ON (nn.loan_id = n.id )
+                            WHERE m.id = ? AND p.id = ?
+							GROUP BY m.id
+							HAVING n.id = max(n.id) OR n.id IS NULL";
+    $params = array($model_id, $patrimony_id);
     $result = Database::fetch($protection_query,$params);
-
-    if ($result['count_remaining'] > 1){
-        HTTPResponse::forbidden("Este item já foi emprestado.");
+    if (@$result['devolvidos'] < @$result['quantidade_emprestada']){
+        HTTPResponse::forbidden("Este item já foi emprestado e não foi devolvido.");
     }
     // *******
 
@@ -171,7 +174,8 @@ if ($is_returning_item){
                             INNER JOIN model m ON (m.id = n.model_id)
                             LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
                             WHERE n.id = ?
-                            GROUP BY n.id";
+                            GROUP BY n.id
+                            HAVING n.id = max(n.id) OR n.id IS NULL";
     $params = array($loan_id);
     $result = Database::fetch($protection_query,$params);
     if ($diff < $result['count_remaining'] * -1){
