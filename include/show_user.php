@@ -76,15 +76,17 @@
                 <!-- <th>Patrimônio</th> -->
                 <th colspan="2">Nome do item</th>
                 <th>Código</th>
-                <th>Quantidade emprestada</th>
-                <th>Quantidade devolvida</th>
+                <th>Quant. devolvida</th>
+                <th>Quant.</th>
                 <th>Detalhes</th>
             </tr>
         </thead>
         <tbody>
             <?php $last_date = NULL; ?>    
             <?php foreach($selected_user_loans as $item): ?>    
+
                 <?php $this_date = (new DateTimeImmutable($item['loan_date']))->format('d/m/Y'); ?>
+
                 <?php if ($last_date != $this_date): ?>
 
                     <tr class="date">
@@ -95,6 +97,7 @@
                             <label for="loan_date_<?= str_replace("/","_", $this_date) ?>" class="date"><?= $this_date ?></label> 
                         </th>
                     </tr>
+
                     <?php $last_date = $this_date; ?>
 
                 <?php endif; ?>                     
@@ -104,38 +107,58 @@
                     <td>
                         <input disabled type="checkbox" id="loan_<?= $item['loan_id'] ?>">
                     </td>
+
                     <td class="number">
-                        <?= $item['count_returned'] . '/' . $item['original_count'] ?>
+
                         <?php if ($item['patrimony_number']): ?>
+
                             <?php HTMLUtil::render_patrimony($item['patrimony_id'], $item['patrimony_number'] ); ?> 
+                            <?= $item['patrimony_number2'] ? HTMLUtil::render_patrimony($item['patrimony_id'], $item['patrimony_number2'] ):''; ?> 
+
                         <?php endif; ?>
+
                     </td>
+
                     <td>
-                        <label for="loan_<?= $item['loan_id'] ?>"><?= $item['model_name'] ?></label>
+
+                        <label for="loan_<?= $item['loan_id'] ?>">
+
+                            <?= $item['model_name'] ?>
+
+                        </label>
+
                     </td>
-
-                    <td class="number"><?= $item['model_code'] ?></td>
-
-                    
 
                     <td class="number">
-                        <?= $item['original_count'] ?>
+
+                        <?= $item['model_code'] ?>
+
+                    </td>                   
+
+                    <td class="number">
+
+                        <?= $item['count_returned'] . '/' . $item['original_count'] ?>
+
                     </td>
 
                     <td class="number return">
                     
                         <span class="return">
                         
-                        <?php if ($item['count_returned'] >  0 ): ?>
-                            
+                            <?php if ($item['count_returned'] >  0 ): ?>
+                                
                                 <a href="?uid=<?= $current_user_id ?>&log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=-1&code=<?= @$get_clear['code'] ?>">
                                     <span class="button-minus">-</span>  
                                 </a>
                             
-                        <?php endif;?>
-                        </span>        
+                            <?php endif;?>
+
+                        </span>  
+
                         <?= $item['count_returned'] ?>
-                        <span class="return">        
+
+                        <span class="return">    
+                            
                         <?php if ($item['count_returned'] <  $item['original_count'] ): ?>
                             
                                 <a href="?uid=<?= $current_user_id ?>&log_loan=y&loan_id=<?= $item['loan_id'] ?>&diff=1&code=<?= @$get_clear['code'] ?>">
@@ -143,13 +166,20 @@
                                 </a>
                             
                         <?php endif;?>
+                        
                         </span>
                         <i class="icon loading"></i>
                     </td>
-                    <td class="details" contenteditable="true"><?= $item['all_details'] ?></td>
+
+                    <td class="details" contenteditable="true">
+
+                        <?= $item['all_details'] ?>
+
+                    </td>
                 </tr>                                
             
             <?php endforeach;?> 
+
         </tbody>
     </table>
 </div>
