@@ -92,7 +92,7 @@ $query_search_loans = "SELECT m.id as model_id,
             <td>
                 <?php if ($item['original_count'] > $item['count_returned'] ) : ?>
                     <?php $input_hidden['act'] = 'ret'; ?> 
-                    <?php $input_hidden['return_to'] = 'iid'; ?> 
+                    <?php $input_hidden['redirect_to'] = 'item'; ?> 
                     <?php $input_hidden['diff'] = '-1'; ?> 
                     <?php $input_hidden['nid'] = $item['loan_id']; ?> 
                     <?php $input_hidden['iid'] = $item['model_id']; ?>                     
