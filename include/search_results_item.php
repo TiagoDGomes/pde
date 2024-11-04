@@ -45,7 +45,8 @@ $query = "SELECT m.id as model_id,
                     OR p.number1 = ? 
                     OR p.number2 = ? 
                     OR p.serial_number = ? 
-                    OR normalize(m.name) LIKE ?)               
+                    OR normalize(m.name) LIKE ?
+                    OR normalize(obs) LIKE ?)               
             GROUP BY p.id
 			HAVING n.id = max(n.id) OR n.id IS NULL
             UNION "; 
@@ -85,10 +86,11 @@ $query .= "SELECT m.id as model_id,
                 name,  
                 patrimony_serial_number";
 $params = array(
-    $query_string, $query_string, $query_string,
-    strtoupper($query_string),strtoupper($query_string),strtoupper($query_string),strtoupper($query_string), "%$query_string%",
-    $query_units,strtoupper($query_string), "%$query_string%"
-    );
+    $query_string, $query_string, $query_string, # CASE1 
+    strtoupper($query_string),strtoupper($query_string),strtoupper($query_string),strtoupper($query_string), "%$query_string%","%$query_string%", # WHERE1
+    $query_units, #SELECT2 query_units
+    strtoupper($query_string), "%$query_string%" # WHERE2
+);
 
 $search_results = Database::fetchAll($query, $params);
 if (count($search_results) == 1) {
