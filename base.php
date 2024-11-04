@@ -27,12 +27,12 @@ $search_one_item = FALSE;
 $current_query_string = @$form_clear['q'];
 $current_query_type_string = @$form_clear['t'];
 
-$is_search_type_item = @$form_clear['t'] == 'item';
-$is_search_type_user = !$is_search_type_item;
+$is_search_type_user = @$form_clear['t'] == 'user' ;
+$is_search_type_item = !$is_search_type_user;
 
 $is_show_patrimony = isset($_GET['pid']) && @$_GET['pid'] != '';
 
-$is_show_item = isset($_GET['iid']) & @$_GET['iid'] != '';
+$is_show_item = isset($_GET['iid']) & @$_GET['iid'] != '' && @$form_clear['redirect_to'] != 'user';
 
 $is_searching = isset($_GET['q']) && $current_query_string != '';
 $is_selecting_user = isset($_GET['uid']) && @$form_clear['uid'] != '';
@@ -191,6 +191,7 @@ if ($is_returning_item){
         'before' => $current_date_before,
         'after' => $current_date_after,
         'act' => 'success_returning',
+        'redirect_to' => $form_clear['redirect_to'],
         'nid' => $loan_id,
         'iid' => $model_id,
     ));
