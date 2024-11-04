@@ -77,7 +77,6 @@
                 <th colspan="2">Nome do item</th>
                 <th>Código</th>
                 <th>Quant. devolvida</th>
-                <th>Quant.</th>
                 <th>Detalhes</th>
             </tr>
         </thead>
@@ -143,17 +142,18 @@
                         <?php $input_hidden['q'] = $current_query_string; ?> 
                         <?php $input_hidden['redirect_to'] = 'user'; ?> 
                         <?php $input_hidden['act'] = 'ret'; ?> 
-                        <?php $input_hidden['nid'] = $item['loan_id']; ?>         
+                        <?php $input_hidden['nid'] = $item['loan_id']; ?>  
+
                         <span class="return">
                             
                             <?php if ($item['count_returned'] >  0 ): ?>
                                 
                                 <?php $input_hidden['diff'] = '1'; ?> 
-                                <a href="?<?= http_build_query($input_hidden) ?>">
+                                <a title="1 unidade a dever" href="?<?= http_build_query($input_hidden) ?>">
                                     <span class="button-minus">-</span>  
                                 </a>
                             <?php else:?>
-                                <span class="button-minus">&times;</span>
+                                <!-- <span class="button-minus">&times;</span> -->
                             <?php endif;?>
 
                         </span>
@@ -162,11 +162,11 @@
                             <?php if ($item['count_returned'] <  $item['original_count'] ): ?>
                                 
                                 <?php $input_hidden['diff'] = '-1'; ?> 
-                                <a href="?<?= http_build_query($input_hidden) ?>">
+                                <a title="1 unidade devolvida" href="?<?= http_build_query($input_hidden) ?>">
                                     <span class="button-plus">+</span>     
                                 </a>
                             <?php else:?>
-                                <span class="button-plus">&times;</span>    
+                                <!-- <span class="button-plus">&times;</span>     -->
                             <?php endif;?>
                             
                         </span>
@@ -176,16 +176,6 @@
                         
                         
 
-                    </td>
-
-                    <td class="number ">
-                    
-                          
-
-                        <?= $item['count_returned'] ?>
-
-                        
-                        <i class="icon loading"></i>
                     </td>
 
                     <td class="details" contenteditable="true">
