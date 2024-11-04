@@ -76,7 +76,6 @@ $query .= "SELECT m.id as model_id,
                     (m.code = ?   
                     OR normalize(m.name) LIKE ?) 
             GROUP BY m.id 
-			HAVING n.id = max(n.id)
             " ;  
 $query .= "ORDER BY is_match DESC, has_patrimony DESC, patrimony_number1, patrimony_number2, name,  patrimony_serial_number";
 $params = array(
