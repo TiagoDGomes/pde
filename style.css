@@ -260,6 +260,9 @@ footer li {
     border: 1px solid silver;
     border-radius: 10px;
 }
+.result:has(span.identifier br){
+    padding-bottom: 14px;
+}
 
 .result .title {
     font-weight: bold;
@@ -290,7 +293,7 @@ footer li {
     min-height: 40px;
 }
 
-.result .patrimony {
+.result span:has(.patrimony) {
     float: left;
 }
 

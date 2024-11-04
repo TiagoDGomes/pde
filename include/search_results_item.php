@@ -179,13 +179,19 @@ $selected_one_item = !$search_query_focus;
                 <?php $input_hidden['uid'] = $current_user_id; ?> 
                 <?php $input_hidden['t'] = $current_query_type_string; ?> 
                 <?php $input_hidden['q'] = $current_query_string; ?> 
+                <?php $input_hidden['redirect_to'] = 'user'; ?> 
 
                 <?php if ($result['has_patrimony'] && $result['patrimony_id'] != ''): ?>
 
                     <?php $input_hidden['pid'] = $result['patrimony_id']; ?>    
+                    <span class="identifier">
 
-                    <?php HTMLUtil::render_patrimony($result['patrimony_id'], $result['patrimony_number1'] ); ?>                    
+                    <?php HTMLUtil::render_patrimony($result['patrimony_id'], $result['patrimony_number1'] ); ?> 
+                    <?php if ($result['patrimony_number2']) : ?>
+                        <br><?php HTMLUtil::render_patrimony($result['patrimony_id'], $result['patrimony_number2'] ); ?>                    
+                    <?php endif; ?>
 
+                    </span>
                 <?php endif; ?>    
                 
                 <?php if ($result['has_patrimony']) : ?>
