@@ -156,7 +156,7 @@ foreach ($search_results as $result): ?>
         <?php if (!$has_patrimony_number && $has_patrimony) : ?>
             <div class="message alert"> 
                 <i class="icon tag-minus"></i>              
-                Este item é um item patrimoniado mas não tem nenhum número associado.
+                Este item é patrimoniado, mas nenhum número foi associado.
             </div>
             <div class="message info"> 
                 <i class="icon tag-plus"></i>              
