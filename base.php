@@ -39,6 +39,17 @@ $current_query_type_string = @$form_clear['t'];
 $is_search_type_user = @$form_clear['t'] == 'user' ;
 $is_search_type_item = !$is_search_type_user;
 
+$is_install = isset($form_clear['install']) ;
+
+try{
+    Database::fetchOne("SELECT id FROM user WHERE id = ? ", array(1));
+} catch (Exception $e){
+    include_once 'install.php';
+    HTTPResponse::redirect("?install");
+}
+
+
+
 $is_show_patrimony = isset($form_clear['pid']) && @$form_clear['pid'] != '';
 
 $is_show_item = isset($form_clear['iid']) & @$form_clear['iid'] != '' && @$form_clear['redirect_to'] != 'user';

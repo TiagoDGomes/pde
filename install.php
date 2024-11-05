@@ -1,9 +1,7 @@
-<?php
-$PDE = 1;
+<?php isset($PDE) or die('Nope');
+
 require_once 'config.php';
 require_once 'classes/Database.php';
-
-header('Content-Type: text/plain');
 
 Database::startInstance($CONFIG_PDO_CONN,$CONFIG_PDO_USER, $CONFIG_PDO_PASS);
 
@@ -39,10 +37,6 @@ if ($dsn_type == 'sqlite'){
             END //
         DELIMITER ;";
 }
-
-
-
-
 
 
 $queries = array(
@@ -126,5 +120,5 @@ if (isset($CONFIG_ADDITIONAL_SQL_PATH)){
 
 
 Database::executeQueries($queries);
-exit(header('Location: .'));
+
 

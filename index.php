@@ -12,7 +12,7 @@
 
 <body>
     <div id="main" style="display: none;">
-        <form action="?">
+        <form action="?install">
             <header>
                 <input type="text" name="q" id="q" value="<?= @$form_clear['q'] ?>">
                 <?php HTMLUtil::generate_input_hidden(array('uid' => $current_user_id)); ?>
@@ -40,7 +40,7 @@
         </form>
         <main>
             <section class="search_results">
-                <?php if ($is_searching): ?>  
+                <?php if ($is_searching && !$is_install): ?>  
                     <?php if ($is_search_type_user): ?>
                         <?php include_once 'include/search_results_user.php'; ?>
                         <?php include_once 'include/search_results_item.php'; ?>
@@ -51,7 +51,9 @@
                 <?php endif; ?>   
             </section>
             <section class="content">  
-                <?php if ($is_show_patrimony): ?> 
+                <?php if ($is_install): ?> 
+                    <?php include_once 'include/form_install.php'; ?>                 
+                <?php elseif ($is_show_patrimony): ?> 
                     <?php include_once 'include/show_patrimony.php'; ?> 
                 <?php elseif ($is_show_item) : ?>
                     <?php include_once 'include/show_item.php'; ?>   
