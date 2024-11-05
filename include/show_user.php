@@ -1,7 +1,6 @@
 <?php isset($PDE) or die('Nope'); ?>
 
 <?php
-
     $query_search_user_loans = "SELECT m.id as model_id, 
                      m.name as model_name,
                      m.code as model_code, 
@@ -14,7 +13,7 @@
                      CASE 
                         WHEN original_count - sum(diff) > original_count THEN original_count
                         ELSE original_count - sum(diff) END as count_returned, 
-                     group_concat(details, '<br>') as all_details ,
+                     $all_details_sql_concat as all_details,
                      n.id as loan_id
                 FROM loan n
                 INNER JOIN model m ON (n.model_id = m.id)
@@ -77,7 +76,7 @@
                 <th colspan="2">Nome do item</th>
                 <th>Código</th>
                 <th>Quant. devolvida</th>
-                <th>Detalhes</th>
+                <th>Observações do<br>empréstimo</th>
             </tr>
         </thead>
         <tbody>
@@ -157,6 +156,7 @@
                             <?php endif;?>
 
                         </span>
+
                         <span class="return">    
                             
                             <?php if ($item['count_returned'] <  $item['original_count'] ): ?>
@@ -173,15 +173,34 @@
 
                         <?= $item['count_returned'] . '/' . $item['original_count'] ?>
 
-                        
-                        
-
                     </td>
 
-                    <td class="details" contenteditable="true">
+                    <td class="details">
+                        <div class="loan_details" data-nid="<?= $item['loan_id'] ?>"
+                            id="loan_details_<?= $item['loan_id'] ?>">
+                            <?php //$all_details = explode($all_details_separator_cols, $item['all_details']) ?>
+                        </div>
+                        <div class="loan_details_new"
+                                id="loan_details_new_<?= $item['loan_id'] ?>" 
+                                onclick="show_loan_details_action(<?= $item['loan_id'] ?>)" 
+                                onblur="hide_loan_details_action(<?= $item['loan_id'] ?>)" 
+                                contenteditable="true">        
+                            
+                        </div>
+                        <div class="loan_details_action"
+                            id="loan_details_action_<?= $item['loan_id'] ?>" 
+                            style="display:none;text-align:center" >
+                            <a href="javascript:;" onclick="save_loan_details(<?= $item['loan_id'] ?>)">Registrar observações</a>
+                        </div>
+                        <script>
+                            document.body.addEventListener('load', function(){
+                                var loan_details =  document.querySelector('#loan_details_<?= $item['loan_id'] ?> span')
+                                loan_details.addEventListener('click', function(event){
+                                    var nid = (event.target.parentNode.dataset['nid']);
+                                })
+                            })
 
-                        <?= $item['all_details'] ?>
-
+                        </script>
                     </td>
                 </tr>                                
             
@@ -191,3 +210,44 @@
     </table>
 </div>
 <?php endif; ?>
+<script>
+    function show_loan_details_action(nid){
+        document.getElementById("loan_details_action_" + nid).style.display= 'block';
+    }
+
+    function hide_loan_details_action(nid){        
+        setTimeout(function(){
+            document.getElementById("loan_details_action_" + nid).style.display= 'none';
+            console.log(document.activeElement)
+        }, 100);
+    }
+
+    function save_loan_details(nid){
+        var loan_details_new = document.getElementById("loan_details_new_" + nid);
+        document.getElementById("loan_details_action_" + nid).style.display= 'none';
+        send('?', update_loan_details, 'POST', {
+            "details": loan_details_new.innerHTML,
+            "nid": nid,
+            "act": "ret",
+            "diff": 0
+        });
+        loan_details_new.innerHTML = '';
+        var url = "?"
+    }
+    var only_one_detail = FALSE;
+    function update_loan_details(data){
+        console.log(data);
+        var loan_details = document.getElementById("loan_details_" + data['nid']);
+        if (loan_details.innerHTML.trim() == ''){
+            loan_details.innerHTML = data['details'] + '<?= $details_separator ?>' ;
+            only_one_detail = TRUE;   
+        } else{
+            if (only_one_detail){
+                loan_details.innerHTML += data['details'] + '<?= $details_separator ?>' ;  
+            } else {
+                loan_details.innerHTML += '<?= $details_separator ?>' + data['details'] ;  
+            }
+            
+        }              
+    }
+</script>

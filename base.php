@@ -18,6 +18,15 @@ foreach($_POST as $key => $value){
     $form_clear[$key] = @htmlspecialchars(trim($value));
 }
 
+$response_json = FALSE;
+
+$rct = @$_SERVER['CONTENT_TYPE'];
+$request_content_type = explode(";", $rct)[0];
+if ($request_content_type == "application/json"){
+    $form_clear = get_object_vars(json_decode(file_get_contents('php://input'))); 
+    $response_json = TRUE;   
+}
+
 $search_results = array();
 
 $search_query_focus = FALSE;
@@ -30,14 +39,14 @@ $current_query_type_string = @$form_clear['t'];
 $is_search_type_user = @$form_clear['t'] == 'user' ;
 $is_search_type_item = !$is_search_type_user;
 
-$is_show_patrimony = isset($_GET['pid']) && @$_GET['pid'] != '';
+$is_show_patrimony = isset($form_clear['pid']) && @$form_clear['pid'] != '';
 
-$is_show_item = isset($_GET['iid']) & @$_GET['iid'] != '' && @$form_clear['redirect_to'] != 'user';
+$is_show_item = isset($form_clear['iid']) & @$form_clear['iid'] != '' && @$form_clear['redirect_to'] != 'user';
 
 $is_searching = isset($_GET['q']) && $current_query_string != '';
-$is_selecting_user = isset($_GET['uid']) && @$form_clear['uid'] != '';
+$is_selecting_user = isset($form_clear['uid']) && @$form_clear['uid'] != '';
 
-$is_returning_item = isset($_GET['nid']) && @$_GET['act'] == 'ret';
+$is_returning_item = isset($form_clear['nid']) && @$form_clear['act'] == 'ret';
 
 $option_search_user_checked = (!isset($form_clear['t'])) || 
                               (@$form_clear['t'] == 'user') ? 
@@ -51,6 +60,16 @@ $last_user_selected = @$_SESSION['last_user_selected'];
 $is_changed_user = @$form_clear['uid'] != '' &&((is_null($last_user_selected)) || $last_user_selected['id'] != $form_clear['uid']);
 
 $current_date_now = (new DateTimeImmutable())->format('Y-m-d');
+
+$all_details_separator_items = ":--:";
+$all_details_separator_cols = "::::";
+$all_details_sql_concat = "group_concat(
+                                    concat(nn.id, '$all_details_separator_cols' , 
+                                        nn.tstamp, '$all_details_separator_cols' , 
+                                        details), 
+                              '$all_details_separator_items'
+                            )";
+
 
 
 if (isset($form_clear['after'])){
@@ -160,11 +179,9 @@ if ($is_loaning){
     HTTPResponse::redirect("?$redirect_url");
 } 
 if ($is_returning_item){
-    header('Content-Type: text/plain');
-    if (!isset($form_clear['nid'])||!isset($form_clear['iid'])){
+    if (!isset($form_clear['nid'])){
         HTTPResponse::forbidden("Ação inválida.");
     }
-    $model_id = $form_clear['iid'];
     $loan_id = $form_clear['nid'];    
     $diff = isset($form_clear['diff']) ? $form_clear['diff'] * 1 : -1;
 
@@ -173,7 +190,8 @@ if ($is_returning_item){
                             sum(diff) as count_remaining, 
                             n.id AS last_loan_id,
                             has_patrimony,
-                            patrimony_id
+                            patrimony_id,
+                            m.id as iid
                             FROM loan n 
                             INNER JOIN model m ON (m.id = n.model_id)
                             LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
@@ -197,23 +215,33 @@ if ($is_returning_item){
 
     // *******
 
-
-    $query = "INSERT INTO log_loan (loan_id, diff) VALUES (?,?)";
-    $params = array($loan_id, $diff);
+    $model_id = $result['iid'];
+    $details = @$form_clear['details'];
+    $query = "INSERT INTO log_loan (loan_id, diff, details) VALUES (?,?,?)";
+    $params = array($loan_id, $diff, $details);
     Database::execute($query, $params);
-    $model_id = @$form_clear['iid'];
-    $redirect_url = http_build_query(array(
+    $param_url = array(
         'uid' => $current_user_id,
         'q'=> $current_query_string,
         't' => $current_query_type_string,
         'before' => $current_date_before,
         'after' => $current_date_after,
         'act' => 'success_returning',
-        'redirect_to' => $form_clear['redirect_to'],
+        'redirect_to' => @$form_clear['redirect_to'],
         'nid' => $loan_id,
         'iid' => $model_id,
-    ));
-    HTTPResponse::redirect("?$redirect_url");
+        'details' => $details
+    );  
+    //exit(json_encode($param_url)) ;
+    if ($response_json){
+        header('Content-Type: application/json');    
+        exit(json_encode($param_url));
+    } else {
+        header('Content-Type: text/plain');    
+        $redirect_url = http_build_query($param_url);
+        HTTPResponse::redirect("?$redirect_url");
+    }
+    
 }
 
 

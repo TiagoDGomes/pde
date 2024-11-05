@@ -462,3 +462,24 @@ table tr.date th{
 .search_results .result.user{
     background-image: linear-gradient(342deg, #b5b9b6, transparent);
 }
+.loan_details_new {
+    padding-left:2px;
+    border: 1px solid transparent;
+    outline: none;
+}
+.loan_details_new:hover{
+    border: 1px dashed silver
+}
+.loan_details_new:focus{
+    border: 1px solid silver
+}
+td.details span.x{
+    color: transparent;
+    min-width: 25px;
+    display: inline-block;
+    text-align: center;
+}
+td.details span.x:hover{
+    color: red;
+    cursor: pointer;
+}

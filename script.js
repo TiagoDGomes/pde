@@ -40,4 +40,37 @@ function show_modal(queryElem) {
         }
     });
 }
-document.querySelector('[autofocus]').focus();
+var a = document.querySelector('[autofocus]');
+if (a) {
+    a.focus();
+    unset(a);
+}
+
+function send(url, return_func, method='GET', data_arr=[]) {
+    console.log('send', url);
+    var xhr = new XMLHttpRequest();
+    
+    if (return_func) {
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                try {
+                    var r = JSON.parse(xhr.responseText);
+                    return_func(r);
+                } catch (e) {
+                    console.error(url, '\n', e, xhr.responseText);
+                    return_func({});
+                }
+            }
+        };
+    }
+    xhr.open(method, url);
+    xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+
+    if (method=='POST'){
+        xhr.send(JSON.stringify(data_arr));
+    } else {
+        xhr.send();
+    }
+    
+}
+
