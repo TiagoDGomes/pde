@@ -23,19 +23,21 @@ if (isset($form_clear['type'])&& isset($_FILES['filecsv']['tmp_name'])){
         $handle = fopen($_FILES['filecsv']['tmp_name'], "r");
         if ($handle) {
             $sql_params = array();
-            while (($line  = fgetcsv($handle,0,",")) !== false) {
-                if ($line[0]){
-                    $line_split = explode(";", $line[0]);
-                    if ($line_split[0] == 'id'){
-                    
-                    } else {
-                        $sql_insert_arr[] = $sql_insert_line;
-                        $sql_params = array_merge($sql_params, $line_split);  
-                    }
-                }
+            while (($line_split  = fgetcsv($handle,0,";")) !== false) {                
+                if ($line_split[0] == 'id'){
+                
+                } else {
+                    $sql_insert_arr[] = $sql_insert_line;
+                    $sql_params = array_merge($sql_params, $line_split);  
+                }                
             }
             $sql_insert .= implode(",\n", $sql_insert_arr);
-            Database::execute($sql_insert, $sql_params);
+            try{
+                Database::execute($sql_insert, $sql_params);
+            } catch(Exception $e){
+                echo $e->getMessage();
+            }
+            
             fclose($handle);
         }    
     }    
