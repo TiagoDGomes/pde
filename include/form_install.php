@@ -6,27 +6,32 @@ if (isset($form_clear['type'])&& isset($_FILES['filecsv']['tmp_name'])){
         case 'user':
             $sql_insert = "INSERT OR REPLACE INTO user (id, name, code1, code2) VALUES \n";
             $sql_insert_line = '(?,?,?,?)';
+            $sql_col_count = 4;           
             break;
         case 'model':
             $sql_insert = "INSERT OR REPLACE INTO model (id, name, code, has_patrimony) VALUES \n";
             $sql_insert_line = '(?,?,?,?)';
+            $sql_col_count = 4;
+           break;
+        case 'patrimony':
+            $sql_insert = "INSERT OR REPLACE INTO patrimony (id, model_id, number1, number2, obs) VALUES \n";
+            $sql_insert_line = '(?,?,?,?,?)';
+            $sql_col_count = 5;
             break;
     }
     if (isset($sql_insert)){
         $handle = fopen($_FILES['filecsv']['tmp_name'], "r");
         if ($handle) {
             $sql_params = array();
-            
-            while (($line = fgets($handle)) !== false) {
-                $line_split = explode(";", $line);
-                if ($line_split[0] == 'id'){
+            while (($line  = fgetcsv($handle,0,",")) !== false) {
+                if ($line[0]){
+                    $line_split = explode(";", $line[0]);
+                    if ($line_split[0] == 'id'){
                     
-                } else {
-                    $sql_insert_arr[] = $sql_insert_line;
-                    $sql_params[] = $line_split[0];
-                    $sql_params[] = $line_split[1];
-                    $sql_params[] = $line_split[2];
-                    $sql_params[] = trim($line_split[3]);
+                    } else {
+                        $sql_insert_arr[] = $sql_insert_line;
+                        $sql_params = array_merge($sql_params, $line_split);  
+                    }
                 }
             }
             $sql_insert .= implode(",\n", $sql_insert_arr);
@@ -45,6 +50,7 @@ if (isset($form_clear['type'])&& isset($_FILES['filecsv']['tmp_name'])){
         <p><label>Tipo de dados: <select name="type">
             <option value="user">Usuários</option>
             <option value="model">Modelos de itens</option>
+            <option value="patrimony">Patrimônios</option>
         </select></label></p>
         <p><input type="file" name="filecsv" accept=".csv, .txt"></p>
         <button>Enviar</button>
