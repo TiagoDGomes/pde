@@ -74,3 +74,45 @@ function send(url, return_func, method='GET', data_arr=[]) {
     
 }
 
+function show_loan_details_action(nid){
+    document.getElementById("loan_details_action_" + nid).style.display= 'block';
+}
+
+function hide_loan_details_action(nid){        
+    setTimeout(function(){
+        document.getElementById("loan_details_action_" + nid).style.display= 'none';
+        console.log(document.activeElement)
+    }, 100);
+}
+
+function save_loan_details(nid){
+    var loan_details_new = document.getElementById("loan_details_new_" + nid);
+    document.getElementById("loan_details_action_" + nid).style.display= 'none';
+    send('?', update_loan_details, 'POST', {
+        "details": loan_details_new.innerHTML,
+        "nid": nid,
+        "act": "ret",
+        "diff": 0
+    });
+    loan_details_new.innerHTML = '';
+    var url = "?"
+}
+
+function update_loan_details(data){
+    var loan_details = document.getElementById("loan_details_" + data['nid']);
+    loan_details.innerHTML += '<li><span class="info">' + data['details'] + '</span><span onclick="force_loan_detail_refresh()" class="x">@</span></li>';                 
+}
+
+function delete_loan_detail(nnid){
+    if (confirm("Deseja realmente remover esta observação?")){
+        send('?', function(){
+            document.getElementById('loan_detail_nnid_' + nnid).remove();
+        }, 'POST', {
+            "nnid": nnid,
+            "act": "delete"
+        });
+    }
+}
+function force_loan_detail_refresh(){
+    window.location.reload();
+}

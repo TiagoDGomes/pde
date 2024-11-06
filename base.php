@@ -81,6 +81,14 @@ $all_details_sql_concat = "group_concat(
                               '$all_details_separator_items'
                             )";
 
+$is_deleting = $form_clear['act'] == 'delete';
+
+if ($is_deleting){
+    if (isset($form_clear['nnid'])){
+        $ret = Database::execute("DELETE FROM log_loan WHERE id = ? AND diff = 0", array($form_clear['nnid']));
+        exit(json_encode($ret));
+    }
+}
 
 
 if (isset($form_clear['after'])){

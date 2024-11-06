@@ -176,10 +176,19 @@
                     </td>
 
                     <td class="details">
-                        <div class="loan_details" data-nid="<?= $item['loan_id'] ?>"
-                            id="loan_details_<?= $item['loan_id'] ?>">
-                            <?php //$all_details = explode($all_details_separator_cols, $item['all_details']) ?>
-                        </div>
+                        <ul class="loan_details" data-nid="<?= $item['loan_id'] ?>"
+                            id="loan_details_<?= $item['loan_id'] ?>"><?php 
+                                $all_details = explode($all_details_separator_items, $item['all_details']);                        
+                                foreach($all_details as $detail):  
+                                    $detail_data = explode($all_details_separator_cols, $detail);  
+                                    if (strlen(trim($detail_data[2])) > 0) : 
+                                        ?><li id="loan_detail_nnid_<?= $detail_data[0] ?>">
+                                        <span class="info" title="<?= $detail_data[1] ?>"><?= $detail_data[2] ?></span>                      
+                                        <span class="x" onclick="delete_loan_detail(<?= $detail_data[0] ?>)">&times;</span>
+                                    </li><?php endif;  
+                                endforeach;   
+                            ?></ul> 
+                        </ul>
                         <div class="loan_details_new"
                                 id="loan_details_new_<?= $item['loan_id'] ?>" 
                                 onclick="show_loan_details_action(<?= $item['loan_id'] ?>)" 
@@ -193,13 +202,12 @@
                             <a href="javascript:;" onclick="save_loan_details(<?= $item['loan_id'] ?>)">Registrar observações</a>
                         </div>
                         <script>
-                            document.body.addEventListener('load', function(){
-                                var loan_details =  document.querySelector('#loan_details_<?= $item['loan_id'] ?> span')
-                                loan_details.addEventListener('click', function(event){
-                                    var nid = (event.target.parentNode.dataset['nid']);
-                                })
-                            })
-
+                            // document.body.addEventListener('load', function(){
+                            //     var loan_details = document.querySelector('#loan_details_<?= $item['loan_id'] ?> span')
+                            //     loan_details.addEventListener('click', function(event){
+                            //         var nid = (event.target.parentNode.dataset['nid']);
+                            //     })
+                            // })
                         </script>
                     </td>
                 </tr>                                
@@ -211,43 +219,5 @@
 </div>
 <?php endif; ?>
 <script>
-    function show_loan_details_action(nid){
-        document.getElementById("loan_details_action_" + nid).style.display= 'block';
-    }
 
-    function hide_loan_details_action(nid){        
-        setTimeout(function(){
-            document.getElementById("loan_details_action_" + nid).style.display= 'none';
-            console.log(document.activeElement)
-        }, 100);
-    }
-
-    function save_loan_details(nid){
-        var loan_details_new = document.getElementById("loan_details_new_" + nid);
-        document.getElementById("loan_details_action_" + nid).style.display= 'none';
-        send('?', update_loan_details, 'POST', {
-            "details": loan_details_new.innerHTML,
-            "nid": nid,
-            "act": "ret",
-            "diff": 0
-        });
-        loan_details_new.innerHTML = '';
-        var url = "?"
-    }
-    var only_one_detail = FALSE;
-    function update_loan_details(data){
-        console.log(data);
-        var loan_details = document.getElementById("loan_details_" + data['nid']);
-        if (loan_details.innerHTML.trim() == ''){
-            loan_details.innerHTML = data['details'] + '<?= $details_separator ?>' ;
-            only_one_detail = TRUE;   
-        } else{
-            if (only_one_detail){
-                loan_details.innerHTML += data['details'] + '<?= $details_separator ?>' ;  
-            } else {
-                loan_details.innerHTML += '<?= $details_separator ?>' + data['details'] ;  
-            }
-            
-        }              
-    }
 </script>

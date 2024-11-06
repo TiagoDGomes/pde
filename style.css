@@ -11,6 +11,9 @@
 * {
     box-sizing: border-box;
 }
+ul:empty{
+    display: none;
+}
 
 td[contenteditable="true"]:focus {
     border: 0;
