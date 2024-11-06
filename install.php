@@ -59,9 +59,9 @@ $queries = array(
             number1 $TEXT NOT NULL,
             number2 $TEXT,
             serial_number $TEXT,
-            usable $BYTE NOT NULL DEFAULT 1,
-            found $BYTE NOT NULL DEFAULT 1,
-            loan_block $BYTE NOT NULL DEFAULT 0,
+            usable $BYTE NOT NULL DEFAULT 1 CHECK (usable IN (0, 1)),
+            found $BYTE NOT NULL DEFAULT 1 CHECK (found IN (0, 1)),
+            loan_block $BYTE NOT NULL DEFAULT 0 CHECK (loan_block IN (0, 1)),
             obs $TEXT,
             FOREIGN KEY (model_id)
                 REFERENCES model (id)
@@ -72,7 +72,7 @@ $queries = array(
             user_id $INT NOT NULL,
             model_id $INT NOT NULL,
             patrimony_id $INT DEFAULT NULL,
-            closed $BYTE DEFAULT 0 NOT NULL,
+            closed $BYTE DEFAULT 0 NOT NULL CHECK (closed IN (0, 1)),
             original_count $INT DEFAULT 1 NOT NULL,
             FOREIGN KEY (model_id)
                 REFERENCES model (id),
