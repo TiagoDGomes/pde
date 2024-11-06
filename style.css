@@ -381,9 +381,7 @@ table tr.complete td {
 table tr.complete .patrimony {
     background-color: #0000ff3f;
 }
-table tr.date th{
-    padding-top: 2em;
-}
+
 .content table td.number {
     text-align: center;
     width: 6em;
