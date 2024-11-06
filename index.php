@@ -85,7 +85,7 @@
 
     
     <noscript>
-        <p>O Javascript não está disponível em seu navegador.</p>
+        <p class="card" style="text-align:center">O Javascript não está disponível em seu navegador.</p>
     </noscript>
     <script>
         document.getElementById('main').style.display = 'block';                
