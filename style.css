@@ -516,3 +516,6 @@ td.details span.x:hover{
 .modal dd input{
     min-width: 40em;
 }
+.card .bar{
+    text-align: right;
+}

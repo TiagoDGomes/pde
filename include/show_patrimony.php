@@ -20,7 +20,7 @@ $selected_patrimony = Database::fetch($query, array($form_clear['pid']));
         <p><?= $selected_patrimony['obs'] ?></p>         
 
     </div>
-    <p><button>Editar</button></p>
+    <p class="bar"><button>Editar</button></p>
 </div>
 
 
