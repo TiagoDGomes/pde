@@ -294,3 +294,5 @@ if ($is_returning_item){
 }
 
 
+$page_title = $last_user_selected ? $last_user_selected['name'] : 'Empréstimos';
+
