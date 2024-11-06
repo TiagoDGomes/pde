@@ -46,13 +46,15 @@ $query_search_loans = "SELECT m.id as model_id,
 
 
 ?>
-<h2>
-    <i class="icon item"></i>
-    <?= $selected_item['name'] ?>        
-</h2>
-<p><button>Editar</button></p>
+<div class="card item top">
+    <h2>
+        <i class="icon item"></i>
+        <?= $selected_item['name'] ?>        
+    </h2>
+    <p><button>Editar</button></p>
+</div>
 <?php if ($selected_item['has_patrimony']): ?>
-    <div class="items">
+    <div class="card items">
     <table>
         <thead>
             <tr>                

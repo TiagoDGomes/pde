@@ -125,7 +125,7 @@ foreach ($search_results as $result): ?>
                         );
     ?>    
 
-    <div class="result item <?= $selected_one_item ? 'one': '' ?>">
+    <div class="card result item <?= $selected_one_item ? 'one': '' ?>">
         <div class="title">                           
             <?php HTMLUtil::link_title_from_result($result) ?>
         </div>

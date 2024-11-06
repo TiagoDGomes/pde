@@ -219,6 +219,7 @@ footer li {
     section.content {
         width: calc(100% - var(--search_results-width) - var(--root-padding-left));
         float: right;
+        padding-right: 10px;
     }
 
     header,
@@ -256,13 +257,19 @@ footer li {
     text-align: right;
 }
 
-.result {
+.card {
     border-bottom: 1px solid silver;
     margin-bottom: 10px;
     padding: 1px 6px 4px var(--root-padding-left);
     box-shadow: 2px 2px 2px silver;;
     border: 1px solid silver;
     border-radius: 10px;
+}
+.card.item {
+    background-image: linear-gradient(308deg, #acddab61, transparent);
+}
+.card.user {
+    background-image: linear-gradient(342deg, #b5b9b6, transparent);
 }
 .result:has(span.identifier br){
     padding-bottom: 14px;
@@ -354,7 +361,7 @@ table td.return:hover span.button-plus {
 .content table {
     margin-top:3px;
     border-collapse: collapse;
-    border: 1px solid silver;
+    /*border: 1px solid silver;*/
     border-radius: 2px;
 }
 .content table select{
@@ -362,16 +369,23 @@ table td.return:hover span.button-plus {
     border: 0;
 
 }
+.content .card.central{
+    padding: 15px 14px 15px 11px;
+}
 
+.content .card.top{
+    padding: 6px 10px 10px 15px;
+}
 .content table tr.date td {
     padding-top: 1.5em;
 
 }
-
+.content table tr:has(th),
 .content table tr.date {
     border: 1px solid silver;
     font-weight: bold;
     background-color: rgb(243, 243, 243);
+    border-radius: 3px;
 }
 
 table tr.complete td {
@@ -467,12 +481,7 @@ table tr.complete .patrimony {
   }
 
 
-.search_results .result.item{
-    background-image: linear-gradient(308deg, #acddab61, transparent);
-}
-.search_results .result.user{
-    background-image: linear-gradient(342deg, #b5b9b6, transparent);
-}
+
 .loan_details_new {
     padding-left:2px;
     border: 1px solid transparent;
@@ -494,3 +503,4 @@ td.details span.x:hover{
     color: red;
     cursor: pointer;
 }
+
