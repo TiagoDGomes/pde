@@ -12,10 +12,18 @@ Database::startInstance($CONFIG_PDO_CONN, $CONFIG_PDO_USER, $CONFIG_PDO_PASS);
 
 $form_clear = array();
 foreach($_GET as $key => $value){
-    $form_clear[$key] = @htmlspecialchars(trim($value));
+    if (is_array($value)){
+        $form_clear[$key] = $value;
+    } else {
+        $form_clear[$key] = @htmlspecialchars(trim($value));
+    }    
 }
 foreach($_POST as $key => $value){
-    $form_clear[$key] = @htmlspecialchars(trim($value));
+    if (is_array($value)){
+        $form_clear[$key] = $value;
+    } else {
+        $form_clear[$key] = @htmlspecialchars(trim($value));
+    }
 }
 
 $response_json = FALSE;
@@ -81,11 +89,12 @@ $all_details_sql_concat = "group_concat(
                               '$all_details_separator_items'
                             )";
 
-$is_deleting = $form_clear['act'] == 'delete';
+$is_deleting = @$form_clear['act'] == 'delete';
 
 if ($is_deleting){
     if (isset($form_clear['nnid'])){
         $ret = Database::execute("DELETE FROM log_loan WHERE id = ? AND diff = 0", array($form_clear['nnid']));
+        header('Content-Type: application/json');
         exit(json_encode($ret));
     }
 }

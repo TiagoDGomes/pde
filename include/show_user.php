@@ -66,14 +66,19 @@
     <p>Nenhum empréstimo foi encontrado no período selecionado.</p>
 
 <?php else : ?>
-
+<?php include 'include/form_hidden_select.php'; ?>
 <div class="items">
     <table>
         <thead>
             <tr>
-                <th><input disabled type="checkbox" name="chk_all"></th>
-                <!-- <th>Patrimônio</th> -->
-                <th colspan="2">Nome do item</th>
+                <th colspan="2">
+                    <select onchange="select_action(this)">
+                        <option>Ações...</option>                     
+                        <option value="ret">&bullet; Devolver</option>    
+                        <option value="delete">&bullet; Excluir</option>                        
+                    </select>
+                </th>              
+                <th>Nome do item</th>
                 <th>Código</th>
                 <th>Quant. devolvida</th>
                 <th>Observações do<br>empréstimo</th>
@@ -89,7 +94,7 @@
 
                     <tr class="date">
                         <th>
-                            <input disabled type="checkbox" class="loan_top_checkbox" id="loan_date_<?= str_replace("/","_", $this_date) ?>">
+                            <input onchange="select_all_date(this,'nid')" type="checkbox" class="loan_top_checkbox" id="loan_date_<?= str_replace("/","_", $this_date) ?>">
                         </th>
                         <th colspan="6">
                             <label for="loan_date_<?= str_replace("/","_", $this_date) ?>" class="date"><?= $this_date ?></label> 
@@ -100,10 +105,10 @@
 
                 <?php endif; ?>                     
 
-                <tr class="<?= $item['count_returned'] >= $item['original_count'] ? 'complete' : 'remaining' ?>">
+                <tr class="<?= $item['count_returned'] >= $item['original_count'] ? 'complete' : 'remaining' ?> loan_date_<?= str_replace("/","_",$last_date) ?>">
                 
                     <td>
-                        <input disabled type="checkbox" id="loan_<?= $item['loan_id'] ?>">
+                        <input class="line_checkbox" data-id="<?= $item['loan_id'] ?>" onchange="select_item(this,'nid')" type="checkbox" id="loan_<?= $item['loan_id'] ?>">
                     </td>
 
                     <td class="number">

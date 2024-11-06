@@ -116,3 +116,32 @@ function delete_loan_detail(nnid){
 function force_loan_detail_refresh(){
     window.location.reload();
 }
+
+
+function select_action(obj){
+    var form_hidden_select = document.getElementById('form_hidden_select');
+    var act = form_hidden_select.querySelector('[name="multiact"]')
+    act.value = obj.value;
+    form_hidden_select.submit()
+}
+function select_item(obj, idname){
+    var form_hidden_select = document.getElementById('form_hidden_select');
+    var input_ = form_hidden_select.querySelector('[name="' + idname + '[' + obj.dataset.id +']"]');
+    if (input_){
+        input_.value = obj.checked;
+    } else{
+        input_ = document.createElement('input');
+        input_.type = 'hidden';                
+        input_.name = idname + '[' + obj.dataset.id + ']';
+        input_.value = obj.checked;
+        form_hidden_select.appendChild(input_);           
+    }
+}
+function select_all_date(obj, idname){
+    document.querySelectorAll('.' + obj.id).forEach(function(elem){
+        var line_checkbox = elem.querySelector('input.line_checkbox');
+        console.log('line_checkbox', line_checkbox);
+        line_checkbox.checked = obj.checked;
+        select_item(line_checkbox, idname);
+    });
+}
