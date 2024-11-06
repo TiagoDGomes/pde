@@ -1,10 +1,3 @@
-    
-function show_user (){
-    show_modal("#tuser")
-}
-function show_item (){
-    show_modal("#titem")
-}
 function show_modal(queryElem) {
     var modal_window = document.createElement('div');
     var modal_content = document.createElement('div');

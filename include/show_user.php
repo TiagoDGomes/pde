@@ -37,7 +37,7 @@
     <i class="icon user"></i>
     <?= $last_user_selected['name'] ?>
 </h2>
-<p><button onclick="show_user()">Editar</button></p>
+<p><button onclick="show_modal('#tuser')">Editar</button></p>
 <div>
     <form>    
         <input type="hidden" name="uid" value="<?= $form_clear['uid'] ?>">   

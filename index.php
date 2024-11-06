@@ -67,26 +67,23 @@
             </section>
         </main>
         <footer>
-            <a href="javascript:show_user()">Mostrar usuário</a> &bullet;
-            <a href="javascript:show_item()">Mostrar item</a> &bullet;
-            <a href="javascript:show_patrimony()">Mostrar patrimônio</a>
-        </footer>
-        
+            <?php if ($is_searching): ?>   
+                <?php require_once 'include/form_generic.php'; ?>
+                <?php require_once 'include/form_user.php'; ?>
+                <?php require_once 'include/form_model.php'; ?>
+                <template id="tnewuser">
+                    <?php form_user(NULL); ?>  
+                </template>             
+                <template id="tnewitem">
+                    <?php form_model(NULL); ?>  
+                </template>             
+                <a href="javascript:show_modal('#tnewuser')">Adicionar usuário</a> &bullet;
+                <a href="javascript:show_modal('#tnewitem')">Adicionar item</a>
+            <?php endif; ?>
+        </footer>        
     </div>
 
-    <template id="titem">
-        <fieldset>
-            <legend>Item</legend>
-            <dl>
-                <dt>Nome:</dt>
-                <dd></dd>
-                <dt>&nbsp;</dt>
-                <dd>                            
-                    <button>Salvar</button>                                
-                </dd>
-            </dl>
-        </fieldset>
-    </template>
+    
     <noscript>
         <p>O Javascript não está disponível em seu navegador.</p>
     </noscript>
