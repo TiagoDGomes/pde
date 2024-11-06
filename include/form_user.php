@@ -32,16 +32,21 @@ function form_user($user){
 
 
 function form_user_save_new($post_clear){
+    global $last_user_selected;
     $query = "INSERT INTO user (name, code1, code2) VALUES (?,?,?)";
     $params = array(strtoupper($post_clear['name']), strtoupper($post_clear['code1']), strtoupper($post_clear['code2']));
     Database::execute($query, $params);
-    $_SESSION['selected_user'] = Database::fetch("SELECT id, name, code1, code2, max(id) FROM user ORDER BY id DESC", array());
+    $_SESSION['last_user_selected'] = Database::fetch("SELECT id, name, code1, code2, max(id) FROM user ORDER BY id DESC", array());
+    $last_user_selected = $_SESSION['last_user_selected'];
 }
 
 function form_user_save_edit($post_clear){
+    global $last_user_selected;
     $query = "UPDATE user SET name = ?, code1 = ?, code2 = ? WHERE id = ?";
     $params = array(strtoupper($post_clear['name']), strtoupper($post_clear['code1']), strtoupper($post_clear['code2']), $post_clear['id']);
+
     Database::execute($query, $params);
     $get_clear['user_id'] = @$post_clear['id'];
-    $_SESSION['selected_user'] = Database::fetch("SELECT * FROM user WHERE id = ?", array($post_clear['id']));
+    $_SESSION['last_user_selected'] = Database::fetch("SELECT * FROM user WHERE id = ?", array($post_clear['id']));
+    $last_user_selected = $_SESSION['last_user_selected'];
 }

@@ -19,7 +19,7 @@ function html_element($tag, $elem, $inner = NULL){
 
 function form_generator($title, $type, $itm, $elems){ ?>
 
-<fieldset id="form_<?= $itm ? 'edit_' . $type : 'new_' . $type ?>" style="display:none">
+<fieldset id="form_<?= $itm ? 'edit_' . $type : 'new_' . $type ?>">
     <legend><?= $title ?></legend>
     <div class="<?= $itm ? 'already' : 'new' ?> block">
         <form method="POST">  

@@ -58,6 +58,8 @@
                 <?php elseif ($is_show_item) : ?>
                     <?php include_once 'include/show_item.php'; ?>   
                 <?php elseif ($last_user_selected) : ?>
+                    <?php require_once 'include/form_generic.php'; ?>
+                    <?php require_once 'include/form_user.php'; ?>
                     <?php include_once 'include/show_user.php'; ?>   
                 <?php else: ?>
                     <?php include_once 'include/show_default.php'; ?>   
@@ -71,19 +73,7 @@
         </footer>
         
     </div>
-    <template id="tuser">
-        <fieldset>
-            <legend>Usuário</legend>
-            <dl>
-                <dt>Nome:</dt>
-                <dd>aaaa</dd>
-                <dt>&nbsp;</dt>
-                <dd>                            
-                    <button>Salvar</button>                                
-                </dd>
-            </dl>
-        </fieldset>
-    </template>
+
     <template id="titem">
         <fieldset>
             <legend>Item</legend>

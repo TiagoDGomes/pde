@@ -29,13 +29,15 @@
     $selected_user_loans = Database::fetchAll($query_search_user_loans, $params);
 
 ?>
-
+<template id="tuser">
+    <?php form_user($last_user_selected) ?>    
+</template>
 
 <h2>
     <i class="icon user"></i>
     <?= $last_user_selected['name'] ?>
 </h2>
-<p><button>Editar</button></p>
+<p><button onclick="show_user()">Editar</button></p>
 <div>
     <form>    
         <input type="hidden" name="uid" value="<?= $form_clear['uid'] ?>">   

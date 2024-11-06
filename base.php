@@ -89,15 +89,9 @@ $all_details_sql_concat = "group_concat(
                               '$all_details_separator_items'
                             )";
 
+$action_save_new_user = isset($_POST['save_new_user']);
+$action_save_edit_user = isset($_POST['save_edit_user']);
 $is_deleting = @$form_clear['act'] == 'delete';
-
-if ($is_deleting){
-    if (isset($form_clear['nnid'])){
-        $ret = Database::execute("DELETE FROM log_loan WHERE id = ? AND diff = 0", array($form_clear['nnid']));
-        header('Content-Type: application/json');
-        exit(json_encode($ret));
-    }
-}
 
 
 if (isset($form_clear['after'])){
@@ -131,6 +125,33 @@ $current_date_before = isset($form_clear['before']) ?
 
 
 $is_loaning = @$form_clear['act'] == 'loan';
+
+
+if ($is_deleting){
+    if (isset($form_clear['nnid'])){
+        $ret = Database::execute("DELETE FROM log_loan WHERE id = ? AND diff = 0", array($form_clear['nnid']));
+        header('Content-Type: application/json');
+        exit(json_encode($ret));
+    }
+} else if ($action_save_new_user) {
+    require_once 'include/form_user.php';
+    form_user_save_new($form_clear);
+    HTTPResponse::redirect('?'.$redirect_url);
+
+} else if ($action_save_edit_user) {
+    $redirect_url = http_build_query(array(
+        'uid' => $form_clear['uid'],
+        'q'=> $current_query_string,
+        't' => $current_query_type_string,
+        'before' => $current_date_before,
+        'after' => $current_date_after,
+    ));
+    require_once 'include/form_user.php';
+    form_user_save_edit($form_clear);
+    HTTPResponse::redirect('?'.$redirect_url);
+
+}
+
 
 
 if (!isset($form_clear['uid'])){
