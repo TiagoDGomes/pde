@@ -48,17 +48,17 @@ $query_search_loans = "SELECT m.id as model_id,
 ?>
 
 <template id="titem">
-   
+   <?php form_model($selected_item) ?>
 </template>
 <div class="card item top">
     <h2>
         <i class="icon item"></i>
         <?= $selected_item['name'] ?>        
     </h2>
-    <p><button>Editar</button></p>
+    <p><button onclick="show_modal('#titem')">Editar</button></p>
 </div>
 <?php if ($selected_item['has_patrimony']): ?>
-    <p><a href="javascript:show_modal('#titem')">Adicionar um novo patrimônio</a></p>
+    <p><a href="javascript:;">Adicionar um novo patrimônio</a></p>
     <?php if (count($selected_loans)==0): ?>
         <p>Nenhum empréstimo foi encontrado.</p>
     <?php else: ?>    

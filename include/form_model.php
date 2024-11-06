@@ -8,14 +8,14 @@ function form_model($model){
             array(
                 "name" => "model_name",
                 "type" => "text",
-                "value" => @$model['model_name'],
+                "value" => @$model['name'],
                 "data-description" => "Nome do modelo do item",  
                 "placeholder" => "Nome do modelo do item",  
             ),                        
             array(
                 "name" => "model_code",
                 "type" => "text",
-                "value" => @$model['model_code'],
+                "value" => @$model['code'],
                 "data-description" => "Identificador para busca rápida",  
                 "placeholder" => "Identificador para busca rápida",   
             ) ,                        
@@ -26,7 +26,8 @@ function form_model($model){
                 "value" => "1",
                 "data-description" => "Modelo com identificador único (patrimoniado)",
                 "placeholder" => "Modelo com identificador único (patrimoniado)",  
-                "onclick" => "select_patrimony(1)"
+                //"onclick" => "select_patrimony(1)",
+                "checked" => @$model['has_patrimony'] ? 'checked': ''
             ),                        
             array(                
                 "id" => "model_multiple",
@@ -35,7 +36,8 @@ function form_model($model){
                 "value" => "0",
                 "data-description" => "Modelo múltiplo (não patrimoniado)",
                 "placeholder" => "Modelo múltiplo (não patrimoniado)",  
-                "onclick" => "select_patrimony(0)"
+                //"onclick" => "select_patrimony(0)",
+                "checked" => @$model['has_patrimony'] ? '': 'checked'
             ),                        
             array(
                 "id" => "unique_codes",

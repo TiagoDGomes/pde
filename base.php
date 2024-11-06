@@ -91,6 +91,10 @@ $all_details_sql_concat = "group_concat(
 
 $action_save_new_user = isset($_POST['save_new_user']);
 $action_save_edit_user = isset($_POST['save_edit_user']);
+
+$action_save_new_model = isset($_POST['save_new_model']);
+$action_save_edit_model = isset($_POST['save_edit_model']);
+
 $is_deleting = @$form_clear['act'] == 'delete';
 
 
@@ -150,6 +154,9 @@ if ($is_deleting){
     form_user_save_edit($form_clear);
     HTTPResponse::redirect('?'.$redirect_url);
 
+} else if ($action_save_new_model){
+    require_once 'include/form_model.php';
+    form_model_save($form_clear);
 }
 
 

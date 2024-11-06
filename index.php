@@ -56,6 +56,8 @@
                 <?php elseif ($is_show_patrimony): ?> 
                     <?php include_once 'include/show_patrimony.php'; ?> 
                 <?php elseif ($is_show_item) : ?>
+                    <?php require_once 'include/form_generic.php'; ?>
+                    <?php require_once 'include/form_model.php'; ?>
                     <?php include_once 'include/show_item.php'; ?>   
                 <?php elseif ($last_user_selected) : ?>
                     <?php require_once 'include/form_generic.php'; ?>
