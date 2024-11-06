@@ -42,14 +42,8 @@
 </div>
 
 
-<?php if (!$selected_user_loans) :?>
-
-    <p>Nenhum empréstimo foi encontrado no período selecionado.</p>
-
-<?php else : ?>
-<?php include 'include/form_hidden_select.php'; ?>
 <div class="central card items">
-    <div>
+    <div class="filter">
         <form>    
             <input type="hidden" name="uid" value="<?= $form_clear['uid'] ?>">   
             <input type="hidden" name="q" value="<?= @$form_clear['q'] ?>">     
@@ -74,6 +68,14 @@
             }
         </script> 
     </div>
+<?php if (!$selected_user_loans) :?>
+
+    <p>Nenhum empréstimo foi encontrado no período selecionado.</p>
+
+<?php else : ?>
+<?php include 'include/form_hidden_select.php'; ?>
+
+    
     <table>
         <thead>
             <tr>
