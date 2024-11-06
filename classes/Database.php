@@ -22,7 +22,12 @@ class Database {
         if ($dsn_split[0] == 'sqlite'){
             Database::$db_file->sqliteCreateFunction('normalize', 'normalize');
             Database::$db_file->sqliteCreateFunction('concat', 'php_concat');
-        }        
+        } else if ($dsn_split[0] == 'mysql'){
+            #Database::execute('DROP FUNCTION IF EXISTS normalize',array());
+            Database::execute('CREATE FUNCTION IF NOT EXISTS normalize (str VARCHAR(255)) 
+                                        RETURNS VARCHAR(255)
+                                        RETURN str;',array());
+        }       
     }
 
     public static function beginTransaction() {

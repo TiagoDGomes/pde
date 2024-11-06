@@ -33,7 +33,8 @@ $query = "SELECT m.id as model_id,
                     CASE WHEN number1 = ? THEN 1
                             WHEN number2 = ? THEN 1
                             WHEN serial_number = ? THEN 1
-                            ELSE 0 END AS is_match
+                            ELSE 0 END AS is_match,
+                    n.id
             FROM model m  
             LEFT JOIN patrimony p ON (p.model_id = m.id)
             LEFT JOIN loan n ON (n.patrimony_id = p.id AND m.id = n.model_id)
@@ -68,7 +69,8 @@ $query .= "SELECT m.id as model_id,
                     NULL AS last_user_id,                            
                     'item' as result_type,
                     ? AS query_units,
-                    0 as is_match
+                    0 as is_match,
+                    n.id
             FROM model m  
             LEFT JOIN loan n ON 
                 (n.model_id = m.id)

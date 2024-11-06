@@ -191,7 +191,8 @@ if ($is_loaning){
     // *** Impedir empréstimo quando já estiver emprestado: ***
     $protection_query = "SELECT original_count AS quantidade_emprestada,
                             original_count - sum(diff) as devolvidos,
-                            sum(diff) as restantes
+                            sum(diff) as restantes,
+                            n.id
                             FROM model m
                             INNER JOIN loan n ON (m.id = n.model_id)
 							INNER JOIN patrimony p ON (p.id = n.patrimony_id AND m.id = p.model_id)

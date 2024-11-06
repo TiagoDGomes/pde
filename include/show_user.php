@@ -185,14 +185,16 @@
                     <td class="details">
                         <ul class="loan_details" data-nid="<?= $item['loan_id'] ?>"
                             id="loan_details_<?= $item['loan_id'] ?>"><?php 
-                                $all_details = explode($all_details_separator_items, $item['all_details']);                        
+                                $all_details = explode($all_details_separator_items, $item['all_details']);                                           
                                 foreach($all_details as $detail):  
-                                    $detail_data = explode($all_details_separator_cols, $detail);  
-                                    if (strlen(trim($detail_data[2])) > 0) : 
-                                        ?><li id="loan_detail_nnid_<?= $detail_data[0] ?>">
-                                        <span class="info" title="<?= $detail_data[1] ?>"><?= $detail_data[2] ?></span>                      
-                                        <span class="x" onclick="delete_loan_detail(<?= $detail_data[0] ?>)">&times;</span>
-                                    </li><?php endif;  
+                                    if ($detail){                                   
+                                        $detail_data = explode($all_details_separator_cols, $detail);  
+                                        if (strlen(trim($detail_data[2])) > 0) {
+                                            ?><li id="loan_detail_nnid_<?= $detail_data[0] ?>">
+                                            <span class="info" title="<?= $detail_data[1] ?>"><?= $detail_data[2] ?></span>                      
+                                            <span class="x" onclick="delete_loan_detail(<?= $detail_data[0] ?>)">&times;</span>
+                                        </li><?php }
+                                    }
                                 endforeach;   
                             ?></ul> 
                         </ul>
