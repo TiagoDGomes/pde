@@ -513,7 +513,7 @@ td.details span.x:hover{
     margin-inline-start: 0;
     margin-bottom: 1em;
 }
-.modal dd input{
+.modal dd input[type="text"],.modal dd input[type="number"]{
     min-width: 40em;
 }
 .card .bar{

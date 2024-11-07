@@ -40,10 +40,6 @@ function form_generator($title, $type, $itm, $elems){ ?>
                     switch ($elem['type']){ 
                         case 'radio':
                         case 'checkbox':
-                            html_element('input', $elem);
-                            html_element('label', array(
-                                "for" => $elem['id']
-                            ),@$elem['data-description']);
                             break;
                         default:
                             echo @$elem['data-description'];
@@ -51,7 +47,14 @@ function form_generator($title, $type, $itm, $elems){ ?>
                 </dt>
                 <dd>
                     <?php 
-                        switch ($elem['type']){                         
+                        switch ($elem['type']){    
+                            case 'radio':
+                            case 'checkbox':
+                                html_element('input', $elem);
+                                html_element('label', array(
+                                    "for" => $elem['id']
+                                ),@$elem['data-description']);
+                                break;                      
                             case 'text': 
                             case 'number':
                                 html_element('input',$elem);
