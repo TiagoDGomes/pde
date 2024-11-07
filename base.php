@@ -154,7 +154,7 @@ if ($is_deleting){
     form_user_save_edit($form_clear);
     HTTPResponse::redirect('?'.$redirect_url);
 
-} else if ($action_save_new_model){
+} else if ($action_save_new_model || $action_save_edit_model){    
     require_once 'include/form_model.php';
     form_model_save($form_clear);
 }
