@@ -35,52 +35,54 @@ $query_search_loans = "SELECT
 
 
 ?>
+<?php if (!$selected_patrimony): ?>
+    <p>Patrimônio não encontrado.</p>
+<?php else: ?>
+    <div class="card item top">
+        <h2>   
+            <i class="icon item"></i>
+            <a href="?iid=<?= $selected_patrimony['model_id'] ?>"><?= $selected_patrimony['name'] ?></a> &gt;
+            <?php HTMLUtil::render_patrimony(NULL, $selected_patrimony['number1']) ; ?>
+            <?php $selected_patrimony['number2'] ? HTMLUtil::render_patrimony(NULL, $selected_patrimony['number2']) : '' ; ?>
+        </h2>
+        <div class="details"> 
+        
+            <p><?= $selected_patrimony['obs'] ?></p>         
 
-<div class="card item top">
-    <h2>   
-        <i class="icon item"></i>
-        <a href="?iid=<?= $selected_patrimony['model_id'] ?>"><?= $selected_patrimony['name'] ?></a> &gt;
-        <?php HTMLUtil::render_patrimony(NULL, $selected_patrimony['number1']) ; ?>
-        <?php $selected_patrimony['number2'] ? HTMLUtil::render_patrimony(NULL, $selected_patrimony['number2']) : '' ; ?>
-    </h2>
-    <div class="details"> 
-    
-        <p><?= $selected_patrimony['obs'] ?></p>         
-
+        </div>
+        <p class="bar"><button>Editar</button></p>
     </div>
-    <p class="bar"><button>Editar</button></p>
-</div>
 
-<?php if (count($selected_loans)==0): ?>
-    <p>Nenhum empréstimo foi encontrado.</p>
-<?php else: ?>  
-<div class="card items">
-    <h3>Empréstimos deste patrimônio</h3>
-    <table>
-        <thead>
-            <tr>                
-                <th><input disabled type="checkbox" name="chk_all"></th>
-                <th>Nome da pessoa</th>
-                <th></th>
-                <th></th>
-                <th>Data de devolução</th>
-                <th>Detalhes</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach($selected_loans as $item): ?> 
-
-                <tr>
-                    <td><input disabled type="checkbox" name="chk_all"></td>
-                    <td><?= $item['username'] ?></td>
-                    <td class="number"></td>
-                    <td class="number"></td>
-                    <td class="number"><?= $item['loan_date'] ?></td>
-                    <td></td>            
+    <?php if (count($selected_loans)==0): ?>
+        <p>Nenhum empréstimo foi encontrado.</p>
+    <?php else: ?>  
+    <div class="card items">
+        <h3>Empréstimos deste patrimônio</h3>
+        <table>
+            <thead>
+                <tr>                
+                    <th><input disabled type="checkbox" name="chk_all"></th>
+                    <th>Nome da pessoa</th>
+                    <th></th>
+                    <th></th>
+                    <th>Data de devolução</th>
+                    <th>Detalhes</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                <?php foreach($selected_loans as $item): ?> 
 
+                    <tr>
+                        <td><input disabled type="checkbox" name="chk_all"></td>
+                        <td><?= $item['username'] ?></td>
+                        <td class="number"></td>
+                        <td class="number"></td>
+                        <td class="number"><?= $item['loan_date'] ?></td>
+                        <td></td>            
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php endif; ?>
 <?php endif; ?>
