@@ -54,6 +54,7 @@
                         <option value="delete">&bullet; Excluir</option>                        
                     </select>
                 </th>              
+                <th>Horário</th>    
                 <th>Pessoa</th>   
                 <th>Patrimônio</th>
                 <th>Nome do item</th>
@@ -68,15 +69,17 @@
             <?php foreach($loans as $item): ?>    
 
                 <?php $this_date = (new DateTimeImmutable($item['loan_date']))->format('d/m/Y'); ?>
+                <?php $this_date_class = str_replace("/","_", $this_date); ?>
+                <?php $this_time = (new DateTimeImmutable($item['loan_date']))->format('H:i'); ?>
 
                 <?php if ($last_date != $this_date): ?>
 
                     <tr class="date">
                         <th>
-                            <input onchange="select_all_date(this,'nid')" type="checkbox" class="loan_top_checkbox" id="loan_date_<?= str_replace("/","_", $this_date) ?>">
+                            <input onchange="select_all_date(this,'nid')" type="checkbox" class="loan_top_checkbox" id="loan_date_<?= $this_date_class ?>">
                         </th>
-                        <th colspan="6">
-                            <label for="loan_date_<?= str_replace("/","_", $this_date) ?>" class="date"><?= $this_date ?></label> 
+                        <th colspan="7">
+                            <label for="loan_date_<?= $this_date_class ?>" class="date"><?= $this_date ?></label> 
                         </th>
                     </tr>
 
@@ -84,11 +87,14 @@
 
                 <?php endif; ?>                     
 
-                <tr class="<?= $item['count_returned'] >= $item['original_count'] ? 'complete' : 'remaining' ?> loan_date_<?= str_replace("/","_",$last_date) ?>">
+                <tr class="<?= $item['count_returned'] >= $item['original_count'] ? 'complete' : 'remaining' ?> loan_date_<?= $this_date_class ?>">
                 
                     <td>
                         <input class="line_checkbox" data-id="<?= $item['loan_id'] ?>" onchange="select_item(this,'nid')" type="checkbox" id="loan_<?= $item['loan_id'] ?>">
                     </td>
+                        <td>
+                            <?= $this_time ?>
+                        </td>
                     <td>
                         <?php $current_user = $item['user_id'];?>
                         <label title="<?= $item['user_name'] ?>" for="user_<?= $item['user_id'] ?>">
@@ -96,7 +102,7 @@
                                 <?php if ($last_user != $current_user) : ?>
                                     <?= $item['user_name'] ?>
                                 <?php else: ?>
-                                    <small>&quot;</small>
+                                    <small class="quote">...</small>
                                 <?php endif; ?> 
                             </a>
                         </label>
@@ -117,9 +123,9 @@
                     <td>
 
                         <label for="loan_<?= $item['loan_id'] ?>">
-
-                            <?= $item['model_name'] ?>
-
+                            <a href="?iid=<?=  $item['model_id'] ?>">
+                             <?= $item['model_name'] ?>
+                            </a>
                         </label>
 
                     </td>
