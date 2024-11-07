@@ -519,3 +519,8 @@ td.details span.x:hover{
 .card .bar{
     text-align: right;
 }
+.quote{
+    display: block;
+    width: 50%; 
+    text-align: center;
+}
