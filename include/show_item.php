@@ -60,7 +60,7 @@ $query_search_loans = "SELECT m.id as model_id,
         <p class="bar"><button onclick="show_modal('#titem')">Editar</button></p>
     </div>
     <?php if ($selected_item['has_patrimony']): ?>
-        <p><a href="javascript:;">Adicionar um novo patrimônio</a></p>
+        <p><a href="javascript:;">Adicionar uma nova etiqueta ou patrimônio</a></p>
         <?php if (count($selected_loans)==0): ?>
             <p>Nenhum empréstimo foi encontrado.</p>
         <?php else: ?>    

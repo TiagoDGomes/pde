@@ -57,7 +57,7 @@ $query_search_loans = "SELECT
         <p>Nenhum empréstimo foi encontrado.</p>
     <?php else: ?>  
     <div class="card items">
-        <h3>Empréstimos deste patrimônio</h3>
+        <h3>Empréstimos deste item etiquetado/patrimoniado</h3>
         <table>
             <thead>
                 <tr>                
@@ -77,7 +77,7 @@ $query_search_loans = "SELECT
                         <td><?= $item['username'] ?></td>
                         <td class="number"></td>
                         <td class="number"></td>
-                        <td class="number"><?= $item['loan_date'] ?></td>
+                        <td class=""><?= $item['loan_date'] ?></td>
                         <td></td>            
                     </tr>
                 <?php endforeach; ?>

@@ -158,12 +158,12 @@ foreach ($search_results as $result): ?>
         <?php if (!$has_patrimony_number && $has_patrimony) : ?>
             <div class="message alert"> 
                 <i class="icon tag-minus"></i>              
-                Este item é patrimoniado, mas nenhum número foi associado.
+                Este modelo de item precisa ter etiquetas de identificação, mas nenhum número foi associado.
             </div>
             <div class="message info"> 
                 <i class="icon tag-plus"></i>              
                 
-                <a href="?iid=<?= $result['model_id'] ?>">Editar item para exibir opções de patrimônio</a>
+                <a href="?iid=<?= $result['model_id'] ?>">Editar item para exibir opções de identificação</a>
             </div>
             
         <?php endif; ?>
@@ -210,9 +210,9 @@ foreach ($search_results as $result): ?>
                     <input type="hidden" name="units" value="1">
 
                 <?php else: ?> 
-
-                    <input type="number" name="units" value="<?= $query_units ?>" class="units"> &times;
-
+                    <?php if ($current_user_id > 0): ?>   
+                        <input type="number" name="units" value="<?= $query_units ?>" class="units"> &times;
+                    <?php endif; ?> 
                 <?php endif; ?>   
 
                 <?php if ($is_loaned && $has_patrimony): ?>
@@ -224,13 +224,15 @@ foreach ($search_results as $result): ?>
                         Marcar como devolvido
                     </button>
                 <?php else: ?> 
-                    <?php $input_hidden['act'] = 'loan'; ?>                         
-                    <button <?= $allow_loan ? '': 'disabled' ?> 
-                            <?= $selected_one_item  ? 'autofocus': '' ?>
-                        >
-                        <i class="icon cart"></i>
-                        Emprestar
-                    </button>
+                                        
+                        <?php $input_hidden['act'] = 'loan'; ?>                         
+                        <button title="<?= !$current_user_id ? 'Você precisa escolher um usuário antes de emprestar': '' ?>" <?= $allow_loan ? '': 'disabled' ?> 
+                                <?= $selected_one_item  ? 'autofocus': '' ?>
+                            >
+                            <i class="icon cart"></i>
+                            Emprestar
+                        </button>
+                    
                 <?php endif; ?>  
                 <?php HTMLUtil::generate_input_hidden($input_hidden); ?>
             </form>
