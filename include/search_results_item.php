@@ -34,7 +34,7 @@ $query = "SELECT m.id as model_id,
                             WHEN number2 = ? THEN 1
                             WHEN serial_number = ? THEN 1
                             ELSE 0 END AS is_match,
-                    n.id
+                    n.id as loan_id
             FROM model m  
             LEFT JOIN patrimony p ON (p.model_id = m.id)
             LEFT JOIN loan n ON (n.patrimony_id = p.id AND m.id = n.model_id)
@@ -48,8 +48,8 @@ $query = "SELECT m.id as model_id,
                     OR p.serial_number = ? 
                     OR normalize(m.name) LIKE ?
                     OR normalize(obs) LIKE ?)               
-            GROUP BY m.id, p.id 
-			-- HAVING n.id = max(n.id) OR n.id IS NULL
+            GROUP BY m.id, p.id            
+			HAVING n.id = max(n.id) OR n.id IS NULL OR n.id > 0
             UNION "; 
 $query .= "SELECT m.id as model_id,
                     0 AS loan_block,
@@ -70,7 +70,7 @@ $query .= "SELECT m.id as model_id,
                     'item' as result_type,
                     ? AS query_units,
                     0 as is_match,
-                    n.id
+                    n.id as loan_id
             FROM model m  
             LEFT JOIN loan n ON 
                 (n.model_id = m.id)
@@ -81,7 +81,7 @@ $query .= "SELECT m.id as model_id,
                     (m.code = ?   
                     OR normalize(m.name) LIKE ?) 
             GROUP BY m.id
-            ORDER BY is_match DESC, 
+            ORDER BY loan_id desc, is_match DESC, 
                 has_patrimony DESC, 
                 patrimony_number1, 
                 patrimony_number2, 
