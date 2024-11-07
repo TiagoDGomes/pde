@@ -55,7 +55,7 @@ $query_search_loans = "SELECT m.id as model_id,
         <i class="icon item"></i>
         <?= $selected_item['name'] ?>        
     </h2>
-    <p><button onclick="show_modal('#titem')">Editar</button></p>
+    <p class="bar"><button onclick="show_modal('#titem')">Editar</button></p>
 </div>
 <?php if ($selected_item['has_patrimony']): ?>
     <p><a href="javascript:;">Adicionar um novo patrimônio</a></p>

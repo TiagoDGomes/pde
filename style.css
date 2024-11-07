@@ -503,4 +503,19 @@ td.details span.x:hover{
     color: red;
     cursor: pointer;
 }
-
+.modal dt {
+    float: left;
+    clear: both;
+    min-width: 15em;
+    margin-bottom: 1em;
+}
+.modal dd {
+    margin-inline-start: 0;
+    margin-bottom: 1em;
+}
+.modal dd input{
+    min-width: 40em;
+}
+.card .bar{
+    text-align: right;
+}

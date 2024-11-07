@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div id="main" style="display: none;">
+    <div id="main">
         <form action="?install">
             <header>
                 <input type="text" name="q" id="q" value="<?= @$form_clear['q'] ?>">
@@ -87,11 +87,18 @@
 
     
     <noscript>
-        <p class="card" style="text-align:center">O Javascript não está disponível em seu navegador.</p>
-    </noscript>
-    <script>
-        document.getElementById('main').style.display = 'block';                
-    </script>
+        <div class="modal">
+            <div class="modal-content">
+                <div class="modal-header"><span class="close">×</span></div>
+                <div class="modal-body">
+                    <p style="text-align:center">
+                        Para utilizar este sistema, você precisar ativar o suporte a Javascript em seu navegador.
+                    </p>    
+                </div>
+                <div class="modal-footer"></div>
+            </div>            
+        </div>        
+    </noscript>    
     <?php if ($search_query_focus || !$is_searching): ?>    
         <script>
             setTimeout(function(){           
