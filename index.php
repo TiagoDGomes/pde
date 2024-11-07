@@ -33,7 +33,8 @@
                         <input type="radio" name="t" value="item" id="chk_item" <?= $option_search_item_checked ?>>
                         <label for="chk_item">itens</label>
                     </li>
-                                        
+                    <li>|</li>
+                    <li><a href=".">Home</a></li>                    
                 </ul>
                 
             </header>
