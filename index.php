@@ -34,7 +34,7 @@
                         <label for="chk_item">itens</label>
                     </li>
                     <li>|</li>
-                    <li><a href=".">Home</a></li>                    
+                    <li><a href=".">Início</a></li>                    
                 </ul>
                 
             </header>
@@ -81,7 +81,7 @@
                     <?php form_model(NULL); ?>  
                 </template>             
                 <a href="javascript:show_modal('#tnewuser')">Adicionar usuário</a> &bullet;
-                <a href="javascript:show_modal('#tnewitem')">Adicionar item</a>
+                <a href="javascript:show_modal('#tnewitem')">Adicionar modelo de item</a>
             <?php endif; ?>
         </footer>        
     </div>

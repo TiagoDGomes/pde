@@ -17,27 +17,27 @@ function form_model($model){
                 "type" => "text",
                 "value" => @$model['code'],
                 "data-description" => "Identificador para busca rápida",  
-                "placeholder" => "Identificador para busca rápida",   
+                "placeholder" => "Ex.: CI7411",   
             ) ,                        
             array(
                 "id" => "model_unique",
                 "name" => "has_patrimony",
                 "type" => "radio",
                 "value" => "1",
-                "data-description" => "Modelo com identificador único (patrimoniado)",
-                "placeholder" => "Modelo com identificador único (patrimoniado)",  
+                "data-description" => "Modelo de item com etiqueta, patrimônio ou identificações únicas",
+                "placeholder" => "Modelo de item com etiqueta, patrimônio ou identificações únicas",  
                 //"onclick" => "select_patrimony(1)",
-                $model['has_patrimony'] ? 'checked': '' => @$model['has_patrimony'] ? 'checked': ''
+                @$model['has_patrimony'] ? 'checked': '' => @$model['has_patrimony'] ? 'checked': ''
             ),                        
             array(                
                 "id" => "model_multiple",
                 "name" => "has_patrimony",
                 "type" => "radio",
                 "value" => "0",
-                "data-description" => "Modelo múltiplo (não patrimoniado)",
-                "placeholder" => "Modelo múltiplo (não patrimoniado)",  
+                "data-description" => "Modelo de item sem etiqueta",
+                "placeholder" => "Modelo de item sem etiqueta",  
                 //"onclick" => "select_patrimony(0)",
-                $model['has_patrimony'] ? '': 'checked' => @$model['has_patrimony'] ? '': 'checked'
+                @$model['has_patrimony'] ? '': 'checked' => @$model['has_patrimony'] ? '': 'checked'
             )
         )                        
     ) ;
