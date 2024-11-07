@@ -49,7 +49,7 @@ $query = "SELECT m.id as model_id,
                     OR normalize(m.name) LIKE ?
                     OR normalize(obs) LIKE ?)               
             GROUP BY m.id, p.id 
-			HAVING n.id = max(n.id) OR n.id IS NULL
+			-- HAVING n.id = max(n.id) OR n.id IS NULL
             UNION "; 
 $query .= "SELECT m.id as model_id,
                     0 AS loan_block,
