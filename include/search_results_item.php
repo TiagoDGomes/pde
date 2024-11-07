@@ -48,7 +48,7 @@ $query = "SELECT m.id as model_id,
                     OR p.serial_number = ? 
                     OR normalize(m.name) LIKE ?
                     OR normalize(obs) LIKE ?)               
-            GROUP BY p.id
+            GROUP BY m.id, p.id 
 			HAVING n.id = max(n.id) OR n.id IS NULL
             UNION "; 
 $query .= "SELECT m.id as model_id,
@@ -80,7 +80,7 @@ $query .= "SELECT m.id as model_id,
                 AND 
                     (m.code = ?   
                     OR normalize(m.name) LIKE ?) 
-            GROUP BY m.id 
+            GROUP BY m.id
             ORDER BY is_match DESC, 
                 has_patrimony DESC, 
                 patrimony_number1, 
