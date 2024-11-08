@@ -245,6 +245,19 @@ footer li {
     .modal-content{
         width: 800px;
     }
+    /* .content table tbody{
+        display: block;
+        max-height: 650px;
+        overflow: auto;
+    }
+    .content table tr{
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+    .content table thead {
+        width: calc( 100% - 1em )
+    } */
 }
 
 .search_item {
@@ -396,7 +409,8 @@ table tr.complete .patrimony {
     background-color: #0000ff3f;
 }
 
-.content table td.number {
+.content table td.number,
+.content table th.number {
     text-align: center;
     width: 6em;
 }
@@ -523,4 +537,11 @@ td.details span.x:hover{
     display: block;
     width: 50%; 
     text-align: center;
+}
+.content table td,
+.content table th
+{
+    border-top: 1px solid silver;
+    border-right: 1px solid silver;
+    padding: 2px 2px 1px 4px
 }

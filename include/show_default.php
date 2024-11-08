@@ -54,12 +54,12 @@
                         <option value="delete">&bullet; Excluir</option>                        
                     </select>
                 </th>              
-                <th>Horário</th>    
+                <th class="number">Horário</th>    
                 <th>Pessoa</th>   
-                <th>Patrimônio</th>
+                <th class="number">Patrimônio</th>
                 <th>Nome do item</th>
-                <th>Código</th>
-                <th>Quant. devolvida</th>
+                <th class="number">Código</th>
+                <th class="number">Quant. devolvida</th>
                 <th>Observações do<br>empréstimo</th>
             </tr>
         </thead>
@@ -92,7 +92,7 @@
                     <td>
                         <input class="line_checkbox" data-id="<?= $item['loan_id'] ?>" onchange="select_item(this,'nid')" type="checkbox" id="loan_<?= $item['loan_id'] ?>">
                     </td>
-                        <td>
+                        <td class="number">
                             <?= $this_time ?>
                         </td>
                     <td>
