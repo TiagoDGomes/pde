@@ -64,7 +64,7 @@ $query_search_loans = "SELECT m.id as model_id,
         <?php if (count($selected_loans)==0): ?>
             <p>Nenhum empréstimo foi encontrado.</p>
         <?php else: ?>    
-            <div class="card items">
+            <div class=" items">
                 <table>
                     <thead>
                         <tr>                

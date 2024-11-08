@@ -44,7 +44,7 @@
 </div>
 
 
-<div class="central card items table-items">
+<div class="central items table-items">
     
     <?php include 'include/date_filter.php'; ?>
 

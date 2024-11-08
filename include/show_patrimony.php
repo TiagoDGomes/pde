@@ -56,7 +56,7 @@ $query_search_loans = "SELECT
     <?php if (count($selected_loans)==0): ?>
         <p>Nenhum empréstimo foi encontrado.</p>
     <?php else: ?>  
-    <div class="card items">
+    <div class=" items">
         <h3>Empréstimos deste item etiquetado/patrimoniado</h3>
         <table>
             <thead>
