@@ -55,8 +55,9 @@
                     <?php $last_date = $this_date; ?>
 
                 <?php endif; ?>                     
-
-                <tr class="<?= $item['count_returned'] >= $item['original_count'] ? 'complete' : 'remaining' ?> loan_date_<?= $this_date_class ?>">
+                <?php $item_status = $item['count_returned'] >= $item['original_count'] ? 'complete' : 'remaining' ; ?>        
+                <tr style="display:<?= isset($form_clear['hide_complete']) && $item_status == 'complete' ? 'none' : 'table-row' ?>;"
+                    class="<?= $item_status ?> loan_date_<?= str_replace("/","_",$last_date) ?>">
                 
                     <td>
                         <input class="line_checkbox" data-id="<?= $item['loan_id'] ?>" onchange="select_item(this,'nid')" type="checkbox" id="loan_<?= $item['loan_id'] ?>">
