@@ -1,5 +1,4 @@
-<?php isset($PDE) or die('Nope');?> 
-<?php 
+<?php isset($PDE) or die('Nope');
 
 $search_results = array();
 

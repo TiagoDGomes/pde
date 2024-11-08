@@ -1,4 +1,4 @@
-<?php 
+<?php isset($PDE) or die('Nope');
 function form_user($user){ 
     form_generator(
         "Solicitante",

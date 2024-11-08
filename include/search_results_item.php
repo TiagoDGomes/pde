@@ -1,5 +1,5 @@
-<?php isset($PDE) or die('Nope');?> 
-<?php 
+<?php isset($PDE) or die('Nope');
+
 $query_string_full = explode("*", $current_query_string);
 $query_string = normalize($query_string_full[0]);
 if (isset($query_string_full[1])){

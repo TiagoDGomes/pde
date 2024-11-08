@@ -1,3 +1,4 @@
+<?php isset($PDE) or die('Nope');?>
 <div class="filter">
     <form>    
         <?php if (isset($form_clear['uid'])): ?><input type="hidden" name="uid" value="<?= $form_clear['uid'] ?>"><?php endif; ?>

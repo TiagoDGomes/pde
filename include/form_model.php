@@ -1,4 +1,4 @@
-<?php 
+<?php isset($PDE) or die('Nope');
 function form_model($model){     
     form_generator(
         "Item",

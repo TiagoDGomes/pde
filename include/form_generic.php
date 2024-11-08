@@ -1,4 +1,4 @@
-<?php 
+<?php isset($PDE) or die('Nope');
 
 function html_element($tag, $elem, $inner = NULL){
     echo "<$tag ";
