@@ -54,7 +54,7 @@
                         <option value="delete">&bullet; Excluir</option>                        
                     </select>
                 </th>              
-                <th class="number">Horário</th>    
+                <th class="time">Horário</th>    
                 <th>Pessoa</th>   
                 <th class="number">Patrimônio</th>
                 <th>Nome do item</th>
@@ -92,9 +92,9 @@
                     <td>
                         <input class="line_checkbox" data-id="<?= $item['loan_id'] ?>" onchange="select_item(this,'nid')" type="checkbox" id="loan_<?= $item['loan_id'] ?>">
                     </td>
-                        <td class="number">
-                            <?= $this_time ?>
-                        </td>
+                    <td class="time">
+                        <?= $this_time ?>
+                    </td>
                     <td>
                         <?php $current_user = $item['user_id'];?>
                         <label title="<?= $item['user_name'] ?>" for="user_<?= $item['user_id'] ?>">
@@ -109,7 +109,7 @@
  
                         <?php $last_user = $current_user; ?>  
                     </td>
-                    <td class="number">
+                    <td class="patr">
 
                         <?php if ($item['patrimony_number']): ?>
 

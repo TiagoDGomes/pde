@@ -391,8 +391,13 @@ table td.return:hover span.button-plus {
 }
 .content table tr.date td {
     padding-top: 1.5em;
-
+    
 }
+.content table td.time {
+    width: 3em;
+    text-align: center;
+}
+
 .content table tr:has(th),
 .content table tr.date {
     border: 1px solid silver;
