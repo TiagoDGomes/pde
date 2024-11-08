@@ -545,3 +545,9 @@ td.details span.x:hover{
     border-right: 1px solid silver;
     padding: 2px 2px 1px 4px
 }
+.content table td:first-child{
+    border-left: 1px solid silver;
+}
+.content table tr:last-child{
+    border-bottom: 1px solid silver;
+}
