@@ -10,7 +10,7 @@
     <title><?= $page_title ?></title>    
 </head>
 
-<body>
+<body class="<?= $is_searching ? 'searching': 'not-searching'?>">
     <div id="main">
         <form action="?install">
             <header>

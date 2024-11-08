@@ -201,9 +201,11 @@ footer li {
     header,
     footer {
         padding-left: var(--root-padding-left);
+        display: flex;
+        align-items: center;
     }
 
-    main section {
+    body main section {
         height: calc(100vh - (var(--footer-height) + var(--header-height)));
         display: inline-block;
     }
@@ -212,20 +214,22 @@ footer li {
         width: var(--search-box-width);
     }
 
-    section.search_results {
-        width: var(--search_results-width);
+    body.not-searching section.search_results {
+        display: none;
     }
 
-    section.content {
+    body.searching section.search_results {
+        width: var(--search_results-width);
+    }
+    
+    body.searching section.content {
         width: calc(100% - var(--search_results-width) - var(--root-padding-left));
         float: right;
         padding-right: 10px;
     }
 
-    header,
-    footer {
-        display: flex;
-        align-items: center;
+    body.not-searching  section.content{
+        width: 100%;
     }
 
     header ul,
