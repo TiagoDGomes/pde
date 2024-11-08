@@ -44,6 +44,7 @@
 <p>Nenhum empréstimo foi encontrado no período selecionado.</p>
 
 <?php else : ?>
+    <?php include 'include/form_hidden_select.php'; ?>
     <table>
         <thead>
             <tr>
