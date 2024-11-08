@@ -494,6 +494,18 @@ table tr.complete .patrimony {
     }
   }
 
+ul.loan_details{
+    margin: 0;
+    padding-left: 1px;
+    list-style-type: none;
+}
+ul.loan_details li{
+    padding-left: 2px;
+}
+ul.loan_details li::marker{
+    content: "-";
+    margin-right: 2px
+}
 
 
 .loan_details_new {
