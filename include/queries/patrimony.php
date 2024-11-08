@@ -15,6 +15,7 @@ $query_search_loans = "SELECT
                 p.number1 as patrimony_number, 
                 p.number2 as patrimony_number2, 
                 p.serial_number as patrimony_serial_number, 
+                p.patrimony_location as patrimony_location,
                 original_count,
                 CASE 
                 WHEN original_count - sum(diff) > original_count THEN original_count

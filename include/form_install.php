@@ -1,6 +1,10 @@
 <?php isset($PDE) or die('Nope');?>
 <pre>
 <?php
+if (isset($form_clear['force'])){
+    include 'install.php';
+}
+
 if (isset($form_clear['type'])&& isset($_FILES['filecsv']['tmp_name'])){    
     switch ($form_clear['type']){
         case 'user':
@@ -56,14 +60,25 @@ if (isset($form_clear['type'])&& isset($_FILES['filecsv']['tmp_name'])){
         </select></label></p>
         <p><input type="file" name="filecsv" accept=".csv, .txt"></p>
         <button>Enviar</button>
-    </form>
-</fieldset>
-<fieldset>
-    <legend>Referência</legend>
-    <table>
+        <table>
+            <tr>
+                <th colspan="2">Referência</th>
+            </tr>
         <tr>
             <td>Usuários</td><td><code>id;nome;code1;code2</td>
         </tr>
     </table>
+    </form>
+</fieldset>
+
+<fieldset>
+    <legend>Utilitários</legend>
+
+    <ul>
+        <li>
+            <td><a href="?install&force">Forçar atualização</a></td>
+        </li>
+    </ul>
+    </form>
 </fieldset>
 

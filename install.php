@@ -102,7 +102,9 @@ $queries = array(
             FOREIGN KEY (patrimony_id)
                 REFERENCES patrimony (id)                
         );",  
-        
+        "ALTER TABLE model ADD COLUMN model_obs $TEXT",
+        "ALTER TABLE model ADD COLUMN model_location $TEXT",
+        "ALTER TABLE patrimony ADD COLUMN patrimony_location $TEXT",
          
     $QUERY_NORMALIZE
 );
@@ -119,6 +121,6 @@ if (isset($CONFIG_ADDITIONAL_SQL_PATH)){
 
 
 
-Database::executeQueries($queries);
+$errors = Database::executeQueries($queries, false);
 
 

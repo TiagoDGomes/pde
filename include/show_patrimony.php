@@ -8,14 +8,23 @@ include 'include/queries/patrimony.php';
 <?php else: ?>
     <div class="card item top">
         <h2>   
-            <i class="icon item"></i>
-            <a href="?iid=<?= $selected_patrimony['model_id'] ?>"><?= $selected_patrimony['name'] ?></a> &gt;
+            <i class="icon item"></i><a href="?iid=<?= $selected_patrimony['model_id'] ?>"><?= $selected_patrimony['name'] ?></a> &gt;
             <?php HTMLUtil::render_patrimony(NULL, $selected_patrimony['number1']) ; ?>
             <?php $selected_patrimony['number2'] ? HTMLUtil::render_patrimony(NULL, $selected_patrimony['number2']) : '' ; ?>
         </h2>
-        <div class="details"> 
         
-            <p><?= $selected_patrimony['obs'] ?></p>         
+        <div class="details location"> 
+        
+            <p><i class="icon location"></i><?= $selected_patrimony['patrimony_location'] ?>
+                <?= $selected_patrimony['patrimony_location'] ? '<del>': '' ?>
+                    <?= $selected_patrimony['model_location'] ?>
+                <?= $selected_patrimony['patrimony_location'] ? '</del>': '' ?>
+            </p>         
+
+        </div>
+        <div class="details obs"> 
+        
+            <p><i class="icon obs"></i><?= $selected_patrimony['obs'] ?></p>         
 
         </div>
         <p class="bar"><button>Editar</button></p>

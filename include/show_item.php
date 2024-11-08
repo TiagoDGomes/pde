@@ -11,9 +11,19 @@ include 'include/queries/item.php';
     </template>
     <div class="card item top">
         <h2>
-            <i class="icon item"></i>
-            <?= $selected_item['name'] ?>        
+            <i class="icon item"></i><?= $selected_item['name'] ?>        
         </h2>
+
+        <div class="details location"> 
+        
+            <p><i class="icon location"></i><?= $selected_item['model_location'] ?> </p>         
+
+        </div>
+        <div class="details obs"> 
+        
+            <p><i class="icon obs"></i><?= $selected_item['model_obs'] ?></p>         
+
+        </div>
         <p class="bar"><button onclick="show_modal('#titem')">Editar</button></p>
     </div>
     <?php if ($selected_item['has_patrimony']): ?>
