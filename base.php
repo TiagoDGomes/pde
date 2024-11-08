@@ -25,7 +25,7 @@ foreach($_POST as $key => $value){
         $form_clear[$key] = @htmlspecialchars(trim($value));
     }
 }
-
+$response = array();
 $response_json = FALSE;
 
 $rct = @$_SERVER['CONTENT_TYPE'];
@@ -33,6 +33,11 @@ $request_content_type = explode(";", $rct)[0];
 if ($request_content_type == "application/json"){
     $form_clear = get_object_vars(json_decode(file_get_contents('php://input'))); 
     $response_json = TRUE;   
+}
+
+
+if (@$form_clear['return_to'] == 'json'){
+    $response_json = TRUE;
 }
 
 $search_results = array();
@@ -277,7 +282,7 @@ if ($is_returning_item){
     $query = "INSERT INTO log_loan (loan_id, diff, details) VALUES (?,?,?)";
     $params = array($loan_id, $diff, $details);
     Database::execute($query, $params);
-    $param_url = array(
+    $response = array(
         'uid' => $current_user_id,
         'q'=> $current_query_string,
         't' => $current_query_type_string,
@@ -290,17 +295,18 @@ if ($is_returning_item){
         'details' => $details
     );  
     //exit(json_encode($param_url)) ;
-    if ($response_json){
-        header('Content-Type: application/json');    
-        exit(json_encode($param_url));
-    } else {
+    if (!$response_json){
         header('Content-Type: text/plain');    
-        $redirect_url = http_build_query($param_url);
-        HTTPResponse::redirect("?$redirect_url");
+        $redirect_url = http_build_query($response);
+        HTTPResponse::redirect("?$response");
     }
     
 }
 
+
+if ($response_json){
+    include 'json.php';
+}
 
 $page_title = $last_user_selected ? $last_user_selected['name'] : 'Empréstimos';
 

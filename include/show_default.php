@@ -1,42 +1,10 @@
-<div class="card top home">
+<?php isset($PDE) or die('Nope');?><div class="card top home">
     <h2>Sistema de controle de empréstimos</h2>
     <p></p>
 </div>
 
 
-<?php
-    $query_search_loans = "SELECT m.id as model_id, 
-                     m.name as model_name,
-                     m.code as model_code, 
-                     p.id as patrimony_id, 
-                     n.tstamp as loan_date, 
-                     p.number1 as patrimony_number, 
-                     p.number2 as patrimony_number2, 
-                     p.serial_number as patrimony_serial_number, 
-                     original_count,
-                     CASE 
-                        WHEN original_count - sum(diff) > original_count THEN original_count
-                        ELSE original_count - sum(diff) END as count_returned, 
-                     $all_details_sql_concat as all_details,
-                     n.id as loan_id,
-                     u.name as user_name,
-                     u.id as user_id
-                FROM loan n
-                INNER JOIN model m ON (n.model_id = m.id)
-                INNER JOIN log_loan nn ON (nn.loan_id = n.id )
-                INNER JOIN user u ON (u.id = n.user_id)
-                LEFT JOIN patrimony p ON (n.patrimony_id = p.id AND m.id = p.model_id)
-
-                WHERE n.tstamp BETWEEN ? AND ?
-                GROUP BY n.id
-                ORDER BY n.tstamp DESC
-                ";
-    $current_date_after_1day =  (new DateTimeImmutable($current_date_after . ' +1 day'))->format('Y-m-d');     
-    
-    $params = array($current_date_before, $current_date_after_1day);
-    $loans = Database::fetchAll($query_search_loans, $params);
-
-?>
+<?php include 'include/queries/loans.php'; ?>
 <?php include 'include/date_filter.php'; ?>
 
 <?php if (!$loans) :?>
@@ -72,7 +40,7 @@
                 <?php $this_date = (new DateTimeImmutable($item['loan_date']))->format('d/m/Y'); ?>
                 <?php $this_date_class = str_replace("/","_", $this_date); ?>
                 <?php $this_time = (new DateTimeImmutable($item['loan_date']))->format('H:i'); ?>
-
+                <?php $reset_date = false; ?>
                 <?php if ($last_date != $this_date): ?>
 
                     <tr class="date">
@@ -83,7 +51,7 @@
                             <label for="loan_date_<?= $this_date_class ?>" class="date"><?= $this_date ?></label> 
                         </th>
                     </tr>
-
+                    <?php $reset_date = true; ?>
                     <?php $last_date = $this_date; ?>
 
                 <?php endif; ?>                     
@@ -100,7 +68,7 @@
                         <?php $current_user = $item['user_id'];?>
                         <label title="<?= $item['user_name'] ?>" for="user_<?= $item['user_id'] ?>">
                             <a href="?uid=<?= $item['user_id'] ?>">
-                                <?php if ($last_user != $current_user) : ?>
+                                <?php if ($last_user != $current_user || $reset_date) : ?>
                                     <?= $item['user_name'] ?>
                                 <?php else: ?>
                                     <small class="quote">...</small>
