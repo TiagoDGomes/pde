@@ -12,7 +12,7 @@ include 'include/queries/patrimony.php';
             <?php HTMLUtil::render_patrimony(NULL, $selected_patrimony['number1']) ; ?>
             <?php $selected_patrimony['number2'] ? HTMLUtil::render_patrimony(NULL, $selected_patrimony['number2']) : '' ; ?>
         </h2>
-        
+        <?php if ($selected_patrimony['model_location'] || $selected_patrimony['patrimony_location'])  : ?>
         <div class="details location"> 
         
             <p><i class="icon location"></i><?= $selected_patrimony['patrimony_location'] ?>
@@ -21,12 +21,16 @@ include 'include/queries/patrimony.php';
                 <?= $selected_patrimony['patrimony_location'] ? '</del>': '' ?>
             </p>         
 
-        </div>
+        </div>        
+        <?php endif; ?>
+
+        <?php if ($selected_patrimony['obs']): ?>
         <div class="details obs"> 
         
             <p><i class="icon obs"></i><?= $selected_patrimony['obs'] ?></p>         
 
         </div>
+        <?php endif; ?>
         <p class="bar"><button>Editar</button></p>
     </div>
 
