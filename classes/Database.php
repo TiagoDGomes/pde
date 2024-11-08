@@ -69,10 +69,23 @@ class Database {
         return $stmt->execute($param);
     }
 
-    public static function executeQueries($queries) {
+    public static function executeQueries($queries, $raise_on_error=TRUE) {
+        $sql_errors = array();
         foreach ($queries as $query) {
-            Database::execute($query, []);
+            if ($raise_on_error){
+                Database::execute($query, []);
+            } else {
+                try{
+                    Database::execute($query, []);
+                }catch(Exception $e){
+                    $sql_errors[]['query'] = $query;
+                    $sql_errors[]['message'] = $e->getMessage();
+                    
+                }
+            }
+            
         }
+        return array("sql_errors" => $sql_errors);
     }
 }
 
