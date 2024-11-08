@@ -298,7 +298,7 @@ if ($is_returning_item){
     if (!$response_json){
         header('Content-Type: text/plain');    
         $redirect_url = http_build_query($response);
-        HTTPResponse::redirect("?$response");
+        HTTPResponse::redirect("?$redirect_url");
     }
     
 }
