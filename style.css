@@ -410,6 +410,10 @@ table td.return:hover span.button-plus {
     border-radius: 3px;
 }
 
+table tr.remaining a{
+    color: black;
+}
+table tr.complete td a,
 table tr.complete td {
     color: silver;
 }
