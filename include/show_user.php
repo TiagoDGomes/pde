@@ -87,9 +87,9 @@
                         <td>
 
                             <label for="loan_<?= $item['loan_id'] ?>">
-
-                                <?= $item['model_name'] ?>
-
+                                <a href="?iid=<?= $item['model_id'] ?>">
+                                    <?= $item['model_name'] ?>
+                                </a>
                             </label>
 
                         </td>
