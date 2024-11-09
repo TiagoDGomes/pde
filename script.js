@@ -77,7 +77,7 @@ function hide_loan_details_action(nid){
         console.log(document.activeElement)
     }, 100);
 }
-
+var diff_cache = {};
 function save_loan_details(nid){
     var loan_details_new = document.getElementById("loan_details_new_" + nid);
     document.getElementById("loan_details_action_" + nid).style.display= 'none';
@@ -90,7 +90,11 @@ function save_loan_details(nid){
     loan_details_new.innerHTML = '';
     var url = "?"
 }
-
+function save_loan_all_complete(nid){
+    var count_returned = document.getElementById('count_returned_' + nid);
+    var original_count = document.getElementById('original_count_' + nid);
+    save_loan_values(nid, count_returned.innerText - original_count.innerText);
+}
 function save_loan_values(nid, diff){
     send('?', update_loan_diff, 'POST', {
         "nid": nid,
@@ -101,13 +105,21 @@ function save_loan_values(nid, diff){
 }
 function update_loan_diff(data){
     var count_returned = document.getElementById('count_returned_' + data.nid);
+    var line_loan = document.getElementById('line_loan_' + data.nid);
     var last_count = count_returned.innerText * 1;
     var count = last_count - data.diff;
     count_returned.innerText = count;
    
     document.getElementById('minus_' + data.nid).style.display = count <= 0 ? 'none' : 'inline';
     document.getElementById('plus_' + data.nid).style.display = data.original_count == count ? 'none' : 'inline';
-    
+    document.getElementById('complete_' + data.nid).style.display = data.original_count == count ? 'none' : 'inline';
+    if (data.original_count == count){
+        line_loan.classList.remove('remaining');
+        line_loan.classList.add('complete');        
+    } else {
+        line_loan.classList.remove('complete');
+        line_loan.classList.add('remaining'); 
+    }
     
     //console.log(data, count_returned, last_count);
 }

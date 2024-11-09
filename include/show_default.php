@@ -56,7 +56,7 @@
 
                 <?php endif; ?>                     
                 <?php $item_status = $item['count_returned'] >= $item['original_count'] ? 'complete' : 'remaining' ; ?>        
-                <tr style="display:<?= isset($form_clear['hide_complete']) && $item_status == 'complete' ? 'none' : 'table-row' ?>;"
+                <tr id="line_loan_<?= $item['loan_id'] ?>" style="display:<?= isset($form_clear['hide_complete']) && $item_status == 'complete' ? 'none' : 'table-row' ?>;"
                     class="<?= $item_status ?> loan_date_<?= str_replace("/","_",$last_date) ?>">
                 
                     <td>

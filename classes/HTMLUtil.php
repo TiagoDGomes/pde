@@ -37,7 +37,16 @@ class HTMLUtil{
 
         <?php $minus_style_display = ($item['count_returned'] >  0 ) ? 'inline': 'none'  ?>   
         <?php $plus_style_display = ($item['count_returned'] <  $item['original_count']) ? 'inline': 'none'  ?>   
-        <span class="return">                                    
+
+
+        <small class="counter">
+            <span id="count_returned_<?= $item['loan_id']; ?>">
+                <?= $item['count_returned'] ?>
+            </span> /
+            <span id="original_count_<?= $item['loan_id']; ?>"><?=$item['original_count'] ?></span>
+        </small>
+        <br>
+        <span class="cell return">                                    
             <?php $input_hidden['diff'] = '1'; ?> 
             <a style="display: <?= $minus_style_display ?>" 
                 id="minus_<?= $item['loan_id']; ?>" 
@@ -47,15 +56,7 @@ class HTMLUtil{
                 <i class="icon minus"></i>
             </a> 
         </span>
-
-        <small class="counter">
-            <span id="count_returned_<?= $item['loan_id']; ?>">
-                <?= $item['count_returned'] ?>
-            </span> /
-            <span><?=$item['original_count'] ?></span>
-        </small>
-
-        <span class="return">                                    
+        <span class="cell return">                                    
             <?php $input_hidden['diff'] = '-1'; ?> 
             <a style="display: <?= $plus_style_display ?>"  
                 id="plus_<?= $item['loan_id']; ?>" 
@@ -64,7 +65,19 @@ class HTMLUtil{
                 href="?<?= http_build_query($input_hidden) ?>">
                 <i class="icon plus"></i>
             </a>
+           
         </span>
+        <span class="cell return">
+            <a style="display: <?= $plus_style_display ?>"  
+                    id="complete_<?= $item['loan_id']; ?>" 
+                    onclick="save_loan_all_complete(<?= $item['loan_id']; ?>);return false;" 
+                    title="Devolver tudo" 
+                    href="#">
+                    <i class="icon complete"></i>
+            </a>        
+        </span>
+              
+
         <?php 
     }
     public static function render_patrimony($id, $number){ ?>
