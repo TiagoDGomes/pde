@@ -32,7 +32,17 @@ include 'include/queries/item.php';
         <p class="bar"><button onclick="show_modal('#titem')">Editar</button></p>
     </div>
     <?php if ($selected_item['has_patrimony']): ?>
-        <p><a href="javascript:;">Adicionar uma nova etiqueta ou patrimônio</a></p>
+        <?php require_once 'include/form_patrimony.php'; ?>
+        <template id="tpatrimony">
+
+            <?php form_patrimony(array_merge($selected_item, 
+                                                array("patrimony_location"=>'',
+                                                        "obs" => '', 
+                                                        'model_id' => $selected_item['id'],
+                                                        'id' => NULL,
+                                ))); ?>
+        </template>
+        <p><a href="javascript:show_modal('#tpatrimony')">Adicionar uma nova etiqueta ou patrimônio</a></p>
         <?php if (count($selected_loans)==0): ?>
             <p>Nenhum empréstimo foi encontrado.</p>
         <?php else: ?>    

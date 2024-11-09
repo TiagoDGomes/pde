@@ -23,11 +23,11 @@ function form_generator($title, $type, $itm, $elems){ ?>
     <legend><?= $title ?></legend>
     <div class="<?= $itm ? 'already' : 'new' ?> block">
         <form method="POST">  
-
-            <input type="hidden" name="<?= $itm ? 'save_edit_' . $type: 'save_new_' . $type ?>" value="y">
+            <?php $is_new = isset($itm['id']) && $itm['id'] > 0; ?>
+            <input type="hidden" name="<?= $is_new  ? 'save_edit_' . $type: 'save_new_' . $type ?>" value="y">
             
-            <?php if ($itm): ?>
-
+            <?php if ($is_new): ?>
+                
             <input type="hidden" name="id" value="<?= $itm['id'] ?>">
 
             <?php endif; ?>
@@ -55,6 +55,7 @@ function form_generator($title, $type, $itm, $elems){ ?>
                                     "for" => $elem['id']
                                 ),@$elem['data-description']);
                                 break;                      
+                            case 'hidden':                   
                             case 'text': 
                             case 'number':
                                 html_element('input',$elem);
