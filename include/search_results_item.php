@@ -14,6 +14,7 @@ if (isset($query_string_full[1])){
 }
 $query = "SELECT m.id as model_id, 
                     loan_block,
+                    model_loan_block,
                     usable,
                     found,
                     m.name AS name, 
@@ -53,6 +54,7 @@ $query = "SELECT m.id as model_id,
             UNION "; 
 $query .= "SELECT m.id as model_id,
                     0 AS loan_block,
+                    model_loan_block,
                     1 AS usable, 
                     1 AS found, 
                     m.name AS name, 
@@ -111,7 +113,7 @@ foreach ($search_results as $result): ?>
         $has_patrimony = $result['has_patrimony'] == 1; 
         $has_patrimony_number = $result['patrimony_number1'] > 0;
         $is_loaned = $has_patrimony_number && $result['loan_diff'] > 0;
-        $loan_block = $has_patrimony_number && $result['loan_block'] != 0;
+        $loan_block = ($has_patrimony_number && $result['loan_block'] != 0) || $result['model_loan_block'] != 0;
         $found = !$has_patrimony_number || $result['found'] != 0;
         $usable = !$has_patrimony_number || $result['usable'] != 0;
         $has_user_last_loan = !is_null($result['last_user_name']);
