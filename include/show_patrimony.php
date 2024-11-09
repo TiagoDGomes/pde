@@ -19,22 +19,26 @@ include 'include/queries/patrimony.php';
         <div class="details location"> 
         
             <p><i class="icon location"></i><?= $selected_patrimony['patrimony_location'] ?>
-                <?= $selected_patrimony['patrimony_location'] ? '<del>': '' ?>
-                    <?= $selected_patrimony['model_location'] ?>
-                <?= $selected_patrimony['patrimony_location'] ? '</del>': '' ?>
+                <?= $selected_patrimony['patrimony_location'] ? '<br><i class="icon location"></i><small>': '' ?><?= 
+                    $selected_patrimony['model_location'] ?><?= 
+                    $selected_patrimony['patrimony_location'] ? '</small>': '' ?>
             </p>         
 
         </div>        
         <?php endif; ?>
 
-        <?php if ($selected_patrimony['obs']): ?>
+        <?php if ($selected_patrimony['obs'] || $selected_patrimony['model_obs']): ?>
         <div class="details obs"> 
         
-            <p><i class="icon obs"></i><?= $selected_patrimony['obs'] ?></p>         
+            <p><i class="icon obs"></i><?= $selected_patrimony['obs'] ?>
+                <?= $selected_patrimony['obs'] ? '<br><i class="icon obs"></i><small>': '' ?><?= 
+                    $selected_patrimony['model_obs'] ?><?= 
+                    $selected_patrimony['obs'] ? '</small>': '' ?>
+            </p>        
 
         </div>
         <?php endif; ?>
-        <p class="bar"><button>Editar</button></p>
+        <p class="bar"><button onclick="show_modal('#tpatrimony')">Editar</button></p>
     </div>
 
     <?php if (count($selected_loans)==0): ?>

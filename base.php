@@ -100,6 +100,9 @@ $action_save_edit_user = isset($_POST['save_edit_user']);
 $action_save_new_model = isset($_POST['save_new_model']);
 $action_save_edit_model = isset($_POST['save_edit_model']);
 
+$action_save_new_patrimony = isset($_POST['save_new_patrimony']);
+$action_save_edit_patrimony = isset($_POST['save_edit_patrimony']);
+
 $is_deleting = @$form_clear['act'] == 'delete';
 
 
@@ -162,6 +165,9 @@ if ($is_deleting){
 } else if ($action_save_new_model || $action_save_edit_model){    
     require_once 'include/form_model.php';
     form_model_save($form_clear);
+} else if ($action_save_new_patrimony || $action_save_edit_patrimony){    
+    require_once 'include/form_patrimony.php';
+    form_patrimony_save($form_clear);
 }
 
 

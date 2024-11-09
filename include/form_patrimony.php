@@ -7,30 +7,45 @@ function form_patrimony($patrimony){
         $patrimony,
         array(                                
             array(
-                "name" => "Número 1",
-                "type" => "number",
+                "name" => "name",
+                "type" => "text",
+                "value" => @$patrimony['name'],
+                "data-description" => "Nome do item",  
+                "disabled" => "disabled",  
+            ),  
+            array(
+                "name" => "number1",
+                "type" => "text",
                 "value" => @$patrimony['number1'],
                 "data-description" => "Etiqueta/patrimônio 1",  
                 "placeholder" => "",  
             ),                                
             array(
-                "name" => "Número 2",
-                "type" => "number",
+                "name" => "number2",
+                "type" => "text",
                 "value" => @$patrimony['number2'],
                 "data-description" => "Etiqueta/patrimônio 2",  
                 "placeholder" => "",  
             ),                      
             array(
+                "name" => "model_location",
+                "type" => "text",
+                "value" => @$patrimony['model_location'],
+                "data-description" => "Localização do item",  
+                "placeholder" => "",   
+                "disabled" => "disabled",  
+            ),                      
+            array(
                 "name" => "patrimony_location",
                 "type" => "text",
                 "value" => @$patrimony['patrimony_location'],
-                "data-description" => "Localização",  
+                "data-description" => "Localização do patrimônio",  
                 "placeholder" => "",   
             ),                        
             array(
                 "name" => "obs",
                 "type" => "text",
-                "value" => @$patrimony['patrimony_obs'],
+                "value" => @$patrimony['obs'],
                 "data-description" => "Observações",  
                 "placeholder" => "",   
             )
@@ -39,31 +54,29 @@ function form_patrimony($patrimony){
 }
 
 function form_patrimony_save($post_clear){
-    // $current_id = NULL;
-    // if (!isset($_POST['id']) || $post_clear['id'] == ''){
-    //     $query = "INSERT INTO patrimony (name, code, has_patrimony, patrimony_location, patrimony_obs) VALUES (?,?,?,?,?)";
-    //     $params = array($post_clear['patrimony_name'], 
-    //                     strtoupper($post_clear['patrimony_code']), 
-    //                     $post_clear['has_patrimony'] == "1"? 1 : 0,
-    //                     $post_clear['patrimony_location'],
-    //                     $post_clear['patrimony_obs']
-    //               );
-    //     Database::execute($query, $params);
-    //     $query = "SELECT max(id) FROM patrimony";          
-    //     $current_id = Database::fetchOne($query, array());             
-    // } else {        
-    //     $query = "UPDATE patrimony SET name = ?, code = ?, has_patrimony = ?, patrimony_location = ?, patrimony_obs = ? WHERE id = ?";
-    //     $params = array($post_clear['patrimony_name'], 
-    //                 strtoupper($post_clear['patrimony_code']), 
-    //                 $post_clear['has_patrimony'] == "1"? 1 : 0,
-    //                 $post_clear['patrimony_location'],
-    //                 $post_clear['patrimony_obs'],
-    //                 $post_clear['id']
-    //             );
-    //     $current_id = $post_clear['id'];
-    //     Database::execute($query, $params);
-    // }    
+    $current_id = NULL;
+    if (!isset($_POST['id']) || $post_clear['id'] == ''){
+        $query = "INSERT INTO patrimony (number1, number2, patrimony_location, obs) VALUES (?,?,?,?)";
+        $params = array($post_clear['number1'], 
+                        $post_clear['number2'], 
+                        $post_clear['patrimony_location'],
+                        $post_clear['obs']
+                  );
+        Database::execute($query, $params);
+        $query = "SELECT max(id) FROM patrimony";          
+        $current_id = Database::fetchOne($query, array());             
+    } else {        
+        $query = "UPDATE patrimony SET number1 = ?, number2 = ?, patrimony_location = ?, obs = ? WHERE id = ?";
+        $params = array($post_clear['number1'], 
+                        $post_clear['number2'], 
+                        $post_clear['patrimony_location'],
+                        $post_clear['obs'],
+                        $post_clear['id']
+                );
+        $current_id = $post_clear['id'];
+        Database::execute($query, $params);
+    }    
 
-    // HTTPResponse::redirect("?iid=$current_id");
+    HTTPResponse::redirect("?pid=$current_id&save");
 
 }
