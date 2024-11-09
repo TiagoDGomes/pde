@@ -46,6 +46,15 @@ class HTMLUtil{
             <span id="original_count_<?= $item['loan_id']; ?>"><?=$item['original_count'] ?></span>
         </small>
         <br>
+        <span class="cell return">
+            <a style="display: <?= $minus_style_display ?>"  
+                    id="reset_<?= $item['loan_id']; ?>" 
+                    onclick="save_loan_all_reset(<?= $item['loan_id']; ?>);return false;" 
+                    title="Resetar tudo" 
+                    href="javascript:;">
+                    <i class="icon refresh"></i>
+            </a>        
+        </span>
         <span class="cell return">                                    
             <?php $input_hidden['diff'] = '1'; ?> 
             <a style="display: <?= $minus_style_display ?>" 
@@ -72,7 +81,7 @@ class HTMLUtil{
                     id="complete_<?= $item['loan_id']; ?>" 
                     onclick="save_loan_all_complete(<?= $item['loan_id']; ?>);return false;" 
                     title="Devolver tudo" 
-                    href="#">
+                    href="javascript:;">
                     <i class="icon complete"></i>
             </a>        
         </span>

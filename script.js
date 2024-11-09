@@ -90,6 +90,11 @@ function save_loan_details(nid){
     loan_details_new.innerHTML = '';
     var url = "?"
 }
+function save_loan_all_reset(nid){
+    var count_returned = document.getElementById('count_returned_' + nid);
+    var original_count = document.getElementById('original_count_' + nid);
+    save_loan_values(nid, count_returned.innerText);
+}
 function save_loan_all_complete(nid){
     var count_returned = document.getElementById('count_returned_' + nid);
     var original_count = document.getElementById('original_count_' + nid);
@@ -112,7 +117,8 @@ function update_loan_diff(data){
    
     document.getElementById('minus_' + data.nid).style.display = count <= 0 ? 'none' : 'inline';
     document.getElementById('plus_' + data.nid).style.display = data.original_count == count ? 'none' : 'inline';
-    document.getElementById('complete_' + data.nid).style.display = data.original_count == count ? 'none' : 'inline';
+    document.getElementById('complete_' + data.nid).style.display = document.getElementById('plus_' + data.nid).style.display;
+    document.getElementById('reset_' + data.nid).style.display = document.getElementById('minus_' + data.nid).style.display; 
     if (data.original_count == count){
         line_loan.classList.remove('remaining');
         line_loan.classList.add('complete');        
