@@ -55,13 +55,12 @@
                 <?php if ($is_install): ?> 
                     <?php include_once 'include/form_install.php'; ?>                 
                 <?php elseif ($is_show_patrimony): ?> 
+                    <?php require_once 'include/form_patrimony.php'; ?>
                     <?php include_once 'include/show_patrimony.php'; ?> 
                 <?php elseif ($is_show_item) : ?>
-                    <?php require_once 'include/form_generic.php'; ?>
                     <?php require_once 'include/form_model.php'; ?>
                     <?php include_once 'include/show_item.php'; ?>   
                 <?php elseif ($last_user_selected) : ?>
-                    <?php require_once 'include/form_generic.php'; ?>
                     <?php require_once 'include/form_user.php'; ?>
                     <?php include_once 'include/show_user.php'; ?>   
                 <?php else: ?>

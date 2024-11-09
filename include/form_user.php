@@ -1,4 +1,5 @@
 <?php isset($PDE) or die('Nope');
+require_once 'include/form_generic.php';
 function form_user($user){ 
     form_generator(
         "Solicitante",
