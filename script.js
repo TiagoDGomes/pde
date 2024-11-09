@@ -109,6 +109,10 @@ function save_loan_values(nid, diff){
     });
 }
 function update_loan_diff(data){
+    if (data.error){
+        alert(data.message);
+        return;
+    }
     var count_returned = document.getElementById('count_returned_' + data.nid);
     var line_loan = document.getElementById('line_loan_' + data.nid);
     var last_count = count_returned.innerText * 1;

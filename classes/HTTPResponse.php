@@ -3,7 +3,11 @@ isset($PDE) or die('Nope');
 
 class HTTPResponse {
     public static function forbidden($message){
+        global $response_json;
         header('HTTP/1.1 403 Forbidden');
+        if ($response_json){
+            exit(json_encode(array("error"=>'403', 'message'=>$message)));
+        } 
         exit($message);
     }
 
