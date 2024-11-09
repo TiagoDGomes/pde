@@ -142,8 +142,7 @@ $is_loaning = @$form_clear['act'] == 'loan';
 if ($is_deleting){
     if (isset($form_clear['nnid'])){
         $ret = Database::execute("DELETE FROM log_loan WHERE id = ? AND diff = 0", array($form_clear['nnid']));
-        header('Content-Type: application/json');
-        exit(json_encode($ret));
+        HTTPResponse::JSON($ret);
     }
 } else if ($action_save_new_user) {
     require_once 'include/form_user.php';
@@ -306,7 +305,6 @@ if ($is_returning_item){
         'original_count' => $result['original_count'],
         'details' => $details
     );  
-    //exit(json_encode($param_url)) ;
     if (!$response_json){
         header('Content-Type: text/plain');    
         $redirect_url = http_build_query($response);

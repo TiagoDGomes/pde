@@ -6,7 +6,7 @@ class HTTPResponse {
         global $response_json;
         header('HTTP/1.1 403 Forbidden');
         if ($response_json){
-            exit(json_encode(array("error"=>'403', 'message'=>$message)));
+            HTTPResponse::JSON(array("error" => '403', 'message' => $message));
         } 
         exit($message);
     }
@@ -18,6 +18,6 @@ class HTTPResponse {
 
     public static function JSON($arr){
         header("Content-Type: application/json");
-        exit(json_encode($arr));
+        exit(json_encode($arr, JSON_PRETTY_PRINT));
     }
 }
