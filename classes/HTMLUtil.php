@@ -44,10 +44,16 @@ class HTMLUtil{
                 onclick="save_loan_values(<?= $item['loan_id']; ?>,1);return false;" 
                 title="1 unidade a dever" 
                 href="?<?= http_build_query($input_hidden) ?>">
-                <span class="button-minus">-</span>  
+                <i class="icon minus"></i>
             </a> 
         </span>
-        <small><span id="count_returned_<?= $item['loan_id']; ?>"><?= $item['count_returned'] ?></span>/</span><?=$item['original_count'] ?></span></small>
+
+        <small class="counter">
+            <span id="count_returned_<?= $item['loan_id']; ?>">
+                <?= $item['count_returned'] ?>
+            </span> /
+            <span><?=$item['original_count'] ?></span>
+        </small>
 
         <span class="return">                                    
             <?php $input_hidden['diff'] = '-1'; ?> 
@@ -56,7 +62,7 @@ class HTMLUtil{
                 onclick="save_loan_values(<?= $item['loan_id']; ?>,-1);return false;" 
                 title="1 unidade devolvida" 
                 href="?<?= http_build_query($input_hidden) ?>">
-                <span class="button-plus">+</span>     
+                <i class="icon plus"></i>
             </a>
         </span>
         <?php 

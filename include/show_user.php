@@ -41,7 +41,7 @@
                     </th>              
                     <th>Nome do item</th>
                     <th>Código</th>
-                    <th>Quant. devolvida</th>
+                    <th class="return">Quant. devolvida</th>
                     <th>Observações do<br>empréstimo</th>
                 </tr>
             </thead>
@@ -100,7 +100,7 @@
 
                         </td>                   
 
-                        <td class="number return">
+                        <td class="return">
                             <?php HTMLUtil::render_counter($item, $current_user_id, $current_query_type_string, $current_query_string); ?>
                         </td>
 
