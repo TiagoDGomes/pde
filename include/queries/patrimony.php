@@ -2,8 +2,11 @@
 
 $selected_patrimony = NULL;
 
-$query = "SELECT p.id, model_id, number1, number2, serial_number, usable, found, loan_block, obs, patrimony_location,
-                model_obs, model_location,  name 
+$query = "SELECT p.id as id, model_id, 
+                number1, number2, serial_number, 
+                usable, found, loan_block, obs, 
+                patrimony_location, 
+                model_obs, model_location, name 
             FROM patrimony p
             INNER JOIN model m ON m.id = p.model_id
             WHERE p.id = ?";

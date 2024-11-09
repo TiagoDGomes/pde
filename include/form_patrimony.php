@@ -2,7 +2,7 @@
 require_once 'include/form_generic.php';
 function form_patrimony($patrimony){     
     form_generator(
-        "Patrimonio",
+        "Patrimônio",
         "patrimony",
         $patrimony,
         array(                                
@@ -41,13 +41,40 @@ function form_patrimony($patrimony){
                 "value" => @$patrimony['patrimony_location'],
                 "data-description" => "Localização do patrimônio",  
                 "placeholder" => "",   
-            ),                        
+            ),
             array(
                 "name" => "obs",
                 "type" => "text",
                 "value" => @$patrimony['obs'],
                 "data-description" => "Observações",  
                 "placeholder" => "",   
+            ),                    
+            array(
+                "id"=> "loan_block",
+                "name" => "loan_block",
+                "type" => "checkbox",
+                "value" => "1",
+                "data-description" => '<span class="denied">Bloqueado para empréstimo</span>',  
+                "placeholder" => "",   
+                @$patrimony['loan_block'] ? 'checked': '' => @$patrimony['loan_block'] ? 'checked': ''
+            ),                    
+            array(
+                "id"=> "found",
+                "name" => "found",
+                "type" => "checkbox",
+                "value" => "1",
+                "data-description" => '<span class="allow">Localizado / Não perdido</span>',  
+                "placeholder" => "",   
+                @$patrimony['found'] ? 'checked': '' => @$patrimony['found'] ? 'checked': ''
+            ),                    
+            array(
+                "id"=> "usable",
+                "name" => "usable",
+                "type" => "checkbox",
+                "value" => "1",
+                "data-description" => '<span class="allow">Utilizável / Funcional</span>',  
+                "placeholder" => "",   
+                @$patrimony['usable'] ? 'checked': '' => @$patrimony['usable'] ? 'checked': ''
             )
         )                        
     ) ;
@@ -56,21 +83,27 @@ function form_patrimony($patrimony){
 function form_patrimony_save($post_clear){
     $current_id = NULL;
     if (!isset($_POST['id']) || $post_clear['id'] == ''){
-        $query = "INSERT INTO patrimony (number1, number2, patrimony_location, obs) VALUES (?,?,?,?)";
+        $query = "INSERT INTO patrimony (number1, number2, patrimony_location, obs, loan_block, usable) VALUES (?,?,?,?,?,?)";
         $params = array($post_clear['number1'], 
                         $post_clear['number2'], 
                         $post_clear['patrimony_location'],
-                        $post_clear['obs']
+                        $post_clear['obs'],
+                        @$post_clear['loan_block'] ? 1 : 0,
+                        @$post_clear['found'] ? 1 : 0,
+                        @$post_clear['usable'] ? 1 : 0,
                   );
         Database::execute($query, $params);
         $query = "SELECT max(id) FROM patrimony";          
         $current_id = Database::fetchOne($query, array());             
     } else {        
-        $query = "UPDATE patrimony SET number1 = ?, number2 = ?, patrimony_location = ?, obs = ? WHERE id = ?";
+        $query = "UPDATE patrimony SET number1 = ?, number2 = ?, patrimony_location = ?, obs = ?, loan_block = ?, found = ?, usable = ? WHERE id = ?";
         $params = array($post_clear['number1'], 
                         $post_clear['number2'], 
                         $post_clear['patrimony_location'],
                         $post_clear['obs'],
+                        @$post_clear['loan_block'] ? 1 : 0,
+                        @$post_clear['found'] ? 1 : 0,
+                        @$post_clear['usable'] ? 1 : 0,
                         $post_clear['id']
                 );
         $current_id = $post_clear['id'];

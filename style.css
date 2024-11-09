@@ -487,7 +487,12 @@ table tr.complete td a,
 table tr.complete td {
     color: silver;
 }
-
+form .allow{
+    color:green;
+}
+form .denied{
+    color: red;
+}
 @media (prefers-color-scheme: dark) {
     body, input{
         background-color: black;
