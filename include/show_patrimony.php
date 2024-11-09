@@ -62,7 +62,11 @@ include 'include/queries/patrimony.php';
 
                     <tr>
                         <td><input disabled type="checkbox" name="chk_all"></td>
-                        <td><?= $item['username'] ?></td>
+                        <td>
+                            <a href="?uid=<?= $item['uid'] ?>">
+                                <?= $item['username'] ?>
+                            </a>
+                        </td>
                         <td class="number"></td>
                         <td class="number"></td>
                         <td class=""><?= $item['loan_date'] ?></td>

@@ -15,6 +15,7 @@ $selected_patrimony = Database::fetch($query, array($form_clear['pid']));
 
 $query_search_loans = "SELECT 
                 u.name AS username,
+                u.id AS uid,
                 p.id as patrimony_id, 
                 n.tstamp as loan_date, 
                 p.number1 as patrimony_number, 

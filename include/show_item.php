@@ -78,7 +78,11 @@ include 'include/queries/item.php';
                             
                             
                         </td>
-                        <td><?= $item['username'] ?></td>  
+                        <td>
+                            <a href="?uid=<?= $item['uid'] ?>">
+                                <?= $item['username'] ?>
+                            </a>
+                        </td>  
                         <td>
                             <?php if ($item['original_count'] > $item['count_returned'] ) : ?>
                                 <?php $input_hidden['act'] = 'ret'; ?> 
