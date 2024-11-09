@@ -117,8 +117,11 @@ function update_loan_diff(data){
    
     document.getElementById('minus_' + data.nid).style.display = count <= 0 ? 'none' : 'inline';
     document.getElementById('plus_' + data.nid).style.display = data.original_count == count ? 'none' : 'inline';
-    document.getElementById('complete_' + data.nid).style.display = document.getElementById('plus_' + data.nid).style.display;
-    document.getElementById('reset_' + data.nid).style.display = document.getElementById('minus_' + data.nid).style.display; 
+    if (data.original_count > 1){
+        document.getElementById('complete_' + data.nid).style.display = document.getElementById('plus_' + data.nid).style.display;
+        document.getElementById('reset_' + data.nid).style.display = document.getElementById('minus_' + data.nid).style.display; 
+    }
+    console.log('count', count, 'original_count', data.original_count);
     if (data.original_count == count){
         line_loan.classList.remove('remaining');
         line_loan.classList.add('complete');        

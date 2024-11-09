@@ -46,6 +46,7 @@ class HTMLUtil{
             <span id="original_count_<?= $item['loan_id']; ?>"><?=$item['original_count'] ?></span>
         </small>
         <br>
+        <?php if ($item['original_count'] > 1): ?>
         <span class="cell return">
             <a style="display: <?= $minus_style_display ?>"  
                     id="reset_<?= $item['loan_id']; ?>" 
@@ -55,6 +56,7 @@ class HTMLUtil{
                     <i class="icon refresh"></i>
             </a>        
         </span>
+        <?php endif; ?>
         <span class="cell return">                                    
             <?php $input_hidden['diff'] = '1'; ?> 
             <a style="display: <?= $minus_style_display ?>" 
@@ -73,9 +75,9 @@ class HTMLUtil{
                 title="1 unidade devolvida" 
                 href="?<?= http_build_query($input_hidden) ?>">
                 <i class="icon plus"></i>
-            </a>
-           
+            </a>           
         </span>
+        <?php if ($item['original_count'] > 1): ?>
         <span class="cell return">
             <a style="display: <?= $plus_style_display ?>"  
                     id="complete_<?= $item['loan_id']; ?>" 
@@ -85,7 +87,7 @@ class HTMLUtil{
                     <i class="icon complete"></i>
             </a>        
         </span>
-              
+        <?php endif; ?>      
 
         <?php 
     }
