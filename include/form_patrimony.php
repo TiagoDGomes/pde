@@ -54,9 +54,12 @@ function form_patrimony($patrimony){
                 "name" => "loan_block",
                 "type" => "checkbox",
                 "value" => "1",
-                "data-description" => '<span class="denied">Bloqueado para empréstimo</span>',  
+                "data-description" => '<span class="denied">Bloqueado para empréstimo ' . 
+                                      ($patrimony['model_loan_block'] == 1 ? '(modelo do item está bloqueado)':'') . 
+                                      '</span>',  
                 "placeholder" => "",   
-                @$patrimony['loan_block'] ? 'checked': '' => @$patrimony['loan_block'] ? 'checked': ''
+                ($patrimony['loan_block'] || $patrimony['model_loan_block'] == 1) ? 'checked': '' => @$patrimony['loan_block'] ? 'checked': '',
+                $patrimony['model_loan_block'] == 1 ? 'disabled' :'' => NULL
             ),                    
             array(
                 "id"=> "found",

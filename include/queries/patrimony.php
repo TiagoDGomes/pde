@@ -3,7 +3,7 @@
 $selected_patrimony = NULL;
 
 $query = "SELECT p.id as id, model_id, 
-                number1, number2, serial_number, 
+                number1, number2, serial_number, model_loan_block,
                 usable, found, loan_block, obs, 
                 patrimony_location, 
                 model_obs, model_location, name 
