@@ -6,6 +6,9 @@ include 'include/queries/patrimony.php';
 <?php if (!$selected_patrimony): ?>
     <p>Patrimônio não encontrado.</p>
 <?php else: ?>
+    <template id="tpatrimony">
+    <?php form_patrimony($selected_patrimony) ?>
+    </template>
     <div class="card item top">
         <h2>   
             <i class="icon item"></i><a href="?iid=<?= $selected_patrimony['model_id'] ?>"><?= $selected_patrimony['name'] ?></a> &gt;
