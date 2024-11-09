@@ -10,3 +10,5 @@ $CONFIG_ADDITIONAL_SQL_PATH = __DIR__ . "/install-sql";
 
 
 //include_once 'include/fatal_error.php';
+
+$CONFIG_AUTH_MODE = NULL;

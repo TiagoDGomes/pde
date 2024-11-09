@@ -55,7 +55,9 @@
         filter: invert(1);
     }  
 }
-
+* {
+    box-sizing: border-box;
+}
 table .remaining a{
     color: var(--table-remaining-color) !important;
 }
@@ -94,61 +96,10 @@ header {
     min-height: 10em;
     background-color: aquamarine;
 }
-
-
-/* 
-@media (prefers-color-scheme: dark) {
-
-    .content table tr:has(th),
-    .content table tr.date {
-        background-color: rgb(44, 44, 44);
-    }
-    header {
-        background-color: #a4dba2;
-        min-height: var(--header-height);
-        background-image: linear-gradient(#046d00, #000000);
-    }
-    table tr.complete td a,
-    table tr.complete td{
-        color: #6d6d6d
-    }
-    table tr.remaining,
-    table tr.remaining a{
-        color: white;
-        text-shadow: 1px 1px 3px white
-    }
-    a, a:hover, a:visited{
-        color: yellow
-    }
-    footer {
-        background-color: rgba(54, 112, 57, 0.507);
-        min-height: var(--footer-height);
-        background-image: linear-gradient(#000000, #046d00);
-    }
-
-    button{
-        border: 1px solid yellow;
-        background-color: rgb(39, 39, 39);
-        color:white;  
-        border-radius: 3px;     
-    }
-    button:hover{
-        box-shadow: 1px 2px 9px 2px yellow;
-    }
-    .patrimony{
-        background-color: #598809;
-    }
-    table tr.complete .patrimony {
-        background-color: #ffee003f;
-        color: #787878;
-    }
-    table tr.complete td{
-        color: rgb(68, 68, 68);
-    }
-} */
-* {
-    box-sizing: border-box;
+.modal.login .modal-content{
+    max-width: 400px;
 }
+
 ul:empty{
     display: none;
 }
@@ -258,6 +209,7 @@ body {
 body,
 textarea,
 input[type="text"],
+input[type="password"],
 input[type="number"],
 input[type="date"],
 button,
@@ -633,14 +585,18 @@ td.details span.x:hover{
 .modal dt {
     float: left;
     clear: both;
-    min-width: 15em;
+    min-width: 8em;    
     margin-bottom: 1em;
+}
+.search_results .modal dt{
+    min-width: 15em;
 }
 .modal dd {
     margin-inline-start: 0;
     margin-bottom: 1em;
 }
-.modal dd input[type="text"],.modal dd input[type="number"]{
+.search_results .modal dd input[type="text"],
+.search_results .modal dd input[type="number"]{
     min-width: 40em;
 }
 .card .bar{
