@@ -588,15 +588,15 @@ td.details span.x:hover{
     min-width: 8em;    
     margin-bottom: 1em;
 }
-.search_results .modal dt{
+.modal .block dt{
     min-width: 15em;
 }
 .modal dd {
     margin-inline-start: 0;
     margin-bottom: 1em;
 }
-.search_results .modal dd input[type="text"],
-.search_results .modal dd input[type="number"]{
+.modal .block dd input[type="text"],
+.modal .block dd input[type="number"]{
     min-width: 40em;
 }
 .card .bar{
