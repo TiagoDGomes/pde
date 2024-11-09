@@ -459,7 +459,7 @@ table tr.complete .patrimony {
     box-sizing: content-box;
 }
 
-table tr.remaining a{
+table a{
     color: black;
 }
 table tr.complete td a,
