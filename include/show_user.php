@@ -101,45 +101,7 @@
                         </td>                   
 
                         <td class="number return">
-                            <?php $input_hidden = array(); ?>
-                            <?php $input_hidden['iid'] = $item['model_id']; ?> 
-                            <?php $input_hidden['uid'] = $current_user_id; ?> 
-                            <?php $input_hidden['t'] = $current_query_type_string; ?> 
-                            <?php $input_hidden['q'] = $current_query_string; ?> 
-                            <?php $input_hidden['redirect_to'] = 'user'; ?> 
-                            <?php $input_hidden['act'] = 'ret'; ?> 
-                            <?php $input_hidden['nid'] = $item['loan_id']; ?>  
-
-                            <span class="return">
-                                
-                                <?php if ($item['count_returned'] >  0 ): ?>
-                                    
-                                    <?php $input_hidden['diff'] = '1'; ?> 
-                                    <a title="1 unidade a dever" href="?<?= http_build_query($input_hidden) ?>">
-                                        <span class="button-minus">-</span>  
-                                    </a>
-                                <?php else:?>
-                                    <!-- <span class="button-minus">&times;</span> -->
-                                <?php endif;?>
-
-                            </span>
-
-                            <span class="return">    
-                                
-                                <?php if ($item['count_returned'] <  $item['original_count'] ): ?>
-                                    
-                                    <?php $input_hidden['diff'] = '-1'; ?> 
-                                    <a title="1 unidade devolvida" href="?<?= http_build_query($input_hidden) ?>">
-                                        <span class="button-plus">+</span>     
-                                    </a>
-                                <?php else:?>
-                                    <!-- <span class="button-plus">&times;</span>     -->
-                                <?php endif;?>
-                                
-                            </span>
-
-                            <?= $item['count_returned'] . '/' . $item['original_count'] ?>
-
+                            <?php HTMLUtil::render_counter($item, $current_user_id, $current_query_type_string, $current_query_string); ?>
                         </td>
 
                         <td class="details">

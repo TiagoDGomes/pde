@@ -91,6 +91,26 @@ function save_loan_details(nid){
     var url = "?"
 }
 
+function save_loan_values(nid, diff){
+    send('?', update_loan_diff, 'POST', {
+        "nid": nid,
+        "act": "ret",
+        "diff": diff,
+        "return_to": 'json'
+    });
+}
+function update_loan_diff(data){
+    var count_returned = document.getElementById('count_returned_' + data.nid);
+    var last_count = count_returned.innerText * 1;
+    var count = last_count - data.diff;
+    count_returned.innerText = count;
+   
+    document.getElementById('minus_' + data.nid).style.display = count <= 0 ? 'none' : 'inline';
+    document.getElementById('plus_' + data.nid).style.display = data.original_count == count ? 'none' : 'inline';
+    
+    
+    //console.log(data, count_returned, last_count);
+}
 function update_loan_details(data){
     var loan_details = document.getElementById("loan_details_" + data['nid']);
     loan_details.innerHTML += '<li><span class="info">' + data['details'] + '</span><span onclick="force_loan_detail_refresh()" class="x">@</span></li>';                 

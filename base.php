@@ -297,6 +297,7 @@ if ($is_returning_item){
         'nid' => $loan_id,
         'iid' => $model_id,
         'diff' => $diff,
+        'original_count' => $result['original_count'],
         'details' => $details
     );  
     //exit(json_encode($param_url)) ;
