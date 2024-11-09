@@ -265,6 +265,10 @@ if ($is_returning_item){
     if ($diff < $result['count_remaining'] * -1){
         HTTPResponse::forbidden("Este item já foi devolvido.");
     }
+    // *** Impedir devolução quando o "dever" fica maior que o que "foi pego": ***
+    if ($result['count_remaining'] == $result['original_count'] && $diff > 0 ){
+        HTTPResponse::forbidden("Valor menor que zero.");
+    }
     if ($result['has_patrimony']){
         // *** Impedir movimentação quando já tiver outro posterior: ***
         $protection_query = "SELECT max(id) FROM loan n WHERE patrimony_id = ?";
@@ -292,6 +296,7 @@ if ($is_returning_item){
         'redirect_to' => @$form_clear['redirect_to'],
         'nid' => $loan_id,
         'iid' => $model_id,
+        'diff' => $diff,
         'details' => $details
     );  
     //exit(json_encode($param_url)) ;
