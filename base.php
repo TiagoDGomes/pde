@@ -123,7 +123,7 @@ if (isset($_SESSION['default_date_after'])){
 if (isset($_SESSION['default_date_before'])){
     $default_date_before = $_SESSION['default_date_before'];
 }  else {
-    $default_date_before = (new DateTimeImmutable("-6 month"))->format('Y-m-d');
+    $default_date_before = (new DateTimeImmutable("-1 month"))->format('Y-m-d');
     $_SESSION['default_date_before'] = $default_date_before;
 }                             
                  
