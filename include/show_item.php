@@ -29,7 +29,18 @@ include 'include/queries/item.php';
 
         </div>
         <?php endif; ?>
-        <p class="bar"><button onclick="show_modal('#titem')">Editar</button></p>
+        <p class="bar">
+            <button onclick="show_modal('#titem')">
+                Editar modelo de item
+            </button>
+
+            <?php if ($selected_item['has_patrimony']): ?>
+                <button onclick="show_modal('#tpatrimony');">
+                    Adicionar uma nova etiqueta/patrimônio a este modelo de item
+                </button>
+            <?php endif; ?>
+            
+        </p>
     </div>
     <?php if ($selected_item['has_patrimony']): ?>
         <?php require_once 'include/form_patrimony.php'; ?>
@@ -42,7 +53,6 @@ include 'include/queries/item.php';
                                                         'id' => NULL,
                                 ))); ?>
         </template>
-        <p><a href="javascript:show_modal('#tpatrimony')">Adicionar uma nova etiqueta ou patrimônio</a></p>
         <?php if (count($selected_loans)==0): ?>
             <p>Nenhum empréstimo foi encontrado.</p>
         <?php else: ?>    
