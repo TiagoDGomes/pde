@@ -278,7 +278,6 @@ if ($is_returning_item){
         // *** Impedir movimentação quando já tiver outro posterior: ***
         $protection_query = "SELECT max(id) FROM loan n WHERE patrimony_id = ?";
         $last_loan_id = Database::fetchOne($protection_query,array($result['patrimony_id']));
-        //exit(var_dump($last_loan_id));
         if ($diff > 0 && $loan_id != $last_loan_id){
             HTTPResponse::forbidden("Ação indisponível. Um outro empréstimo posterior deste mesmo item já foi registrado.");
         }

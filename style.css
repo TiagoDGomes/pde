@@ -175,9 +175,6 @@ footer li {
     display: inline;
 }
 
-/* section {
-    padding-left: var(--root-padding-left);
-} */
 
 @media screen and (max-width: 919px) {
     #q {
@@ -267,19 +264,6 @@ footer li {
     .modal-content{
         width: 800px;
     }
-    /* .content table tbody{
-        display: block;
-        max-height: 650px;
-        overflow: auto;
-    }
-    .content table tr{
-        display: table;
-        width: 100%;
-        table-layout: fixed;
-    }
-    .content table thead {
-        width: calc( 100% - 1em )
-    } */
 }
 
 .search_item {
@@ -366,9 +350,6 @@ td:has(.patrimony){
 }
 
 
-/* .result .alert a {
-    color: white;
-} */
 table td.return,
 table th.return{
     width: 100px;
@@ -409,7 +390,6 @@ table td.return:hover .complete {
 .content table {
     margin-top:3px;
     border-collapse: collapse;
-    /*border: 1px solid silver;*/
     border-radius: 2px;
 }
 .content table select{

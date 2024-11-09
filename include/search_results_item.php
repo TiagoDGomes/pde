@@ -99,13 +99,10 @@ $params = array(
 $search_results = Database::fetchAll($query, $params);
 if (count($search_results) == 1) {
     $search_one_item = TRUE;
-    //HTTPResponse::redirect('?act=select&uid=' . $_SESSION['selected_user']['id']);
 }
 
 $search_query_focus = (!$search_one_item || isset($form_clear['act']));
 $selected_one_item = !$search_query_focus;
-
-//echo "<pre>" . str_replace('normalize','',str_replace("?", "'$query_string'", $query)) . "</pre>";
 
 foreach ($search_results as $result): ?>
     
@@ -186,7 +183,6 @@ foreach ($search_results as $result): ?>
         <div class="actions">            
             <form action="?">
                 
-                <?php //var_dump($result); ?>
                 <?php $input_hidden = array(); ?>
                 <?php $input_hidden['iid'] = $result['model_id']; ?> 
                 <?php $input_hidden['uid'] = $current_user_id; ?> 

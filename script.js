@@ -18,7 +18,6 @@ function show_modal(queryElem) {
     modal_body.className = 'modal-body';
     modal_footer.className = 'modal-footer';
     modal_body.appendChild(elem_child);
-    //elem_child.style.display = 'block';
 
     modal_header.appendChild(close_icon);
     modal_content.appendChild(modal_header);
@@ -132,9 +131,7 @@ function update_loan_diff(data){
     } else {
         line_loan.classList.remove('complete');
         line_loan.classList.add('remaining'); 
-    }
-    
-    //console.log(data, count_returned, last_count);
+    }    
 }
 function update_loan_details(data){
     var loan_details = document.getElementById("loan_details_" + data['nid']);

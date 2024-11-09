@@ -27,7 +27,6 @@ function form_model($model){
                 "value" => "1",
                 "data-description" => "Modelo de item com etiqueta, patrimônio ou identificações únicas",
                 "placeholder" => "Modelo de item com etiqueta, patrimônio ou identificações únicas",  
-                //"onclick" => "select_patrimony(1)",
                 @$model['has_patrimony'] ? 'checked': '' => @$model['has_patrimony'] ? 'checked': ''
             ),                        
             array(                
@@ -37,7 +36,6 @@ function form_model($model){
                 "value" => "0",
                 "data-description" => "Modelo de item sem etiqueta",
                 "placeholder" => "Modelo de item sem etiqueta",  
-                //"onclick" => "select_patrimony(0)",
                 @$model['has_patrimony'] ? '': 'checked' => @$model['has_patrimony'] ? '': 'checked'
             ),                        
             array(
@@ -96,18 +94,5 @@ function form_model_save($post_clear){
     }    
 
     HTTPResponse::redirect("?iid=$current_id");
-    //$get_clear['code'] = $post_clear['model_code'];
-    // if (@$post_clear['model_unique'] == "1"){
-    //     $query = "SELECT max(id) FROM model";
-    //     $model_id = @$post_clear['model_id'] ? $post_clear['model_id'] : Database::fetchOne($query, array());
-    //     // $patrs = explode("\n", @$post_clear['unique_codes']);
-    //     // foreach($patrs as $p){
-    //     //     $query = "INSERT INTO patrimony (model_id, number1) VALUES (?,?)";
-    //     //     $params = array($model_id, $p);
-    //     //     var_dump($query);
-    //     //     var_dump($params);            
-    //     //     Database::execute($query, $params);
-    //     // }
-    // }
 
 }

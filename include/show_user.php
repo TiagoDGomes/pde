@@ -132,14 +132,6 @@
                                 style="display:none;text-align:center" >
                                 <a href="javascript:;" onclick="save_loan_details(<?= $item['loan_id'] ?>)">Registrar observações</a>
                             </div>
-                            <script>
-                                // document.body.addEventListener('load', function(){
-                                //     var loan_details = document.querySelector('#loan_details_<?= $item['loan_id'] ?> span')
-                                //     loan_details.addEventListener('click', function(event){
-                                //         var nid = (event.target.parentNode.dataset['nid']);
-                                //     })
-                                // })
-                            </script>
                         </td>
                     </tr>                                
                 
