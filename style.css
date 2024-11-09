@@ -441,13 +441,7 @@ table td.return:hover .complete {
     border-radius: 3px;
 }
 
-table tr.remaining a{
-    color: black;
-}
-table tr.complete td a,
-table tr.complete td {
-    color: silver;
-}
+
 
 table tr.complete .patrimony {
     background-color: #0000ff3f;
@@ -486,6 +480,14 @@ table tr.complete .patrimony {
     box-sizing: content-box;
 }
 
+table tr.remaining a{
+    color: black;
+}
+table tr.complete td a,
+table tr.complete td {
+    color: silver;
+}
+
 @media (prefers-color-scheme: dark) {
     body, input{
         background-color: black;
@@ -499,6 +501,15 @@ table tr.complete .patrimony {
         background-color: #a4dba2;
         min-height: var(--header-height);
         background-image: linear-gradient(#046d00, #000000);
+    }
+    table tr.complete td a,
+    table tr.complete td{
+        color: #6d6d6d
+    }
+    table tr.remaining,
+    table tr.remaining a{
+        color: white;
+        text-shadow: 1px 1px 3px white
     }
     a, a:hover, a:visited{
         color: yellow
