@@ -442,6 +442,14 @@ td:has(.patrimony){
     padding-right: 5px;
     min-width: 7em;
 }
+.hide-name,
+table.hide-completed .quote,
+table.hide-completed .complete{
+    display: none;
+}
+table.hide-completed .hide-name{
+    display: inline;
+}
 
 
 table td.return,
@@ -635,6 +643,6 @@ td.details span.x:hover{
 .content table td:first-child{
     border-left: var(--cell-border);
 }
-.content table tr:last-child{
+.content table {
     border-bottom: var(--cell-border);
 }

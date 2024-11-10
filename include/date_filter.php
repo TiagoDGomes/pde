@@ -24,9 +24,12 @@
             }
         }
         function hide_completed(val){
-            document.querySelectorAll('tr.complete').forEach(function(elem){
-                elem.style.display = val ? 'none' : 'table-row';
-            })
+            var table = document.querySelector('table:has(tr.complete)');
+            if (val){
+                table.classList.add('hide-completed');
+            } else {
+                table.classList.remove('hide-completed');
+            }
         }
     </script> 
     

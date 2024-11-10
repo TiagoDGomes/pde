@@ -13,7 +13,7 @@
 
 <?php else : ?>
     <?php include 'include/form_hidden_select.php'; ?>
-    <table>
+    <table class="<?= isset($form_clear['hide_complete'])  ? 'hide-completed' : '' ?>">
         <thead>
             <tr>
                 <th>
@@ -56,7 +56,7 @@
 
                 <?php endif; ?>                     
                 <?php $item_status = $item['count_returned'] >= $item['original_count'] ? 'complete' : 'remaining' ; ?>        
-                <tr id="line_loan_<?= $item['loan_id'] ?>" style="display:<?= isset($form_clear['hide_complete']) && $item_status == 'complete' ? 'none' : 'table-row' ?>;"
+                <tr id="line_loan_<?= $item['loan_id'] ?>" 
                     class="<?= $item_status ?> loan_date_<?= str_replace("/","_",$last_date) ?>">
                 
                     <td>
@@ -72,6 +72,7 @@
                                 <?php if ($last_user != $current_user || $reset_date) : ?>
                                     <?= $item['user_name'] ?>
                                 <?php else: ?>
+                                    <span class="hide-name"><?= $item['user_name'] ?></span>
                                     <small class="quote">...</small>
                                 <?php endif; ?> 
                             </a>

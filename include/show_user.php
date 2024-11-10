@@ -29,7 +29,7 @@
         <?php include 'include/form_hidden_select.php'; ?>
 
     
-        <table>
+        <table class="<?= isset($form_clear['hide_complete'])  ? 'hide-completed' : '' ?>">
             <thead>
                 <tr>
                     <th colspan="2">
@@ -66,7 +66,7 @@
 
                     <?php endif; ?>                     
                     <?php $item_status = $item['count_returned'] >= $item['original_count'] ? 'complete' : 'remaining' ; ?>        
-                    <tr id="line_loan_<?= $item['loan_id'] ?>" style="display:<?= isset($form_clear['hide_complete']) && $item_status == 'complete' ? 'none' : 'table-row' ?>;"
+                    <tr id="line_loan_<?= $item['loan_id'] ?>" 
                         class="<?= $item_status ?> loan_date_<?= str_replace("/","_",$last_date) ?>">
                     
                         <td>
