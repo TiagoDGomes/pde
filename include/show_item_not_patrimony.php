@@ -14,6 +14,7 @@ require_once 'include/form_patrimony.php'; ?>
 <?php else: ?>    
     <div class=" items">
         <table>
+            <caption>Empréstimos deste modelo de item</caption>
             <thead>
                 <tr>                
                     <th><input disabled type="checkbox" name="chk_all"></th>

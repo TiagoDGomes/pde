@@ -30,6 +30,7 @@
 
     
         <table class="<?= isset($form_clear['hide_complete'])  ? 'hide-completed' : '' ?>">
+            <caption>Empréstimos deste usuário</caption>
             <thead>
                 <tr>
                     <th colspan="2">

@@ -83,8 +83,8 @@ include 'include/queries/patrimony.php';
         <p>Nenhum empréstimo foi encontrado.</p>
     <?php else: ?>  
     <div class=" items">
-        <h3>Empréstimos deste item etiquetado/patrimoniado</h3>
         <table>
+            <caption>Empréstimos deste item etiquetado/patrimoniado</caption>
             <thead>
                 <tr>                
                     <th><input disabled type="checkbox" name="chk_all"></th>

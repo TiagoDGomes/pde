@@ -14,6 +14,7 @@
 <?php else : ?>
     <?php include 'include/form_hidden_select.php'; ?>
     <table class="<?= isset($form_clear['hide_complete'])  ? 'hide-completed' : '' ?>">
+        <caption>Empréstimos</caption>
         <thead>
             <tr>
                 <th>
