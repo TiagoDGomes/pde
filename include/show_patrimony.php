@@ -11,10 +11,17 @@ include 'include/queries/patrimony.php';
     </template>
     <div class="card item top">
         <h2>   
-            <i class="icon item"></i><a href="?iid=<?= $selected_patrimony['model_id'] ?>"><?= $selected_patrimony['name'] ?></a> &gt;
-            <?php HTMLUtil::render_patrimony(NULL, $selected_patrimony['number1']) ; ?>
+            
+            <i class="icon item"></i><?php HTMLUtil::render_patrimony(NULL, $selected_patrimony['number1']) ; ?>
             <?php $selected_patrimony['number2'] ? HTMLUtil::render_patrimony(NULL, $selected_patrimony['number2']) : '' ; ?>
-            <?php if ($selected_patrimony['model_loan_block'] >= 1): ?>
+            <a href="?iid=<?= $selected_patrimony['model_id'] ?>">
+                <?= $selected_patrimony['name'] ?>
+            </a>            
+                
+        </h2>
+        <?php if ($selected_patrimony['model_location'] || $selected_patrimony['patrimony_location'])  : ?>
+        <p>
+        <?php if ($selected_patrimony['model_loan_block'] >= 1): ?>
                 <span class="message alert">   
                     <i class="icon blocked"></i>         
                     Este modelo de item foi bloqueado para empréstimo.
@@ -38,10 +45,8 @@ include 'include/queries/patrimony.php';
                     Este item foi marcado como não encontrado.
                 </span>&nbsp;
             <?php endif; ?>
-                
-        </h2>
-        <?php if ($selected_patrimony['model_location'] || $selected_patrimony['patrimony_location'])  : ?>
-        <p class="details location"> 
+        </p>
+            <p class="details location"> 
             <?php if ($selected_patrimony['patrimony_location'] != ''): ?>
                 <i class="icon location"></i><?= $selected_patrimony['patrimony_location'] ?>
                 <?php $br = 1; ?>
@@ -83,10 +88,8 @@ include 'include/queries/patrimony.php';
             <thead>
                 <tr>                
                     <th><input disabled type="checkbox" name="chk_all"></th>
-                    <th>Nome da pessoa</th>
-                    <th></th>
-                    <th></th>
-                    <th>Data de devolução</th>
+                    <th class="date">Data do empréstimo</th>
+                    <th class="text">Nome da pessoa</th>
                     <th>Detalhes</th>
                 </tr>
             </thead>
@@ -95,15 +98,23 @@ include 'include/queries/patrimony.php';
 
                     <tr>
                         <td><input disabled type="checkbox" name="chk_all"></td>
+                        <td class=""><?= $item['loan_date'] ? (new DateTimeImmutable( $item['loan_date'] ))->format('d/m/Y H:i:s') : ''?></td>
                         <td>
                             <a href="?uid=<?= $item['uid'] ?>">
                                 <?= $item['username'] ?>
                             </a>
                         </td>
-                        <td class="number"></td>
-                        <td class="number"></td>
-                        <td class=""><?= $item['loan_date'] ?></td>
-                        <td></td>            
+                        <td>
+                        <?php if ($item['original_count'] > $item['count_returned'] ) : ?>
+                            <?php $input_hidden['act'] = 'ret'; ?> 
+                            <?php $input_hidden['redirect_to'] = 'patrimony'; ?> 
+                            <?php $input_hidden['diff'] = '-1'; ?> 
+                            <?php $input_hidden['nid'] = $item['loan_id']; ?> 
+                            <?php $input_hidden['pid'] = $item['patrimony_id']; ?>                     
+                            <i class="icon check"></i>
+                            <a href="?<?= http_build_query($input_hidden) ?>">Marcar como devolvido</a>
+                        <?php endif; ?>    
+                        </td>            
                     </tr>
                 <?php endforeach; ?>
             </tbody>
