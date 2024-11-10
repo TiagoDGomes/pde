@@ -25,11 +25,20 @@
         }
         function hide_completed(val){
             var table = document.querySelector('table:has(tr.complete)');
+            var urlPath;
+            if (window.location.search == ''){
+                urlPath = window.location.origin + window.location.pathname + '?'
+            } else{
+                urlPath = window.location.href.replace('&hide_complete=1','');
+                urlPath = urlPath.replace('hide_complete=1','');
+            }            
             if (val){
-                table.classList.add('hide-completed');
+                table.classList.add('hide-completed');                                
+                urlPath += '&hide_complete=1';
             } else {
                 table.classList.remove('hide-completed');
             }
+            window.history.replaceState({},"", urlPath);
         }
     </script> 
     
