@@ -44,11 +44,11 @@ require_once 'include/form_patrimony.php'; ?>
                     <?php if ($item['original_count'] > $item['count_returned'] ) : ?>
                         <?php $input_hidden['act'] = 'ret'; ?> 
                         <?php $input_hidden['redirect_to'] = 'item'; ?> 
-                        <?php $input_hidden['diff'] = '-1'; ?> 
+                        <?php $input_hidden['diff'] = $item['count_returned'] - $item['original_count']; ?> 
                         <?php $input_hidden['nid'] = $item['loan_id']; ?> 
                         <?php $input_hidden['iid'] = $item['model_id']; ?>                     
                         <i class="icon check"></i>
-                        <a href="?<?= http_build_query($input_hidden) ?>">Marcar como devolvido</a>
+                        <a href="?<?= http_build_query($input_hidden) ?>">Marcar tudo como devolvido</a>
                     <?php endif; ?>    
                 </td>            
             </tr>
