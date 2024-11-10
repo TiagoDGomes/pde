@@ -12,8 +12,8 @@ include 'include/queries/patrimony.php';
     <div class="card item top">
         <h2>   
             
-            <i class="icon item"></i><?php HTMLUtil::render_patrimony(NULL, $selected_patrimony['number1']) ; ?>
-            <?php $selected_patrimony['number2'] ? HTMLUtil::render_patrimony(NULL, $selected_patrimony['number2']) : '' ; ?>
+            <i class="icon item"></i><?php HTMLUtil::render_patrimony(NULL, $selected_patrimony['number1'],$selected_patrimony['icon_set']) ; ?>
+            <?php $selected_patrimony['number2'] ? HTMLUtil::render_patrimony(NULL, $selected_patrimony['number2'],$selected_patrimony['icon_set']) : '' ; ?>
             <a href="?iid=<?= $selected_patrimony['model_id'] ?>">
                 <?= $selected_patrimony['name'] ?>
             </a>            

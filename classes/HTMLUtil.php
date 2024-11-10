@@ -91,7 +91,7 @@ class HTMLUtil{
 
         <?php 
     }
-    public static function render_patrimony($id, $number){ ?>
+    public static function render_patrimony($id, $number, $icon_set = ''){ ?>
         <?php if (!is_null($id)) : ?>
 
             <a href="?pid=<?= $id ?>">
@@ -99,7 +99,7 @@ class HTMLUtil{
         <?php endif; ?>
 
         <span class="patrimony">
-            <i class="icon pat"></i> 
+            <i class="icon pat <?= $icon_set ?>"></i> 
             <?= $number ?>
 
         </span>

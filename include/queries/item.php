@@ -19,6 +19,7 @@ if ($selected_item['has_patrimony']){
          u.code1 as code1,
          u.code2 as code2,
          p.loan_block as loan_block,
+         icon_set,       
          CASE WHEN 
             p.loan_block = 1 or p.usable = 0  or p.found = 0 THEN 'blocked'
             ELSE 'ok' END AS icon_block,
@@ -58,7 +59,8 @@ if ($selected_item['has_patrimony']){
       u.name as username,
       u.code1 as code1,
       u.code2 as code2,
-      original_count,         
+      original_count,  
+      icon_set,       
       CASE WHEN 
             m.model_loan_block = 1 THEN 'blocked'
             ELSE 'ok' END AS icon_block,

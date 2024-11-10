@@ -78,8 +78,8 @@
 
                             <?php if ($item['patrimony_number']): ?>
 
-                                <?php HTMLUtil::render_patrimony($item['patrimony_id'], $item['patrimony_number'] ); ?> 
-                                <?= $item['patrimony_number2'] ? HTMLUtil::render_patrimony($item['patrimony_id'], $item['patrimony_number2'] ):''; ?> 
+                                <?php HTMLUtil::render_patrimony($item['patrimony_id'], $item['patrimony_number'] ,$item['icon_set']); ?> 
+                                <?= $item['patrimony_number2'] ? HTMLUtil::render_patrimony($item['patrimony_id'], $item['patrimony_number2'],$item['icon_set'] ):''; ?> 
 
                             <?php endif; ?>
 

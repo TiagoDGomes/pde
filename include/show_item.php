@@ -11,7 +11,7 @@ include 'include/queries/item.php';
     </template>
     <div class="card item top">
         <h2>
-            <i class="icon item"></i><?= $selected_item['name'] ?>  
+            <i class="icon item <?= $selected_item['icon_set'] ?>"></i><?= $selected_item['name'] ?>  
                  
         </h2>
         <p class="alert details">

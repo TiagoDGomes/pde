@@ -9,6 +9,7 @@ $query_search_loans = "SELECT m.id as model_id,
       p.number2 as patrimony_number2, 
       p.serial_number as patrimony_serial_number, 
       original_count,
+      icon_set,
       CASE 
          WHEN original_count - sum(diff) > original_count THEN original_count
          ELSE original_count - sum(diff) END as count_returned, 

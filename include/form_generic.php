@@ -1,18 +1,27 @@
 <?php isset($PDE) or die('Nope');
 
-function html_element($tag, $elem, $inner = NULL){
-    echo "<$tag ";
+function html_element($tag, $elem, $inner = NULL, $return_value=FALSE){
+    $ret_value = "<$tag ";
     foreach ($elem as $key => $value) {
-        if ($key == 'value' && !is_null($inner)){
-            echo "data-value=\"" . htmlentities($value,ENT_QUOTES) . "\" "; 
-        } else {
-            echo "$key=\"" . htmlentities($value,ENT_QUOTES) . "\" "; 
+        if ($tag != 'option' && $key == 'value' && !is_null($inner)){
+            $ret_value .= "data-value=\"" . htmlentities($value,ENT_QUOTES) . "\" "; 
+        } else if ($key != 'values') {
+            try{
+                $ret_value .= "$key=\"" . htmlentities($value,ENT_QUOTES) . "\" "; 
+            } catch(TypeError $e){
+                exit(var_dump([$key, $value]));
+            }     
         }   
     }
-    echo '>';
+    $ret_value .= '>';
     if (!is_null($inner)){
-        echo $inner;
-        echo "</$tag>";
+        $ret_value .= $inner;
+        $ret_value .= "</$tag>";
+    }
+    if ($return_value){
+        return $ret_value;
+    } else{
+        echo $ret_value;
     }
 }
 
@@ -62,6 +71,18 @@ function form_generator($title, $type, $itm, $elems){ ?>
                                 break;
                             case 'textarea':
                                 html_element('textarea',$elem, @$elem['value']);
+                                break;
+                            case 'select':
+                                $options = array();                                
+                                foreach($elem['values'] as $key => $value){
+                                    $e = array('value' => $key);
+                                    if ($elem['value'] == $key){
+                                        $e['selected'] = "selected";
+                                    }
+                                    $options[] = html_element('option', $e, $value,TRUE);
+                                }    
+                                unset($elem['type']);                            
+                                html_element('select', $elem, implode("\n",$options));
                         } 
                     ?>
 

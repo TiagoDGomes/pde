@@ -31,6 +31,7 @@ $query = "SELECT * FROM (SELECT m.id as model_id,
                     u.id AS last_user_id,                            
                     'patrimony' as result_type,
                     1 as query_units,
+                    icon_set,
                     CASE WHEN number1 = ? THEN 1
                             WHEN number2 = ? THEN 1
                             WHEN serial_number = ? THEN 1
@@ -72,6 +73,7 @@ $query .= "SELECT * FROM (SELECT m.id as model_id,
                     NULL AS last_user_id,                            
                     'item' as result_type,
                     ? AS query_units,
+                    icon_set,
                     0 as is_match,
                     n.id as loan_id
             FROM model m  
@@ -198,9 +200,9 @@ foreach ($search_results as $result): ?>
                     <?php $input_hidden['pid'] = $result['patrimony_id']; ?>    
                     <span class="identifier">
 
-                    <?php HTMLUtil::render_patrimony($result['patrimony_id'], $result['patrimony_number1'] ); ?> 
+                    <?php HTMLUtil::render_patrimony($result['patrimony_id'], $result['patrimony_number1'],$result['icon_set'] ); ?> 
                     <?php if ($result['patrimony_number2']) : ?>
-                        <br><?php HTMLUtil::render_patrimony($result['patrimony_id'], $result['patrimony_number2'] ); ?>                    
+                        <br><?php HTMLUtil::render_patrimony($result['patrimony_id'], $result['patrimony_number2'],$result['icon_set'] ); ?>                    
                     <?php endif; ?>
 
                     </span>

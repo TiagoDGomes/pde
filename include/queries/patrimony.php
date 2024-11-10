@@ -6,6 +6,7 @@ $query = "SELECT p.id as id, model_id,
                 number1, number2, serial_number, model_loan_block,
                 usable, found, loan_block, obs, 
                 patrimony_location, 
+                icon_set,
                 model_obs, model_location, name 
             FROM patrimony p
             INNER JOIN model m ON m.id = p.model_id
@@ -23,12 +24,14 @@ $query_search_loans = "SELECT
                 p.serial_number as patrimony_serial_number, 
                 p.patrimony_location as patrimony_location,
                 original_count,
+                icon_set,
                 CASE 
                 WHEN original_count - sum(diff) > original_count THEN original_count
                 ELSE original_count - sum(diff) END as count_returned, 
                 $all_details_sql_concat as all_details,
                 n.id as loan_id
         FROM loan n
+        INNER JOIN model m  ON (m.id = n.model_id)
         INNER JOIN log_loan nn ON (nn.loan_id = n.id)
         INNER JOIN user u ON (u.id = n.user_id)
         LEFT JOIN patrimony p ON (n.patrimony_id = p.id)

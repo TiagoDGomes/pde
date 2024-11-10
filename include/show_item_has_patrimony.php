@@ -37,10 +37,10 @@ require_once 'include/form_patrimony.php'; ?>
                     <i class="icon <?= $item['icon_found'] ?>"></i>
                 </td>
                 <td class="number">
-                    <?php HTMLUtil::render_patrimony($item['patrimony_id'], $item['patrimony_number']) ; ?>
+                    <?php HTMLUtil::render_patrimony($item['patrimony_id'], $item['patrimony_number'],$item['icon_set']) ; ?>
                 </td>
                 <td class="number">
-                    <?php $item['patrimony_number2'] ? HTMLUtil::render_patrimony($item['patrimony_id'], $item['patrimony_number2']) : '' ; ?>
+                    <?php $item['patrimony_number2'] ? HTMLUtil::render_patrimony($item['patrimony_id'], $item['patrimony_number2'],$item['icon_set']) : '' ; ?>
                 </td>
                 <td class="date">
                     <i class="icon <?= $item['original_count'] <= $item['count_returned'] ? 'check' : 'cart' ?>"><span></span></i>

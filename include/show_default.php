@@ -26,7 +26,7 @@
                 </th>              
                 <th class="time">Horário</th>    
                 <th>Pessoa</th>   
-                <th class="number">Patrimônio</th>
+                <th class="number">Etiqueta</th>
                 <th>Nome do item</th>
                 <th class="number">Código</th>
                 <th class="return">Quant. devolvida</th>
@@ -85,8 +85,8 @@
 
                         <?php if ($item['patrimony_number']): ?>
 
-                            <?php HTMLUtil::render_patrimony($item['patrimony_id'], $item['patrimony_number'] ); ?> 
-                            <?= $item['patrimony_number2'] ? HTMLUtil::render_patrimony($item['patrimony_id'], $item['patrimony_number2'] ):''; ?> 
+                            <?php HTMLUtil::render_patrimony($item['patrimony_id'], $item['patrimony_number'],$item['icon_set'] ); ?> 
+                            <?= $item['patrimony_number2'] ? HTMLUtil::render_patrimony($item['patrimony_id'], $item['patrimony_number2'],$item['icon_set'] ):''; ?> 
 
                         <?php endif; ?>
 

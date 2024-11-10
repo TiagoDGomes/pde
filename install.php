@@ -106,7 +106,7 @@ $queries = array(
         "ALTER TABLE model ADD COLUMN model_location $TEXT",
         "ALTER TABLE patrimony ADD COLUMN patrimony_location $TEXT",
         "ALTER TABLE model ADD COLUMN model_loan_block $BYTE NOT NULL DEFAULT 0 CHECK (model_loan_block IN (0, 1))",
-         
+        "ALTER TABLE model ADD COLUMN icon_set $TEXT DEFAULT NULL", 
     $QUERY_NORMALIZE
 );
 
