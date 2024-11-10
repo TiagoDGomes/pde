@@ -36,7 +36,7 @@
         --table-link-color-remaining: white;
         --table-link-color-complete: #6d6d6d;
         --header-color-top: #046d00;
-        --header-color-bottom: black; 
+        --header-color-bottom: rgba(0, 0, 0, 0); 
         --body-background-color: black;  
         --body-color: white; 
         --table-completed-color: #436340;
@@ -104,9 +104,13 @@ a, a:visited{
 }
 
 header {
-    background-color: var(--header-color-top);
     min-height: var(--header-height);
     background-image: linear-gradient(var(--header-color-top), var(--header-color-bottom));
+}
+caption {
+    text-align: left;
+    font-weight: bold;
+    padding: 8px;
 }
 .search_item {
     min-height: 10em;
