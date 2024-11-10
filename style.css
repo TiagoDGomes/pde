@@ -376,34 +376,34 @@ footer li {
     padding-bottom: 14px;
 }
 
-.result .title {
+.card .title {
     font-weight: bold;
     padding-bottom: 4px;
 }
-.result .message{    
+.card .message{    
     margin-top: 25px;
     border-radius: 4px;
     padding: 4px;
     margin-top: 5px;
     font-size: .8em;    
 }
-.result .message.alert {
+.card .message.alert {
     background-color: #ff00005c;    
 }
-.result .message.info {
+.card .message.info {
     background-color: #0000ff5c;
 }
-.result .actions {
+.card .actions {
     text-align: right;
     margin-top: 15px;
     margin-bottom: 15px;
 }
-
-
-.details {
-    font-size: .85em;  
+.card.top .alert {
+    font-weight: normal;
+    font-size: .5em;
+    display: inline;
+    white-space: nowrap;
 }
-
 .result span:has(.patrimony) {
     float: left;
 }

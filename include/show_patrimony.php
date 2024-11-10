@@ -14,6 +14,31 @@ include 'include/queries/patrimony.php';
             <i class="icon item"></i><a href="?iid=<?= $selected_patrimony['model_id'] ?>"><?= $selected_patrimony['name'] ?></a> &gt;
             <?php HTMLUtil::render_patrimony(NULL, $selected_patrimony['number1']) ; ?>
             <?php $selected_patrimony['number2'] ? HTMLUtil::render_patrimony(NULL, $selected_patrimony['number2']) : '' ; ?>
+            <?php if ($selected_patrimony['model_loan_block'] >= 1): ?>
+                <div class="message alert">   
+                    <i class="icon blocked"></i>         
+                    Este modelo de item foi bloqueado para empréstimo.
+                </div>&nbsp;
+            <?php endif; ?> 
+            <?php if ($selected_patrimony['loan_block'] >= 1): ?>
+                <div class="message alert">   
+                    <i class="icon blocked"></i>         
+                    Este item foi bloqueado para empréstimo.
+                </div>&nbsp;
+            <?php endif; ?>
+            <?php if ($selected_patrimony['usable'] == 0): ?>
+                <div class="message alert">   
+                    <i class="icon trash"></i>         
+                    Este item foi marcado como não utilizável.
+                </div>&nbsp;
+            <?php endif; ?>
+            <?php if ($selected_patrimony['found'] == 0): ?>
+                <div class="message alert">   
+                    <i class="icon unknown"></i>         
+                    Este item foi marcado como não encontrado.
+                </div>&nbsp;
+            <?php endif; ?>
+                
         </h2>
         <?php if ($selected_patrimony['model_location'] || $selected_patrimony['patrimony_location'])  : ?>
         <div class="details location"> 

@@ -11,9 +11,17 @@ include 'include/queries/item.php';
     </template>
     <div class="card item top">
         <h2>
-            <i class="icon item"></i><?= $selected_item['name'] ?>        
+            <i class="icon item"></i><?= $selected_item['name'] ?>  
+            <?php if ($selected_item['model_loan_block'] >= 1): ?>
+                <div class="message alert">   
+                    <i class="icon blocked"></i>         
+                    Este modelo de item foi bloqueado para empréstimo.
+                </div>
+            <?php endif; ?>          
         </h2>
-
+        <div class="alert details">
+                          
+        </div>
         <?php if ($selected_item['model_location']): ?>
         <div class="details location"> 
         
@@ -29,6 +37,7 @@ include 'include/queries/item.php';
 
         </div>
         <?php endif; ?>
+        
         <p class="bar">
             <button onclick="show_modal('#titem')">
                 Editar modelo de item
