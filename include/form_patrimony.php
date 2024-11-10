@@ -7,7 +7,7 @@ function form_patrimony($patrimony){
     $loan_block_checked = (@$patrimony['loan_block'] || $model_loan_block_checked ) ;   
     $model_name = isset($patrimony['name']) ? $patrimony['name'] : $patrimony['model_name'];
     form_generator(
-        "Patrimônio",
+        "Etiqueta/Patrimônio",
         "patrimony",
         $patrimony,
         array(                                
@@ -22,14 +22,14 @@ function form_patrimony($patrimony){
                 "name" => "number1",
                 "type" => "text",
                 "value" => @$patrimony['number1'],
-                "data-description" => "Etiqueta/patrimônio 1",  
+                "data-description" => "Código de identificação 1",  
                 "placeholder" => "",  
             ),                                
             array(
                 "name" => "number2",
                 "type" => "text",
                 "value" => @$patrimony['number2'],
-                "data-description" => "Etiqueta/patrimônio 2",  
+                "data-description" => "Código de identificação 2",  
                 "placeholder" => "",  
             ),                      
             array(
