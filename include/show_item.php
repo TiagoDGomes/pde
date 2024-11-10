@@ -13,10 +13,10 @@ include 'include/queries/item.php';
         <h2>
             <i class="icon item"></i><?= $selected_item['name'] ?>  
             <?php if ($selected_item['model_loan_block'] >= 1): ?>
-                <div class="message alert">   
+                <span class="message alert">   
                     <i class="icon blocked"></i>         
                     Este modelo de item foi bloqueado para empréstimo.
-                </div>
+                </span>
             <?php endif; ?>          
         </h2>
         <div class="alert details">
