@@ -36,13 +36,13 @@ include 'include/queries/patrimony.php';
             <?php if ($selected_patrimony['usable'] == 0): ?>
                 <span class="message alert">   
                     <i class="icon trash"></i>         
-                    Este item foi marcado como não utilizável.
+                    Este item foi definido como não utilizável.
                 </span>&nbsp;
             <?php endif; ?>
             <?php if ($selected_patrimony['found'] == 0): ?>
                 <span class="message alert">   
                     <i class="icon unknown"></i>         
-                    Este item foi marcado como não encontrado.
+                    Este item foi definido como não encontrado.
                 </span>&nbsp;
             <?php endif; ?>
         </p>
