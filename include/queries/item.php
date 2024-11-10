@@ -22,6 +22,12 @@ $query_search_loans = "SELECT m.id as model_id,
                      CASE WHEN 
                         p.loan_block = 1 or p.usable = 0  or p.found = 0 THEN 'blocked'
                         ELSE 'ok' END AS icon_block,
+                     CASE WHEN 
+                        p.usable = 1  THEN 'usable'
+                        ELSE 'trash' END AS icon_usable,
+                     CASE WHEN 
+                        p.found = 1  THEN 'found'
+                        ELSE 'unknown' END AS icon_found,
                      p.serial_number as patrimony_serial_number, 
                      original_count,
                      CASE 

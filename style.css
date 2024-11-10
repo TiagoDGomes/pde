@@ -71,7 +71,10 @@ form .allow{
 form .denied{
     color: red;
 }
-
+.icon-cell{
+    max-width: 1.5em;
+    text-align: center;
+}
 .card.user {
     background-image: linear-gradient(308deg, var(--card-user-background-color-1), var(--card-user-background-color-2));
 }

@@ -41,6 +41,7 @@ include 'include/queries/item.php';
             <?php endif; ?>
             
         </p>
+        
     </div>
     <?php if ($selected_item['has_patrimony']): ?>
         <?php require_once 'include/form_patrimony.php'; ?>
@@ -73,8 +74,10 @@ include 'include/queries/item.php';
 
                     <tr class="<?= $item['icon_block'] ?>">
                         <td><input disabled type="checkbox" name="chk_all"></td>
-                        <td>
-                            <i class="icon <?= $item['icon_block'] ?>"><span></span></i>
+                        <td class="icon-cell">
+                            <i class="icon <?= $item['icon_block'] ?>"></i>
+                            <i class="icon <?= $item['icon_usable'] ?>"></i>
+                            <i class="icon <?= $item['icon_found'] ?>"></i>
                         </td>
                         <td class="number">
                             <?php HTMLUtil::render_patrimony($item['patrimony_id'], $item['patrimony_number']) ; ?>
