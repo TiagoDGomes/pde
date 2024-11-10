@@ -12,30 +12,30 @@ include 'include/queries/item.php';
     <div class="card item top">
         <h2>
             <i class="icon item"></i><?= $selected_item['name'] ?>  
+                 
+        </h2>
+        <p class="alert details">
             <?php if ($selected_item['model_loan_block'] >= 1): ?>
                 <span class="message alert">   
                     <i class="icon blocked"></i>         
                     Este modelo de item foi bloqueado para empréstimo.
                 </span>
-            <?php endif; ?>          
-        </h2>
-        <div class="alert details">
-                          
-        </div>
+            <?php endif; ?>               
+        </p>
         <?php if ($selected_item['model_location']): ?>
-        <div class="details location"> 
+        <p class="details location"> 
         
             <i class="icon location"></i><?= $selected_item['model_location'] ?>         
 
-        </div>
+        </p>
         <?php endif; ?>
 
         <?php if ($selected_item['model_obs']): ?>
-        <div class="details obs"> 
+        <p class="details obs"> 
         
             <i class="icon obs"></i><?= $selected_item['model_obs'] ?>      
 
-        </div>
+        </p>
         <?php endif; ?>
         
         <p class="bar">
