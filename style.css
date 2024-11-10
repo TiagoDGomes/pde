@@ -72,6 +72,12 @@ table tr.complete td a,
 table tr.complete td {
     color: var(--table-completed-color);
 }
+table .date {
+    width: 12em;
+}
+table .status{
+    width: 5em
+}
 form .allow{
     color:green;
 }
@@ -407,7 +413,6 @@ footer li {
 }
 .card.top .alert {
     font-weight: normal;
-    font-size: .5em;
     display: inline;
     white-space: nowrap;
 }
@@ -422,10 +427,13 @@ footer li {
     padding: 4px;
     border-radius: 4px;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: .85em;
+    /* font-size: .85em; */
     text-align: right;
     display: inline-block;
     box-shadow: 1px 1px 1px 1px var(--patrimony-background-color);
+}
+h2 .patrimony{
+    padding: 3px 3px 0px 3px;
 }
 td .patrimony{
     width: 100%;
