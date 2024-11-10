@@ -41,29 +41,35 @@ include 'include/queries/patrimony.php';
                 
         </h2>
         <?php if ($selected_patrimony['model_location'] || $selected_patrimony['patrimony_location'])  : ?>
-        <div class="details location"> 
+        <p class="details location"> 
             <?php if ($selected_patrimony['patrimony_location'] != ''): ?>
                 <i class="icon location"></i><?= $selected_patrimony['patrimony_location'] ?>
+                <?php $br = 1; ?>
             <?php endif; ?>
-            <?php if ($selected_patrimony['model_location'] != ''): ?>
-                <?= $selected_patrimony['patrimony_location'] ? '<br><i class="icon location"></i><small>': '' ?><?= 
-                    $selected_patrimony['model_location'] ?><?= 
-                    $selected_patrimony['patrimony_location'] ? '</small>': '' ?>
+            <?php if ($selected_patrimony['model_location'] != ''): ?>  
+                <?= isset($br)? '<br>': '' ?>              
+                <small>
+                    <i class="icon location"></i>
+                    <?= $selected_patrimony['model_location'] ?>
+                </small>
             <?php endif; ?>
-        </div>        
+        </p>        
         <?php endif; ?>
-
+        <?php unset($br); ?>          
         <?php if ($selected_patrimony['obs'] || $selected_patrimony['model_obs']): ?>
-        <div class="details obs">   
+        <p class="details obs">   
             <?php if ($selected_patrimony['obs'] != ''): ?>
                 <i class="icon obs"></i><?= $selected_patrimony['obs'] ?>
+                <?php $br = 1; ?>
             <?php endif; ?>
-            <?php if ($selected_patrimony['model_obs'] != ''): ?>
-                <?= $selected_patrimony['obs'] ? '<br><i class="icon obs"></i><small>': '' ?><?= 
-                    $selected_patrimony['model_obs'] ?><?= 
-                    $selected_patrimony['obs'] ? '</small>': '' ?>
+            <?php if ($selected_patrimony['model_obs'] != ''): ?>                
+                <?= isset($br)? '<br>': '' ?>  
+                <small>
+                    <i class="icon obs"></i>
+                    <?= $selected_patrimony['model_obs'] ?>
+                </small>
             <?php endif; ?>
-        </div>
+        </p>
         <?php endif; ?>
         <p class="bar"><button onclick="show_modal('#tpatrimony')">Editar</button></p>
     </div>
