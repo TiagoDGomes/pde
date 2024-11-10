@@ -54,6 +54,13 @@
     i.icon{
         filter: invert(1);
     }  
+    .modal{
+        background-color: #000000c0 !important;
+    }
+
+}
+body:has(.modal) #main{
+    filter:blur(1px);
 }
 * {
     box-sizing: border-box;
