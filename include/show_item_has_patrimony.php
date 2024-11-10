@@ -17,10 +17,11 @@ require_once 'include/form_patrimony.php'; ?>
             <thead>
                 <tr>                
                     <th><input disabled type="checkbox" name="chk_all"></th>
-                    <th colspan="3">Nº Patr.</th>
-                    <th>Data do último<br> empréstimo</th>
-                    <th>Nome da pessoa</th>
-                    <th>Detalhes</th>
+                    <th class="status">Status</th>
+                    <th colspan="2">Identificação</th>
+                    <th class="date">Data do último<br> empréstimo</th>
+                    <th class="text">Nome da pessoa</th>
+                    <th class="text">Detalhes</th>
                 </tr>
             </thead>
             <tbody>
