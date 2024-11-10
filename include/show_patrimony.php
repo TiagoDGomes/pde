@@ -42,25 +42,27 @@ include 'include/queries/patrimony.php';
         </h2>
         <?php if ($selected_patrimony['model_location'] || $selected_patrimony['patrimony_location'])  : ?>
         <div class="details location"> 
-        
-            <p><i class="icon location"></i><?= $selected_patrimony['patrimony_location'] ?>
+            <?php if ($selected_patrimony['patrimony_location'] != ''): ?>
+                <i class="icon location"></i><?= $selected_patrimony['patrimony_location'] ?>
+            <?php endif; ?>
+            <?php if ($selected_patrimony['model_location'] != ''): ?>
                 <?= $selected_patrimony['patrimony_location'] ? '<br><i class="icon location"></i><small>': '' ?><?= 
                     $selected_patrimony['model_location'] ?><?= 
                     $selected_patrimony['patrimony_location'] ? '</small>': '' ?>
-            </p>         
-
+            <?php endif; ?>
         </div>        
         <?php endif; ?>
 
         <?php if ($selected_patrimony['obs'] || $selected_patrimony['model_obs']): ?>
-        <div class="details obs"> 
-        
-            <p><i class="icon obs"></i><?= $selected_patrimony['obs'] ?>
+        <div class="details obs">   
+            <?php if ($selected_patrimony['obs'] != ''): ?>
+                <i class="icon obs"></i><?= $selected_patrimony['obs'] ?>
+            <?php endif; ?>
+            <?php if ($selected_patrimony['model_obs'] != ''): ?>
                 <?= $selected_patrimony['obs'] ? '<br><i class="icon obs"></i><small>': '' ?><?= 
                     $selected_patrimony['model_obs'] ?><?= 
                     $selected_patrimony['obs'] ? '</small>': '' ?>
-            </p>        
-
+            <?php endif; ?>
         </div>
         <?php endif; ?>
         <p class="bar"><button onclick="show_modal('#tpatrimony')">Editar</button></p>

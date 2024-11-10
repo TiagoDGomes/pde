@@ -25,7 +25,7 @@ include 'include/queries/item.php';
         <?php if ($selected_item['model_location']): ?>
         <div class="details location"> 
         
-            <p><i class="icon location"></i><?= $selected_item['model_location'] ?> </p>         
+            <i class="icon location"></i><?= $selected_item['model_location'] ?>         
 
         </div>
         <?php endif; ?>
@@ -33,7 +33,7 @@ include 'include/queries/item.php';
         <?php if ($selected_item['model_obs']): ?>
         <div class="details obs"> 
         
-            <p><i class="icon obs"></i><?= $selected_item['model_obs'] ?></p>         
+            <i class="icon obs"></i><?= $selected_item['model_obs'] ?>      
 
         </div>
         <?php endif; ?>
