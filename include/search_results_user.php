@@ -3,12 +3,12 @@
 $search_results = array();
 
 $su = strtoupper($current_query_string);
-$query = "SELECT id, name, 
+$query = "SELECT id, trim(name) as name, 
             code1, code2,
             0 as has_patrimony, 
             'user' as result_type,
             concat(code1, '<br>', code2) as obs 
-            FROM user WHERE normalize(name) LIKE ? OR code1 = ? OR code2 = ?";
+            FROM user WHERE normalize(name) LIKE ? OR code1 = ? OR code2 = ? ORDER BY name LIMIT 100";
 $params = array(normalize("%$su%"), $su, $su); 
 $search_results = Database::fetchAll($query, $params);
 
