@@ -485,21 +485,29 @@ table td.username{
 /*  Mostrar o primeiro nome e esconder o resto:  */
 /*  https://stackoverflow.com/questions/2717480/css-selector-for-first-element-with-class */
 /* ********************************************* */
+ 
+/* Sempre mostrar o primeiro por padrão */
 table .user-loan-first .hide-name {
-    display: inline !important; /* Sempre mostrar o primeiro por padrão */
+    display: inline !important;
 }
+
 /* Ocultar hide-name por padrão :*/
 table .hide-name, 
 /*  quando não escolher show-complete, ocultar linhas completadas: */
 table:not(.show-completed) tr.complete, 
 /* quando não escolher show-complete, esconder todos os nomes das linhas que não são a primeira: */
-table:not(.show-completed) tbody > tr.remaining ~ tr.remaining .hide-name 
-{
+table:not(.show-completed) tbody > tr.remaining ~ tr.remaining .hide-name {
     display: none; 
 }
+
 /* quando não escolher show-complete, mostrar o nome da primeira linha */
-table:not(.show-completed) tbody > tr.remaining .hide-name  {
-    display: inline;
+table:not(.show-completed) tbody > tr.remaining .hide-name {
+    display: inline;    
+}
+
+/* username não deve ficar com a cor de completado: */
+table .username a {
+    color: var(--table-remaining-color) !important;
 }
 /************************************************/
 
