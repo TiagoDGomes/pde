@@ -36,11 +36,12 @@
         <tbody>
             <?php $last_date = NULL; ?> 
             <?php $last_user = NULL; ?>    
-            <?php foreach($loans as $item): ?>    
+            <?php foreach($loans as $key => $item): ?>    
 
                 <?php $this_date = (new DateTimeImmutable($item['loan_date']))->format('d/m/Y'); ?>
                 <?php $this_date_class = str_replace("/","_", $this_date); ?>
                 <?php $this_time = (new DateTimeImmutable($item['loan_date']))->format('H:i'); ?>
+                <?php $next_is_another = @$loans[$key+1]['user_id'] != $item['user_id']; ?>
                 <?php $reset_date = false; ?>
                 <?php if ($last_date != $this_date): ?>
 
@@ -58,7 +59,7 @@
                 <?php endif; ?>                     
                 <?php $item_status = $item['count_returned'] >= $item['original_count'] ? 'complete' : 'remaining' ; ?>        
                 <tr id="line_loan_<?= $item['loan_id'] ?>" 
-                    class="<?= $item_status ?> loan_date_<?= str_replace("/","_",$last_date) ?>">
+                    class="<?= $item_status ?> loan_date_<?= str_replace("/","_",$last_date) ?> <?= $next_is_another ? 'loan_user_last': ''?>">
                 
                     <td>
                         <input class="line_checkbox" data-id="<?= $item['loan_id'] ?>" onchange="select_item(this,'nid')" type="checkbox" id="loan_<?= $item['loan_id'] ?>">
@@ -66,18 +67,18 @@
                     <td class="time">
                         <?= $this_time ?>
                     </td>
-                    <td>
+                    <td class="username">
                         <?php $current_user = $item['user_id'];?>
-                        <label title="<?= $item['user_name'] ?>" for="user_<?= $item['user_id'] ?>">
+                        <pde-user title="<?= $item['user_name'] ?>" for="user_<?= $item['user_id'] ?>">
                             <a href="?uid=<?= $item['user_id'] ?>">
-                                <?php if ($last_user != $current_user || $reset_date) : ?>
+                                <?php if ($next_is_another || $reset_date) : ?>
                                     <?= $item['user_name'] ?>
                                 <?php else: ?>
                                     <span class="hide-name"><?= $item['user_name'] ?></span>
                                     <small class="quote">...</small>
                                 <?php endif; ?> 
                             </a>
-                        </label>
+                        </pde-user>
  
                         <?php $last_user = $current_user; ?>  
                     </td>

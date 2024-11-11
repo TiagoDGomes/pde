@@ -457,6 +457,13 @@ td:has(.patrimony){
     padding-right: 5px;
     min-width: 7em;
 }
+table.show-completed td.username{
+    border-top-width: 0;
+}
+table.show-completed tr.loan_user_last td.username{
+    border-top-width: 1px;
+}
+table.show-completed .hide-name,
 table .quote,
 table .complete{
     display: none;
