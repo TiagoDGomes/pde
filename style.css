@@ -457,12 +457,18 @@ td:has(.patrimony){
     padding-right: 5px;
     min-width: 7em;
 }
-.hide-name,
-table.hide-completed .quote,
-table.hide-completed .complete{
+table .complete{
     display: none;
 }
-table.hide-completed .hide-name{
+table.show-completed .complete{
+    display: table-row; 
+}
+
+.hide-name,
+table.show-completed .quote{
+    display: none;
+}
+table.show-completed .hide-name{
     display: inline;
 }
 

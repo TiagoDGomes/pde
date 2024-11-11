@@ -11,7 +11,7 @@
             <input id="chk_date_after" onchange="date_change(this)" type="date" name="after" max="<?= $current_date_now ?>" value="<?= $current_date_after ?>">
         </label>
         <button>Filtrar</button>  
-        <label><input <?= @$form_clear['hide_complete'] ? 'checked' : '' ?> type="checkbox" name="hide_complete" value="1" onclick="hide_completed(this.checked)">Ocultar devolvidos</label> 
+        <label><input <?= @$form_clear['show_complete'] ? 'checked' : '' ?> type="checkbox" name="show_complete" value="1" onclick="show_completed(this.checked)">Mostrar devolvidos</label> 
     </form>     
     <script>
         function date_change(elem){
@@ -23,20 +23,20 @@
                 chk_date_before.max = chk_date_after.value;
             }
         }
-        function hide_completed(val){
+        function show_completed(val){
             var table = document.querySelector('table:has(tr.complete)');
             var urlPath;
             if (window.location.search == ''){
                 urlPath = window.location.origin + window.location.pathname + '?'
             } else{
-                urlPath = window.location.href.replace('&hide_complete=1','');
-                urlPath = urlPath.replace('hide_complete=1','');
+                urlPath = window.location.href.replace('&show_complete=1','');
+                urlPath = urlPath.replace('show_complete=1','');
             }            
             if (val){
-                table.classList.add('hide-completed');                                
-                urlPath += '&hide_complete=1';
+                table.classList.add('show-completed');                                
+                urlPath += '&show_complete=1';
             } else {
-                table.classList.remove('hide-completed');
+                table.classList.remove('show-completed');
             }
             window.history.replaceState({},"", urlPath);
         }
