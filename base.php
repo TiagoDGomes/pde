@@ -19,6 +19,9 @@ function password_pepper($password){
     global $CONFIG_SECRET_PEPPER;
     return hash_hmac("sha256", $password, $CONFIG_SECRET_PEPPER);
 }
+function pde_password_hash($password_hash){
+    return password_hash(password_pepper($password_hash),PASSWORD_BCRYPT);
+}
 
 foreach($_GET as $key => $value){
     if (is_array($value)){
@@ -48,7 +51,8 @@ if (!$is_logged){
         if ($user){
             $pwd_peppered = password_pepper($form_clear['password']);
             $pwd_hashed = $user['password'];   
-            $verified = password_verify($pwd_peppered, $pwd_hashed); 
+            $verified = password_verify($pwd_peppered, $pwd_hashed);
+
             if ($verified) {
                 $_SESSION['operator'] = $user;
                 HTTPResponse::redirect("?");

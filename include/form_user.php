@@ -69,7 +69,7 @@ function form_user_save_new($form_clear){
         $query = "INSERT INTO user (name, code1, code2) VALUES (?,?,?)";
         $params = array(strtoupper($form_clear['name']), strtoupper($form_clear['code1']), strtoupper($form_clear['code2']));
     } else {
-        $pwd_hashed = password_pepper($form_clear['change-password-1']);
+        $pwd_hashed = pde_password_hash($form_clear['change-password-1']);
         $query = "INSERT INTO user (name, code1, code2, login, password) VALUES (?,?,?,?,?)";
         $params = array(strtoupper($form_clear['name']), strtoupper($form_clear['code1']), strtoupper($form_clear['code2']), $form_clear['login'], $pwd_hashed);
     }    
@@ -84,7 +84,7 @@ function form_user_save_edit($form_clear){
         $query = "UPDATE user SET name = ?, code1 = ?, code2 = ? WHERE id = ?";
         $params = array(strtoupper($form_clear['name']), strtoupper($form_clear['code1']), strtoupper($form_clear['code2']), $form_clear['id']);
     } else {
-        $pwd_hashed = password_pepper($form_clear['change-password-1']);
+        $pwd_hashed = pde_password_hash($form_clear['change-password-1']);
         //exit(var_dump($pwd_hashed));
         $query = "UPDATE user SET name = ?, code1 = ?, code2 = ?, login = ?, password = ? WHERE id = ?";
         $params = array(strtoupper($form_clear['name']), strtoupper($form_clear['code1']), strtoupper($form_clear['code2']), $form_clear['login'], $pwd_hashed, $form_clear['id']);
