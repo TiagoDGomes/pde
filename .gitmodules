@@ -1,0 +1,3 @@
+[submodule "JSimpleSpreadsheet"]
+	path = JSimpleSpreadsheet
+	url = https://github.com/TiagoDGomes/JSimpleSpreadsheet.git
