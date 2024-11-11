@@ -27,7 +27,8 @@ function form_model($model){
                 "value" => "1",
                 "data-description" => "Modelo de item com etiqueta, patrimônio ou identificações únicas",
                 "placeholder" => "Modelo de item com etiqueta, patrimônio ou identificações únicas",  
-                @$model['has_patrimony'] ? 'checked': '' => @$model['has_patrimony'] ? 'checked': ''
+                @$model['has_patrimony'] ? 'checked': '' => @$model['has_patrimony'] ? 'checked': '',
+                'data-help'=> 'Itens em que o controle do empréstimo é pela etiqueta única de cada item'
             ),                        
             array(                
                 "id" => "model_multiple",
@@ -36,14 +37,16 @@ function form_model($model){
                 "value" => "0",
                 "data-description" => "Modelo de item sem etiqueta",
                 "placeholder" => "Modelo de item sem etiqueta",  
-                @$model['has_patrimony'] ? '': 'checked' => @$model['has_patrimony'] ? '': 'checked'
+                @$model['has_patrimony'] ? '': 'checked' => @$model['has_patrimony'] ? '': 'checked',
+                'data-help'=> 'Itens em que o controle do empréstimo é pela quantidade do item'
             ),                        
             array(
                 "name" => "model_location",
                 "type" => "text",
                 "value" => @$model['model_location'],
                 "data-description" => "Localização",  
-                "placeholder" => "",   
+                "placeholder" => "",
+                'data-help'=> ''   
             ),                        
             array(
                 "name" => "model_obs",
@@ -65,7 +68,7 @@ function form_model($model){
                 "id"=> "icon_set",
                 "name" => "icon_set",
                 "type" => "select",
-                "value" => $model['icon_set'],
+                "value" => @$model['icon_set'],
                 "values" => array("default" => "(padrão)", 'key' => 'Chave'),
                 "data-description" => 'Ícone',  
                 "placeholder" => "",                   
