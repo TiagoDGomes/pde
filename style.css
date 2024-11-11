@@ -477,10 +477,13 @@ td:has(.patrimony){
 }
 table td.username{
     border-top-width: 0;
+    max-width: 16em;
+    min-width: 12em;
 }
 
 /* ********************************************* */
 /*  Mostrar o primeiro nome e esconder o resto:  */
+/*  https://stackoverflow.com/questions/2717480/css-selector-for-first-element-with-class */
 /* ********************************************* */
 table .user-loan-first .hide-name {
     display: inline !important; /* Sempre mostrar o primeiro por padrão */
