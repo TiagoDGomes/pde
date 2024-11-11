@@ -34,7 +34,7 @@
             <thead>
                 <tr>
                     <th colspan="2">
-                        <select onchange="select_action(this)">
+                        <select disabled onchange="select_action(this)">
                             <option>Ações...</option>                     
                             <option value="ret">&bullet; Devolver</option>    
                             <option value="delete">&bullet; Excluir</option>                        
