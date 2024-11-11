@@ -35,6 +35,7 @@ $query = "SELECT * FROM (SELECT m.id as model_id,
                     CASE WHEN number1 = ? THEN 1
                             WHEN number2 = ? THEN 1
                             WHEN serial_number = ? THEN 1
+                            WHEN m.code = ? THEN 1
                             ELSE 0 END AS is_match,
                     n.id as loan_id
             FROM model m  
@@ -52,6 +53,7 @@ $query = "SELECT * FROM (SELECT m.id as model_id,
                     OR normalize(obs) LIKE ?)               
             GROUP BY m.id, p.id            
 			HAVING n.id = max(n.id) OR n.id IS NULL OR n.id > 0
+            
             LIMIT 100)
             UNION "; 
 $query .= "SELECT * FROM (SELECT m.id as model_id,
@@ -74,7 +76,8 @@ $query .= "SELECT * FROM (SELECT m.id as model_id,
                     'item' as result_type,
                     ? AS query_units,
                     icon_set,
-                    0 as is_match,
+                    CASE WHEN m.code = ? THEN 1
+                            ELSE 0 END AS is_match,
                     n.id as loan_id
             FROM model m  
             LEFT JOIN loan n ON 
@@ -85,20 +88,21 @@ $query .= "SELECT * FROM (SELECT m.id as model_id,
                 AND 
                     (m.code = ?   
                     OR normalize(m.name) LIKE ?) 
-            GROUP BY m.id
-            ORDER BY loan_id desc, is_match DESC, 
-                has_patrimony DESC, 
+            GROUP BY m.id          
+            LIMIT 100) ORDER BY 
+                is_match desc, 
                 patrimony_number1, 
-                patrimony_number2, 
+                patrimony_number2,
+                has_patrimony DESC,  
                 name,  
-                patrimony_serial_number            
-            LIMIT 100) LIMIT 100
+                patrimony_serial_number     
+            LIMIT 100
             ";
 $params = array(
     $query_string, $query_string, $query_string, # CASE1 
-    strtoupper($query_string),strtoupper($query_string),strtoupper($query_string),strtoupper($query_string), "%$query_string%","%$query_string%", # WHERE1
+    strtoupper($query_string),strtoupper($query_string),strtoupper($query_string),strtoupper($query_string),strtoupper($query_string), "%$query_string%","%$query_string%", # WHERE1
     $query_units, #SELECT2 query_units
-    strtoupper($query_string), "%$query_string%" # WHERE2
+    strtoupper($query_string),strtoupper($query_string), "%$query_string%" # WHERE2
 );
 
 $search_results = Database::fetchAll($query, $params);
