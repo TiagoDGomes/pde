@@ -11,7 +11,7 @@
 </head>
 
 <body class="<?= $is_searching ? 'searching': 'not-searching'?>">
-    <div id="main">
+    <div id="main<?= $is_logged ? '': '-login'?>">
         <?php if (!$is_logged): ?>
             <?php require 'page_login.php'; ?>
         <?php else: ?>

@@ -67,6 +67,7 @@ function form_generator($title, $type, $itm, $elems){ ?>
                             case 'hidden':                   
                             case 'text': 
                             case 'number':
+                            case 'password':
                                 html_element('input',$elem);
                                 break;
                             case 'textarea':
@@ -85,9 +86,11 @@ function form_generator($title, $type, $itm, $elems){ ?>
                                 html_element('select', $elem, implode("\n",$options));
                         } 
                     ?>
-
+                <?php if (isset($elem['data-help'])): ?>
+                    <br><small><?= $elem['data-help'] ?></small>
+                <?php endif; ?>
                 </dd>
-
+                
                 <?php endforeach; ?>
                 
                 <dt>&nbsp;</dt>

@@ -15,6 +15,11 @@ $page_title = 'Sistema de controle de empréstimos';
 $is_logged = isset($_SESSION['operator']) || is_null($CONFIG_AUTH_MODE);
 $is_searching = false;
 
+function password_pepper($password){
+    global $CONFIG_SECRET_PEPPER;
+    return hash_hmac("sha256", $password, $CONFIG_SECRET_PEPPER);
+}
+
 foreach($_GET as $key => $value){
     if (is_array($value)){
         $form_clear[$key] = $value;
@@ -30,9 +35,26 @@ foreach($_POST as $key => $value){
     }
 }
 
+if(isset($form_clear['logoff'])){
+    unset($_SESSION['operator']);
+    HTTPResponse::redirect("?");
+}
 
 if (!$is_logged){
-
+    if (isset($form_clear['login']) && isset($form_clear['password'])){
+        $query_login = "SELECT name, login, password FROM user WHERE login = ?";
+        $params = array($form_clear['login']);      
+        $user = Database::fetch($query_login, $params);         
+        if ($user){
+            $pwd_peppered = password_pepper($form_clear['password']);
+            $pwd_hashed = $user['password'];   
+            $verified = password_verify($pwd_peppered, $pwd_hashed); 
+            if ($verified) {
+                $_SESSION['operator'] = $user;
+                HTTPResponse::redirect("?");
+            }
+        }       
+    }
 } else {
     $response = array();
     $response_json = FALSE;

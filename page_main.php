@@ -22,7 +22,9 @@
                 <label for="chk_item">itens</label>
             </li>
             <li>|</li>
-            <li><a href=".">Início</a></li>                    
+            <li><a href=".">Início</a></li> 
+            <li>|</li>
+            <li><a href="?logoff">Sair</a></li>                    
         </ul>
         
     </header>

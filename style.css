@@ -635,7 +635,11 @@ td.details span.x:hover{
 }
 .modal .block dd input[type="text"],
 .modal .block dd input[type="number"]{
-    min-width: 40em;
+    width: 40em;
+}
+.modal .block dd input[type="text"].small,
+.modal .block dd input[type="number"].small{
+    width: 15em;
 }
 .card .bar{
     text-align: right;
