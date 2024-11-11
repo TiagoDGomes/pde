@@ -12,7 +12,7 @@ if (isset($query_string_full[1])){
 } else {
     $query_units = 1;
 }
-$query = "SELECT * FROM (SELECT m.id as model_id, 
+$query = "SELECT m.id as model_id, 
                     loan_block,
                     model_loan_block,
                     usable,
@@ -54,9 +54,8 @@ $query = "SELECT * FROM (SELECT m.id as model_id,
             GROUP BY m.id, p.id            
 			HAVING n.id = max(n.id) OR n.id IS NULL OR n.id > 0
             
-            LIMIT 100)
             UNION "; 
-$query .= "SELECT * FROM (SELECT m.id as model_id,
+$query .= "SELECT m.id as model_id,
                     0 AS loan_block,
                     model_loan_block,
                     1 AS usable, 
@@ -89,7 +88,7 @@ $query .= "SELECT * FROM (SELECT m.id as model_id,
                     (m.code = ?   
                     OR normalize(m.name) LIKE ?) 
             GROUP BY m.id          
-            LIMIT 100) ORDER BY 
+            ORDER BY 
                 is_match desc, 
                 patrimony_number1, 
                 patrimony_number2,
