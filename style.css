@@ -457,20 +457,54 @@ td:has(.patrimony){
     padding-right: 5px;
     min-width: 7em;
 }
-table.show-completed td.username{
+.quote{
+    display: block;
+    width: 50%; 
+    text-align: center;
+}
+.content table td,
+.content table th
+{
+    border-top: var(--cell-border);
+    border-right: var(--cell-border);
+    padding: 2px 2px 1px 4px
+}
+.content table td:first-child{
+    border-left: var(--cell-border);
+}
+.content table {
+    border-bottom: var(--cell-border);
+}
+table td.username{
     border-top-width: 0;
 }
-table.show-completed tr.loan_user_last td.username{
-    border-top-width: 1px;
+
+/* ********************************************* */
+/*  Mostrar o primeiro nome e esconder o resto:  */
+/* ********************************************* */
+table .user-loan-first .hide-name {
+    display: inline !important; /* Sempre mostrar o primeiro por padrão */
 }
-table.show-completed .hide-name,
-table .quote,
-table .complete{
-    display: none;
+/* Ocultar hide-name por padrão :*/
+table .hide-name, 
+/*  quando não escolher show-complete, ocultar linhas completadas: */
+table:not(.show-completed) tr.complete, 
+/* quando não escolher show-complete, esconder todos os nomes das linhas que não são a primeira: */
+table:not(.show-completed) tbody > tr.remaining ~ tr.remaining .hide-name 
+{
+    display: none; 
 }
-table.show-completed .complete{
-    display: table-row; 
+/* quando não escolher show-complete, mostrar o nome da primeira linha */
+table:not(.show-completed) tbody > tr.remaining .hide-name  {
+    display: inline;
 }
+/************************************************/
+
+table tbody.user-loan-group{
+    border-top: var(--cell-border);
+    border-bottom: var(--cell-border);;
+}
+
 
 table td.return,
 table th.return{
@@ -649,22 +683,4 @@ td.details span.x:hover{
 }
 .card .bar{
     text-align: right;
-}
-.quote{
-    display: block;
-    width: 50%; 
-    text-align: center;
-}
-.content table td,
-.content table th
-{
-    border-top: var(--cell-border);
-    border-right: var(--cell-border);
-    padding: 2px 2px 1px 4px
-}
-.content table td:first-child{
-    border-left: var(--cell-border);
-}
-.content table {
-    border-bottom: var(--cell-border);
 }

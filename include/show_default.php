@@ -33,9 +33,10 @@
                 <th>Observações do<br>empréstimo</th>
             </tr>
         </thead>
-        <tbody>
+        
             <?php $last_date = NULL; ?> 
-            <?php $last_user = NULL; ?>    
+            <?php $last_user = NULL; ?>  
+            <?php $current_user = NULL; ?>    
             <?php foreach($loans as $key => $item): ?>    
 
                 <?php $this_date = (new DateTimeImmutable($item['loan_date']))->format('d/m/Y'); ?>
@@ -43,8 +44,14 @@
                 <?php $this_time = (new DateTimeImmutable($item['loan_date']))->format('H:i'); ?>
                 <?php $next_is_another = @$loans[$key+1]['user_id'] != $item['user_id']; ?>
                 <?php $reset_date = false; ?>
+                <?php $current_user = $item['user_id'];?>
+                <?php $item_status = $item['count_returned'] >= $item['original_count'] ? 'complete' : 'remaining' ; ?> 
+                <?php $user_loan_first = $reset_date || $current_user != $last_user ?>
+                <?php if ($current_user != $last_user): ?>
+                    <tbody class="user-loan-group">
+                <?php endif; ?>    
                 <?php if ($last_date != $this_date): ?>
-
+                    </tbody><tbody class="user-loan-group">
                     <tr class="date">
                         <th>
                             <input onchange="select_all_date(this,'nid')" type="checkbox" class="loan_top_checkbox" id="loan_date_<?= $this_date_class ?>">
@@ -56,10 +63,10 @@
                     <?php $reset_date = true; ?>
                     <?php $last_date = $this_date; ?>
 
-                <?php endif; ?>                     
-                <?php $item_status = $item['count_returned'] >= $item['original_count'] ? 'complete' : 'remaining' ; ?>        
+                <?php endif; ?>                      
+
                 <tr id="line_loan_<?= $item['loan_id'] ?>" 
-                    class="<?= $item_status ?> loan_date_<?= str_replace("/","_",$last_date) ?> <?= $next_is_another ? 'loan_user_last': ''?>">
+                    class="<?= $item_status ?> loan_date_<?= str_replace("/","_",$last_date) ?> <?=  $user_loan_first ? 'user-loan-first': ''?>">
                 
                     <td>
                         <input class="line_checkbox" data-id="<?= $item['loan_id'] ?>" onchange="select_item(this,'nid')" type="checkbox" id="loan_<?= $item['loan_id'] ?>">
@@ -68,19 +75,18 @@
                         <?= $this_time ?>
                     </td>
                     <td class="username">
-                        <?php $current_user = $item['user_id'];?>
+                        
                         <pde-user title="<?= $item['user_name'] ?>" for="user_<?= $item['user_id'] ?>">
                             <a href="?uid=<?= $item['user_id'] ?>">
-                                <?php if ($next_is_another || $reset_date) : ?>
-                                    <?= $item['user_name'] ?>
+                                <?php if ($reset_date) : ?>
+                                    <span class="show-name"><?= $item['user_name'] ?></span>
                                 <?php else: ?>
                                     <span class="hide-name"><?= $item['user_name'] ?></span>
-                                    <small class="quote">...</small>
                                 <?php endif; ?> 
                             </a>
                         </pde-user>
  
-                        <?php $last_user = $current_user; ?>  
+                         
                     </td>
                     <td class="patr">
 
@@ -143,11 +149,14 @@
                             <a href="javascript:;" onclick="save_loan_details(<?= $item['loan_id'] ?>)">Registrar observações</a>
                         </div>
                     </td>
-                </tr>                                
-            
+                </tr>    
+                <?php if ($next_is_another): ?>
+                </tbody>
+                <?php endif; ?>                             
+                <?php $last_user = $current_user; ?>                 
             <?php endforeach;?> 
 
-        </tbody>
+        
     </table>   
 
 <?php endif;
