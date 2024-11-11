@@ -25,7 +25,7 @@
                     </select>
                 </th>              
                 <th class="time">Horário</th>    
-                <th>Pessoa</th>   
+                <th class="username">Pessoa</th>   
                 <th class="number">Etiqueta</th>
                 <th>Nome do item</th>
                 <th class="number">Código</th>
