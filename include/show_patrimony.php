@@ -19,7 +19,6 @@ include 'include/queries/patrimony.php';
             </a>            
                 
         </h2>
-        <?php if ($selected_patrimony['model_location'] || $selected_patrimony['patrimony_location'])  : ?>
         <p>
         <?php if ($selected_patrimony['model_loan_block'] >= 1): ?>
                 <span class="message alert">   
@@ -46,6 +45,7 @@ include 'include/queries/patrimony.php';
                 </span>&nbsp;
             <?php endif; ?>
         </p>
+        <?php if ($selected_patrimony['model_location'] || $selected_patrimony['patrimony_location'])  : ?>
             <p class="details location"> 
             <?php if ($selected_patrimony['patrimony_location'] != ''): ?>
                 <i class="icon location"></i><?= $selected_patrimony['patrimony_location'] ?>
