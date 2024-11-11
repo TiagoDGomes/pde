@@ -173,7 +173,8 @@ function select_item(obj, idname){
     }
 }
 function select_all_date(obj, idname){
-    document.querySelectorAll('.' + obj.id).forEach(function(elem){
+    var filter = 'table.hide-completed .remaining.' + obj.id + ', table:not(.hide-completed) .' + obj.id;
+    document.querySelectorAll(filter).forEach(function(elem){
         var line_checkbox = elem.querySelector('input.line_checkbox');
         console.log('line_checkbox', line_checkbox);
         line_checkbox.checked = obj.checked;
