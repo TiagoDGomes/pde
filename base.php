@@ -10,6 +10,8 @@ require_once 'classes/HTMLUtil.php';
 
 Database::startInstance($CONFIG_PDO_CONN, $CONFIG_PDO_USER, $CONFIG_PDO_PASS);
 
+$version = (new DateTimeImmutable())->format('YmdH');
+
 $form_clear = array();
 $page_title = 'Sistema de controle de empréstimos';
 $is_logged = isset($_SESSION['operator']) || is_null($CONFIG_AUTH_MODE);
