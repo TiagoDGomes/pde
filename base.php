@@ -187,6 +187,8 @@ if (!$is_logged){
 
     $is_loaning = @$form_clear['act'] == 'loan';
 
+    $is_inventory = isset($form_clear['inventory']);
+
 
     if ($is_deleting){
         if (isset($form_clear['nnid'])){

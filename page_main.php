@@ -24,6 +24,8 @@
             <li>|</li>
             <li><a href=".">Início</a></li> 
             <li>|</li>
+            <li><a href="?inventory=1">Inventário</a></li> 
+            <li>|</li>
             <li><a href="?logoff">Sair</a></li>                    
         </ul>
         
@@ -44,6 +46,8 @@
     <section class="content">  
         <?php if ($is_install): ?> 
             <?php include_once 'include/form_install.php'; ?>                 
+        <?php elseif ($is_inventory): ?>
+            <?php include_once 'include/show_inventory.php'; ?>              
         <?php elseif ($is_show_patrimony): ?> 
             <?php require_once 'include/form_patrimony.php'; ?>
             <?php include_once 'include/show_patrimony.php'; ?> 

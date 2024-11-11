@@ -2,16 +2,24 @@
 <div class="filter">
     <form>    
         <?php if (isset($form_clear['uid'])): ?><input type="hidden" name="uid" value="<?= $form_clear['uid'] ?>"><?php endif; ?>
-        <input type="hidden" name="q" value="<?= @$form_clear['q'] ?>">     
-        <input type="hidden" name="t" value="<?= @$form_clear['t'] ?>">    
+        
+        <?php if ($is_inventory): ?>
+            <input type="hidden" name="inventory" value="1">        
+        <?php else: ?> 
+            <input type="hidden" name="q" value="<?= @$form_clear['q'] ?>">     
+            <input type="hidden" name="t" value="<?= @$form_clear['t'] ?>"> 
+        <?php endif; ?>       
         <label>Entre:
             <input id="chk_date_before" onchange="date_change(this)" type="date" name="before" max="<?= $current_date_now ?>" value="<?=$current_date_before ?>">
         </label>        
         <label> e
             <input id="chk_date_after" onchange="date_change(this)" type="date" name="after" max="<?= $current_date_now ?>" value="<?= $current_date_after ?>">
         </label>
+            
         <button>Filtrar</button>  
-        <label><input <?= @$form_clear['show_complete'] ? 'checked' : '' ?> type="checkbox" name="show_complete" value="1" onclick="show_completed(this.checked)">Mostrar devolvidos</label> 
+        <?php if (!$is_inventory): ?>
+            <label><input <?= @$form_clear['show_complete'] ? 'checked' : '' ?> type="checkbox" name="show_complete" value="1" onclick="show_completed(this.checked)">Mostrar devolvidos</label> 
+        <?php endif; ?>     
     </form>     
     <script>
         function date_change(elem){
