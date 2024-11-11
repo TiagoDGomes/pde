@@ -30,13 +30,25 @@ foreach($_GET as $key => $value){
         $form_clear[$key] = @htmlspecialchars(trim($value));
     }    
 }
+$is_posting = FALSE;
 foreach($_POST as $key => $value){
     if (is_array($value)){
         $form_clear[$key] = $value;
     } else {
         $form_clear[$key] = @htmlspecialchars(trim($value));
     }
+    $is_posting = TRUE;
 }
+if ($is_posting){
+    if (!isset($form_clear['csrf_token'])|| !isset($_SESSION['csrf_token'])){
+        HTTPResponse::forbidden('CSRF protection.');
+    }
+    if ($form_clear['csrf_token'] != $_SESSION['csrf_token']){
+        HTTPResponse::forbidden('CSRF invalid.');
+    }
+}
+
+$_SESSION['csrf_token'] = password_hash(microtime(),PASSWORD_DEFAULT);
 
 if(isset($form_clear['logoff'])){
     unset($_SESSION['operator']);

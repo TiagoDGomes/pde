@@ -31,7 +31,8 @@ function form_generator($title, $type, $itm, $elems){ ?>
 <fieldset id="form_<?= $itm ? 'edit_' . $type : 'new_' . $type ?>">
     <legend><?= $title ?></legend>
     <div class="<?= $itm ? 'already' : 'new' ?> block">
-        <form method="POST">  
+        <form method="POST"> 
+            <?php HTMLUtil::csrf_token(); ?> 
             <?php $is_new = isset($itm['id']) && $itm['id'] > 0; ?>
             <input type="hidden" name="<?= $is_new  ? 'save_edit_' . $type: 'save_new_' . $type ?>" value="y">
             

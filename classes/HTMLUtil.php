@@ -2,6 +2,9 @@
 isset($PDE) or die('Nope');
 
 class HTMLUtil{
+    public static function csrf_token(){?>
+        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+    <?php }
     public static function generate_input_hidden($arr, $arr_key_ignore = array()){
         foreach ($arr as $key => $value){
             if (! in_array($key, $arr_key_ignore)) {
@@ -11,8 +14,7 @@ class HTMLUtil{
     
                 <?php
             }            
-        } 
-               
+        }                
     }
     public static function link_title_from_result($result){
         if ($result['result_type'] == 'user'){ ?>

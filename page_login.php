@@ -7,6 +7,7 @@
             <div class="modal-header"></div>
             <div class="modal-body">
                 <form method="post">
+                 <?php HTMLUtil::csrf_token(); ?>
                  <fieldset>
                     <legend>Autenticação</legend>
                     <dl>

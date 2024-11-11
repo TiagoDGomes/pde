@@ -53,6 +53,7 @@ if (isset($form_clear['type'])&& isset($_FILES['filecsv']['tmp_name'])){
 <fieldset>
     <legend>Importar dados CSV</legend>
     <form enctype="multipart/form-data" action="?install" method="post">
+        <?php HTMLUtil::csrf_token(); ?>
         <p><label>Tipo de dados: <select name="type">
             <option value="user">Usuários</option>
             <option value="model">Modelos de itens</option>
