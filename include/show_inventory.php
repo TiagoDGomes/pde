@@ -43,15 +43,22 @@ $query = "SELECT m.id as model_id,
       LEFT JOIN log_patrimony pp ON (pp.patrimony_id = p.id)
       GROUP BY p.id
       ORDER BY last_check , number_cast
-      LIMIT 0,20
+      LIMIT ?,? 
             ";
-$patrimonies = Database::fetchAll($query, array());                
+$patrimonies = Database::fetchAll($query, array(
+    (@$form_clear['start'] ? $form_clear['start'] : 0),
+    (@$form_clear['count'] ? $form_clear['count'] : 20),
+));                
 ?>
 
 <?php include 'include/form_hidden_select.php'; ?>
 <?php include 'include/date_filter.php'; ?>
 <table class="inventory">
-    <caption>Inventário</caption>
+    <caption>Inventário (
+        <a href="?inventory&start=<?= (@$form_clear['start'] ? $form_clear['start'] - 20 : 0) ?>">&lt;&lt;</a>
+        <a href="?inventory&start=<?= (@$form_clear['start'] ? $form_clear['start'] + 20 : 20) ?>">&gt;&gt;</a>
+        
+        )</caption>
     <thead>
         <tr>
             <th class="number">Etiqueta</th>
@@ -81,7 +88,7 @@ $patrimonies = Database::fetchAll($query, array());
                 <i class="icon <?= $item['icon_usable'] ?>"></i>
                 <i class="icon <?= $item['icon_found'] ?>"></i>
             </td>
-            <td class="text" data-name="patrimony__location__<?= $item['patrimony_id'] ?>"><?= $item['patrimony_location'] ?></td>
+            <td class="text" data-name="patrimony__patrimony_location__<?= $item['patrimony_id'] ?>"><?= $item['patrimony_location'] ?></td>
             <td class="text" data-name="patrimony__obs__<?= $item['patrimony_id'] ?>"><?= $item['obs'] ?></td>
             <td data-ignore class="date">
                 <i class="icon <?= $item['original_count'] <= $item['loan_date'] && $item['count_returned'] ? 'check' : '' ?>"></i>
