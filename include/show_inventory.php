@@ -31,13 +31,16 @@ $query = "SELECT m.id as model_id,
          CASE 
             WHEN original_count - sum(diff) > original_count THEN original_count
             ELSE original_count - sum(diff) END as count_returned, 
-         group_concat(details, '<br>') as all_details ,
-         n.id as loan_id
+         group_concat(nn.details, '<br>') as all_details_loan ,
+         group_concat(pp.details, '<br>') as all_details_patrimony ,
+         n.id as loan_id,
+         pp.tstamp AS last_check
       FROM patrimony p 
       INNER JOIN model m ON (p.model_id = m.id)
       LEFT JOIN loan n ON (n.model_id = m.id and p.id = n.patrimony_id)
       LEFT JOIN user u ON (u.id = n.user_id)
       LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
+      LEFT JOIN log_patrimony pp ON (pp.patrimony_id = p.id)
       GROUP BY p.id
       ORDER BY number_cast
       LIMIT 0,20
@@ -78,13 +81,13 @@ $patrimonies = Database::fetchAll($query, array());
                 <i class="icon <?= $item['icon_usable'] ?>"></i>
                 <i class="icon <?= $item['icon_found'] ?>"></i>
             </td>
-            <td class="text"><?= $item['patrimony_location'] ?></td>
-            <td class="text"><?= $item['obs'] ?></td>
+            <td class="text" data-name="patrimony__location__<?= $item['patrimony_id'] ?>"><?= $item['patrimony_location'] ?></td>
+            <td class="text" data-name="patrimony__obs__<?= $item['patrimony_id'] ?>"><?= $item['obs'] ?></td>
             <td data-ignore class="date">
                 <i class="icon <?= $item['original_count'] <= $item['loan_date'] && $item['count_returned'] ? 'check' : '' ?>"></i>
-                <?= $item['loan_date'] ? (new DateTimeImmutable( $item['loan_date'] ))->format('d/m/Y H:i:s') : ''?>
+                <?= $item['loan_date'] ? (new DateTimeImmutable( $item['loan_date'] ))->format('d/m/Y, H:i:s') : ''?>
             </td>
-            <td data-type="boolean" class="date"></td>
+            <td data-type="boolean" class="date" data-name="log_patrimony__last_check__<?= $item['patrimony_id'] ?>"><?=(new DateTimeImmutable( $item['last_check'] ))->format('d/m/Y, H:i:s') ?>&nbsp;</td>
         </tr>
     <?php endforeach; ?> 
     </tbody>
@@ -108,11 +111,63 @@ $patrimonies = Database::fetchAll($query, array());
             
             onChange: function(colName, rowIndex, valueRaw, oldValueRaw, element){					
                 // Example - onBlur:
-                if (confirm('Accept ' + colName + rowIndex + ' with ' + valueRaw + '?')){
-                    return true;
-                } else {
-                    return false;  // Undo changes
+                var data = element.cellName.split("__");
+                var table_name = data[0];
+                var column_name = data[1];
+                var tid = data[2];
+                var args;
+                var func_callback;
+                switch (table_name){
+                    case 'log_patrimony':
+                        args = {
+                            "act": "insert",
+                            "table_name" : table_name,
+                            "columns_name": ['patrimony_id'],
+                            "values": [tid]
+                        };
+                        func_callback = function(data){
+                            console.log('func_callback insert', data);
+                            console.log('func_callback element', element);
+                            var ident = 'inventory_log_patrimony__last_check__' + tid;
+                            var label = document.querySelector('td.' + ident + ' label');
+                            var input = document.getElementById(ident);
+                            console.log('func_callback label', label);
+                            label.innerHTML = new Date(data.tstamp).toLocaleString();
+                            setTimeout(()=>{
+                                input.checked = false;
+                            }, 3000)
+                            element.value = valueRaw;
+                        }
+                        break;
+                    case 'patrimony':
+                        args = {
+                            "id": tid,
+                            "act": "update",
+                            "table_name": table_name,
+                            "column_name": column_name,
+                            "value": valueRaw,
+                            "return_to": 'json'
+                        };
+                        func_callback = function(data){
+                            element.value = valueRaw;
+                        }
                 }
+                if (args){
+                    send('?', func_callback, 'POST', args);
+                }
+                
+                // switch(column_name){
+                //     case 'obs':
+                //         break;
+                //     case 'check':
+                //         break;
+                // }
+                console.log(element)
+                // if (confirm('Accept ' + colName + rowIndex + ' with ' + valueRaw + '?')){
+                //     return true;
+                // } else {
+                //     return false;  // Undo changes
+                // }
             },
             
             theme: 'JSimpleSpreadsheet/jsimplespreadsheet.theme.css',
@@ -121,7 +176,7 @@ $patrimonies = Database::fetchAll($query, array());
             
             // tdSelector: 'td',
             
-            // cellClassSelectorPreffix: 'cell_',
+            cellClassSelectorPreffix: 'inventory_',
             
             // focusClassSelector: 'focus',
             

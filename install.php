@@ -110,6 +110,14 @@ $queries = array(
         "ALTER TABLE user ADD COLUMN login $TEXT DEFAULT NULL", 
         "CREATE UNIQUE INDEX IF NOT EXISTS index_login ON user(login)", 
         "ALTER TABLE user ADD COLUMN password $TEXT DEFAULT NULL", 
+        "CREATE TABLE IF NOT EXISTS log_patrimony (
+            id $INT PRIMARY KEY $AUTO_INCREMENT_KEYWORD, 
+            tstamp $TIMESTAMP NOT NULL DEFAULT $CURRENT_TIMESTAMP,
+            patrimony_id $INT NOT NULL,
+            details $TEXT,
+            FOREIGN KEY (patrimony_id)
+                REFERENCES patrimony(id)      
+        );",  
     $QUERY_NORMALIZE
 );
 

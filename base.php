@@ -110,8 +110,8 @@ if (!$is_logged){
         HTTPResponse::redirect("?install");
     }
 
-
-
+    $is_update_from_worksheet = isset($form_clear['act']) && $form_clear['act'] == 'update';
+    $is_insert_from_worksheet = isset($form_clear['act']) && $form_clear['act'] == 'insert';
     $is_show_patrimony = isset($form_clear['pid']) && @$form_clear['pid'] != '';
 
     $is_show_item = isset($form_clear['iid']) & @$form_clear['iid'] != '' && @$form_clear['redirect_to'] != 'user';
@@ -218,6 +218,36 @@ if (!$is_logged){
     } else if ($action_save_new_patrimony || $action_save_edit_patrimony){    
         require_once 'include/form_patrimony.php';
         form_patrimony_save($form_clear);
+    } else if ($is_update_from_worksheet){
+        $table_name = htmlspecialchars($form_clear['table_name']);
+        $column_name = htmlspecialchars($form_clear['column_name']);
+        $query = "UPDATE $table_name SET $column_name = ? WHERE id = ?";
+        $params = array(@$form_clear['value'], @$form_clear['id']);
+        try{
+            $ret = Database::execute($query, $params);
+            $query = "SELECT * FROM $table_name WHERE id = ?";
+            $params = array(@$form_clear['id']);
+            $ret = Database::fetch($query, $params);
+        } catch(Exception $e){
+            $ret = array('error'=>$e, 'query'=>$query);
+        }        
+        HTTPResponse::JSON($ret);             
+    } else if ($is_insert_from_worksheet){
+        $table_name = $form_clear['table_name'];
+        $columns_name = implode(',',$form_clear['columns_name']);
+        $question = implode(',', array_fill(0, count($form_clear['columns_name']), '?'));
+        $query = "INSERT INTO $table_name ($columns_name) VALUES ($question)";
+        $params = $form_clear['values'];
+        //$ret = array('query'=> $query, 'columns_name'=> $columns_name, 'params' => $params);
+        try{
+            $ret = Database::execute($query, $params);
+            $query = "SELECT * FROM $table_name WHERE id = (SELECT max(id) FROM $table_name)";
+            $params = array();
+            $ret = Database::fetch($query, $params);
+        } catch(Exception $e){
+            $ret = array('error'=>$e, 'query'=>$query);
+        }        
+        HTTPResponse::JSON($ret);
     }
 
 
