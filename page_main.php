@@ -4,7 +4,9 @@
     <header>
         <input type="text" name="q" id="q" value="<?= @$form_clear['q'] ?>">
         <?php HTMLUtil::generate_input_hidden(array('uid' => $current_user_id)); ?>
-        
+        <?php if ($is_inventory): ?>
+            <?php HTMLUtil::generate_input_hidden(array('inventory' => '1')); ?>
+        <?php endif; ?>
         <ul>
             <li>
                 <button type="submit">

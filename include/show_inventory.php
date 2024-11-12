@@ -42,7 +42,7 @@ $query = "SELECT m.id as model_id,
       LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
       LEFT JOIN log_patrimony pp ON (pp.patrimony_id = p.id)
       GROUP BY p.id
-      ORDER BY number_cast
+      ORDER BY last_check , number_cast
       LIMIT 0,20
             ";
 $patrimonies = Database::fetchAll($query, array());                
@@ -87,7 +87,7 @@ $patrimonies = Database::fetchAll($query, array());
                 <i class="icon <?= $item['original_count'] <= $item['loan_date'] && $item['count_returned'] ? 'check' : '' ?>"></i>
                 <?= $item['loan_date'] ? (new DateTimeImmutable( $item['loan_date'] ))->format('d/m/Y, H:i:s') : ''?>
             </td>
-            <td data-type="boolean" class="date" data-name="log_patrimony__last_check__<?= $item['patrimony_id'] ?>"><?=(new DateTimeImmutable( $item['last_check'] ))->format('d/m/Y, H:i:s') ?>&nbsp;</td>
+            <td data-type="boolean" class="date" data-name="log_patrimony__last_check__<?= $item['patrimony_id'] ?>"><?=$item['last_check'] ? (new DateTimeImmutable( $item['last_check'] ))->format('d/m/Y, H:i:s'):'&nbsp;' ?></td>
         </tr>
     <?php endforeach; ?> 
     </tbody>
@@ -189,7 +189,20 @@ $patrimonies = Database::fetchAll($query, array());
     window.addEventListener('DOMContentLoaded', init_inventory, false);
         
 
-    
+    function mark_check_and_disable(patrimony_id, elem){
+        mark_check(patrimony_id, ()=>{
+            elem.disabled = true;
+        })
+    }
+    function mark_check(patrimony_id, func){
+        args = {
+            "act": "insert",
+            "table_name" : 'log_patrimony',
+            "columns_name": ['patrimony_id'],
+            "values": [patrimony_id]
+        };
+        send('?', func, 'POST', args);
+    }
   
 
 </script>

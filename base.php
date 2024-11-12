@@ -110,6 +110,7 @@ if (!$is_logged){
         HTTPResponse::redirect("?install");
     }
 
+    $is_inventory = isset($form_clear['inventory']);
     $is_update_from_worksheet = isset($form_clear['act']) && $form_clear['act'] == 'update';
     $is_insert_from_worksheet = isset($form_clear['act']) && $form_clear['act'] == 'insert';
     $is_show_patrimony = isset($form_clear['pid']) && @$form_clear['pid'] != '';
@@ -121,13 +122,13 @@ if (!$is_logged){
 
     $is_returning_item = isset($form_clear['nid']) && @$form_clear['act'] == 'ret';
 
-    $option_search_user_checked = (!isset($form_clear['t'])) || 
+    $option_search_user_checked = !$is_inventory && (!isset($form_clear['t'])) || 
                                 (@$form_clear['t'] == 'user') ? 
                                 'checked' : '';
 
-    $option_search_item_checked = (@$form_clear['t'] == 'item') || 
+    $option_search_item_checked = (@$form_clear['t'] == 'item') || $is_inventory || 
                                 ( @$form_clear['t'] != 'user' && isset($form_clear['uid']) ) ? 
-                                'checked' : '';
+                                'checked' : '' ;
 
     $last_user_selected = @$_SESSION['last_user_selected'];                            
     $is_changed_user = @$form_clear['uid'] != '' &&((is_null($last_user_selected)) || $last_user_selected['id'] != $form_clear['uid']);
@@ -187,7 +188,6 @@ if (!$is_logged){
 
     $is_loaning = @$form_clear['act'] == 'loan';
 
-    $is_inventory = isset($form_clear['inventory']);
 
 
     if ($is_deleting){

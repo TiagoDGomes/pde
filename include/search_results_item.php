@@ -54,56 +54,64 @@ $query = "SELECT m.id as model_id,
             GROUP BY m.id, p.id            
 			HAVING n.id = max(n.id) OR n.id IS NULL OR n.id > 0
             
-            UNION "; 
-$query .= "SELECT m.id as model_id,
-                    0 AS loan_block,
-                    model_loan_block,
-                    1 AS usable, 
-                    1 AS found, 
-                    m.name AS name, 
-                    m.code AS model_code, 
-                    has_patrimony, 
-                    NULL as patrimony_number1,
-                    NULL as patrimony_number2,                         
-                    NULL as patrimony_serial_number,
-                    NULL AS patrimony_id ,
-                    sum(nn.diff) as loan_diff,
-                    NULL as obs,                            
-                    0 as last_loan_id,
-                    NULL AS last_user_name,
-                    NULL AS last_user_id,                            
-                    'item' as result_type,
-                    ? AS query_units,
-                    icon_set,
-                    CASE WHEN m.code = ? THEN 1
-                            ELSE 0 END AS is_match,
-                    n.id as loan_id
-            FROM model m  
-            LEFT JOIN loan n ON 
-                (n.model_id = m.id)
-            LEFT JOIN log_loan nn ON 
-                (nn.loan_id = n.id)
-            WHERE has_patrimony = 0 
-                AND 
-                    (m.code = ?   
-                    OR normalize(m.name) LIKE ?) 
-            GROUP BY m.id          
-            ORDER BY 
-                is_match desc, 
-                patrimony_number1, 
-                patrimony_number2,
-                has_patrimony DESC,  
-                name,  
-                patrimony_serial_number     
-            LIMIT 100
-            ";
+             "; 
+if (!$is_inventory){
+    $query .= "UNION ";
+
+    $query .= "SELECT m.id as model_id,
+                        0 AS loan_block,
+                        model_loan_block,
+                        1 AS usable, 
+                        1 AS found, 
+                        m.name AS name, 
+                        m.code AS model_code, 
+                        has_patrimony, 
+                        NULL as patrimony_number1,
+                        NULL as patrimony_number2,                         
+                        NULL as patrimony_serial_number,
+                        NULL AS patrimony_id ,
+                        sum(nn.diff) as loan_diff,
+                        NULL as obs,                            
+                        0 as last_loan_id,
+                        NULL AS last_user_name,
+                        NULL AS last_user_id,                            
+                        'item' as result_type,
+                        ? AS query_units,
+                        icon_set,
+                        CASE WHEN m.code = ? THEN 1
+                                ELSE 0 END AS is_match,
+                        n.id as loan_id
+                FROM model m  
+                LEFT JOIN loan n ON 
+                    (n.model_id = m.id)
+                LEFT JOIN log_loan nn ON 
+                    (nn.loan_id = n.id)
+                WHERE has_patrimony = 0 
+                    AND 
+                        (m.code = ?   
+                        OR normalize(m.name) LIKE ?) 
+                GROUP BY m.id          
+                ORDER BY 
+                    is_match desc, 
+                    patrimony_number1, 
+                    patrimony_number2,
+                    has_patrimony DESC,  
+                    name,  
+                    patrimony_serial_number     
+                LIMIT 100
+                ";
+}
 $params = array(
     $query_string, $query_string, $query_string, # CASE1 
     strtoupper($query_string),strtoupper($query_string),strtoupper($query_string),strtoupper($query_string),strtoupper($query_string), "%$query_string%","%$query_string%", # WHERE1
-    $query_units, #SELECT2 query_units
-    strtoupper($query_string),strtoupper($query_string), "%$query_string%" # WHERE2
+    
 );
-
+if (!$is_inventory){
+    $params = array_merge($params, array(
+        $query_units, #SELECT2 query_units
+        strtoupper($query_string),strtoupper($query_string), "%$query_string%" # WHERE2))
+    ));
+}
 $search_results = Database::fetchAll($query, $params);
 if (count($search_results) == 1) {
     $search_one_item = TRUE;
@@ -220,8 +228,12 @@ foreach ($search_results as $result): ?>
                         <input type="number" name="units" value="<?= $query_units ?>" class="units"> &times;
                     <?php endif; ?> 
                 <?php endif; ?>   
-
-                <?php if ($is_loaned && $has_patrimony): ?>
+                <?php if ($is_inventory): ?>     
+                    <button onclick="mark_check_and_disable(<?= $result['patrimony_id'] ?>,this);return false;" <?= $selected_one_item  ? 'autofocus': '' ?>>
+                        <i class="icon check"></i>
+                        Marcar como visto
+                    </button> 
+                <?php elseif ($is_loaned && $has_patrimony): ?>
                     <?php $input_hidden['act'] = 'ret'; ?> 
                     <?php $input_hidden['diff'] = '-1'; ?> 
                     <?php $input_hidden['nid'] = $result['last_loan_id']; ?> 
