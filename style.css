@@ -292,7 +292,9 @@ footer li {
     display: inline;
 }
 
-
+span.help{
+    font-size: .75em
+}
 @media screen and (max-width: 919px) {
     #q {
         margin: 0 auto;
@@ -329,7 +331,10 @@ footer li {
     body {
         overflow: hidden;
     }
-
+    span.help{
+        margin-left: 22.1em;
+        display: block;
+    }
     header,
     footer {
         padding-left: var(--root-padding-left);

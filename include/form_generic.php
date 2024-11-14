@@ -3,15 +3,18 @@
 function html_element($tag, $elem, $inner = NULL, $return_value=FALSE){
     $ret_value = "<$tag ";
     foreach ($elem as $key => $value) {
-        if ($tag != 'option' && $key == 'value' && !is_null($inner)){
-            $ret_value .= "data-value=\"" . htmlentities($value,ENT_QUOTES) . "\" "; 
-        } else if ($key != 'values') {
-            try{
-                $ret_value .= "$key=\"" . htmlentities($value,ENT_QUOTES) . "\" "; 
-            } catch(TypeError $e){
-                exit(var_dump([$key, $value]));
-            }     
-        }   
+        if ($key !== ''){
+            if ($tag != 'option' && $key == 'value' && !is_null($inner)){
+                $ret_value .= "data-value=\"" . htmlentities($value,ENT_QUOTES) . "\" "; 
+            } else if ($key != 'values') {
+                try{
+                    $ret_value .= "$key=\"" . htmlentities($value,ENT_QUOTES) . "\" "; 
+                } catch(TypeError $e){
+                    exit(var_dump([$key, $value]));
+                }     
+            }
+        }
+           
     }
     $ret_value .= '>';
     if (!is_null($inner)){
@@ -57,13 +60,15 @@ function form_generator($title, $type, $itm, $elems){ ?>
                 </dt>
                 <dd>
                     <?php 
+                        $description = ($elem['data-description']);
+                        unset($elem['data-description']);
                         switch ($elem['type']){    
                             case 'radio':
-                            case 'checkbox':
+                            case 'checkbox':                                
                                 html_element('input', $elem);
                                 html_element('label', array(
                                     "for" => $elem['id']
-                                ),@$elem['data-description']);
+                                ),$description);
                                 break;                      
                             case 'hidden':                   
                             case 'text': 
@@ -88,7 +93,7 @@ function form_generator($title, $type, $itm, $elems){ ?>
                         } 
                     ?>
                 <?php if (isset($elem['data-help'])): ?>
-                    <br><small><?= $elem['data-help'] ?></small>
+                    <br><span class="help"><?= $elem['data-help'] ?></span>
                 <?php endif; ?>
                 </dd>
                 
