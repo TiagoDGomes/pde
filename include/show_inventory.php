@@ -1,4 +1,10 @@
 <?php
+$cache_count_index = 'cache_count_total_' . (new DateTimeImmutable())->format('YmdH');
+if (!isset($_SESSION[$cache_count_index])){
+    $query = "SELECT count(*) as count_total FROM patrimony";
+    $_SESSION[$cache_count_index] = Database::fetchOne($query, array());
+}
+$cache_count_total = $_SESSION[$cache_count_index];
 
 $query = "SELECT m.id as model_id, 
          m.name as model_name,
@@ -43,23 +49,36 @@ $query = "SELECT m.id as model_id,
       LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
       LEFT JOIN log_patrimony pp ON (pp.patrimony_id = p.id)
       GROUP BY p.id
-      ORDER BY last_check , number_cast
+      ORDER BY number_cast
       LIMIT ?,? 
             ";
 $patrimonies = Database::fetchAll($query, array(
     (@$form_clear['start'] ? $form_clear['start'] : 0),
     (@$form_clear['count'] ? $form_clear['count'] : 20),
-));                
+));
+
+function search_pages(){
+    global $form_clear, $cache_count_total; 
+    //$start = @$form_clear['start'];
+    $count = @$form_clear['count'] ? $form_clear['count'] : 20;
+    $c = 0;
+    for($start = 0; $start < $cache_count_total; $start+=$count):
+        $c++;
+        ?>
+            <a href="?inventory&start=<?= $start ?>&count=<?= $count ?>"><?= $c ?></a>&nbsp;
+        <?php
+    endfor;
+}
+
 ?>
 
 <?php include 'include/form_hidden_select.php'; ?>
 <?php include 'include/date_filter.php'; ?>
 <table class="inventory">
     <caption>Inventário (
-        <a href="?inventory&start=<?= (@$form_clear['start'] ? $form_clear['start'] - 20 : 0) ?>">&lt;&lt;</a>
-        <a href="?inventory&start=<?= (@$form_clear['start'] ? $form_clear['start'] + 20 : 20) ?>">&gt;&gt;</a>
-        
-        )</caption>
+        <?php search_pages() ?>
+        )
+    </caption>
     <thead>
         <tr>
             <th class="number">Etiqueta</th>
@@ -102,8 +121,9 @@ $patrimonies = Database::fetchAll($query, array(
         </tr>
     <?php endforeach; ?> 
     </tbody>
+    
 </table>
-
+<p><?php search_pages() ?>   </p>
 <script>
     var worksheet = null;
     function init_inventory(){
