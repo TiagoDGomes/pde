@@ -19,7 +19,9 @@ $query = "SELECT m.id as model_id,
                     found,
                     m.name AS name, 
                     m.code AS model_code, 
-                    has_patrimony, 
+                    has_patrimony,
+                    quantity,
+                    quantity_strict, 
                     number1 as patrimony_number1,
                     number2 as patrimony_number2,                         
                     serial_number as patrimony_serial_number,
@@ -66,6 +68,8 @@ if (!$is_inventory){
                         m.name AS name, 
                         m.code AS model_code, 
                         has_patrimony, 
+                        quantity,
+                        quantity_strict,
                         NULL as patrimony_number1,
                         NULL as patrimony_number2,                         
                         NULL as patrimony_serial_number,
@@ -125,7 +129,7 @@ foreach ($search_results as $result): ?>
     <?php 
         $has_patrimony = $result['has_patrimony'] == 1; 
         $has_patrimony_number = $result['patrimony_number1'] > 0;
-        $is_loaned = $has_patrimony_number && $result['loan_diff'] > 0;
+        $is_loaned =  $result['loan_diff'] > 0;
         $loan_block = ($has_patrimony_number && $result['loan_block'] != 0) || $result['model_loan_block'] != 0;
         $found = !$has_patrimony_number || $result['found'] != 0;
         $usable = !$has_patrimony_number || $result['usable'] != 0;
@@ -148,10 +152,15 @@ foreach ($search_results as $result): ?>
             <?= $result['obs'] ?>
         </div> 
         <?php if ($is_loaned && !$has_patrimony) : ?>
-            <div class="message info">            
-                Unidades deste item emprestadas: <?= $result['loan_diff'] ?>
+            <div class="message info loaned_<?= $result['model_id'] ?>">            
+                Unidades deste item emprestadas: <span id="loan_diff_<?= $result['model_id'] ?>" class="loan_diff"><?= $result['loan_diff'] ?></span>
             </div>
         <?php endif; ?>  
+        <?php if ($result['has_patrimony'] == 0 && $result['quantity_strict'] == 1): ?>
+            <div class="message info">  
+                Unidades deste item disponíveis: <?= $result['quantity'] ?>
+            </div>
+            <?php endif; ?>
         <?php if ($loan_block) : ?>
             <div class="message alert">   
                 <i class="icon blocked"></i>         
@@ -225,7 +234,7 @@ foreach ($search_results as $result): ?>
 
                 <?php else: ?> 
                     <?php if ($current_user_id > 0): ?>   
-                        <input type="number" name="units" value="<?= $query_units ?>" class="units"> &times;
+                        <input type="number" name="units" min="1" value="<?= $query_units ?>" class="units"> &times;
                     <?php endif; ?> 
                 <?php endif; ?>   
                 <?php if ($is_inventory): ?>     

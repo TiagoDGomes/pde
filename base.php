@@ -394,6 +394,13 @@ if (!$is_logged){
         $query = "INSERT INTO log_loan (loan_id, diff, details) VALUES (?,?,?)";
         $params = array($loan_id, $diff, $details);
         Database::execute($query, $params);
+
+        $query_additional_info = "SELECT  sum(diff) as total_loan_diff
+                                FROM model m
+                                INNER JOIN loan n ON (m.id = n.model_id)
+                                LEFT JOIN log_loan nn ON (nn.loan_id = n.id)
+                                WHERE m.id = ? ";
+        $additional_info = Database::fetch($query_additional_info, array($model_id));
         $response = array(
             'uid' => $current_user_id,
             'q'=> $current_query_string,
@@ -406,7 +413,8 @@ if (!$is_logged){
             'iid' => $model_id,
             'diff' => $diff,
             'original_count' => $result['original_count'],
-            'details' => $details
+            'details' => $details,
+            'total_loan_diff' => $additional_info['total_loan_diff']
         );  
         if (!$response_json){
             header('Content-Type: text/plain');    

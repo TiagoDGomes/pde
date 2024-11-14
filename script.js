@@ -132,6 +132,11 @@ function update_loan_diff(data){
         line_loan.classList.remove('complete');
         line_loan.classList.add('remaining'); 
     }    
+    var loan_diff_search = document.getElementById('loan_diff_' + data.iid);
+    if(loan_diff_search){
+        console.log('search match', loan_diff_search)
+        loan_diff_search.innerHTML = data.total_loan_diff;
+    }
 }
 function update_loan_details(data){
     var loan_details = document.getElementById("loan_details_" + data['nid']);
