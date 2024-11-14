@@ -290,20 +290,43 @@ if (!$is_logged){
         $protection_query = "SELECT original_count AS quantidade_emprestada,
                                 original_count - sum(diff) as devolvidos,
                                 sum(diff) as restantes,
+                                quantity - sum(diff) as quantidades_possiveis_para_emprestimo,
+                                quantity,
+                                quantity_strict,
                                 n.id
                                 FROM model m
                                 INNER JOIN loan n ON (m.id = n.model_id)
                                 INNER JOIN patrimony p ON (p.id = n.patrimony_id AND m.id = p.model_id)
                                 INNER JOIN log_loan nn ON (nn.loan_id = n.id )
-                                WHERE m.id = ? AND p.id = ?
+                                WHERE m.id = ? AND p.id = ? AND has_patrimony = 1
                                 GROUP BY m.id
-                                HAVING n.id = max(n.id) OR n.id IS NULL";
-        $params = array($model_id, $patrimony_id);
+                                HAVING n.id = max(n.id) OR n.id IS NULL
+                            UNION SELECT original_count AS quantidade_emprestada,
+                                original_count - sum(diff) as devolvidos,
+                                sum(diff) as restantes,
+                                quantity - sum(diff) as quantidades_possiveis_para_emprestimo,
+                                quantity,
+                                quantity_strict,
+                                n.id
+                                FROM model m
+                                INNER JOIN loan n ON (m.id = n.model_id)
+                                INNER JOIN log_loan nn ON (nn.loan_id = n.id )
+                                WHERE m.id = ? AND has_patrimony = 0
+                                GROUP BY m.id
+                                HAVING n.id = max(n.id) OR n.id IS NULL
+                            ";
+        $params = array($model_id, $patrimony_id, $model_id);
         $result = Database::fetch($protection_query,$params);
-        if (@$result['devolvidos'] < @$result['quantidade_emprestada']){
-            HTTPResponse::forbidden("Este item já foi emprestado e não foi devolvido.");
-        }
         
+        if (@$result['has_patrimony'] == 1){ 
+            if ($result['devolvidos'] < $result['quantidade_emprestada']){
+               HTTPResponse::forbidden("Este item já foi emprestado e não foi devolvido.");
+            }
+        } else if (@$result['quantity_strict'] == 1){   
+            if ($original_count > $result['quantidades_possiveis_para_emprestimo']){
+                HTTPResponse::forbidden("Não há quantidades suficientes deste item para empréstimo.");
+            }
+        }
         // *******
 
         

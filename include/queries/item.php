@@ -31,6 +31,7 @@ if ($selected_item['has_patrimony']){
             ELSE 'unknown' END AS icon_found,
          p.serial_number as patrimony_serial_number, 
          original_count,
+         quantity,
          CASE 
             WHEN original_count - sum(diff) > original_count THEN original_count
             ELSE original_count - sum(diff) END as count_returned, 

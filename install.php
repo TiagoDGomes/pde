@@ -117,7 +117,9 @@ $queries = array(
             details $TEXT,
             FOREIGN KEY (patrimony_id)
                 REFERENCES patrimony(id)      
-        );",  
+        );",        
+        "ALTER TABLE model ADD COLUMN quantity $INT DEFAULT 1", 
+        "ALTER TABLE model ADD COLUMN quantity_strict $BYTE DEFAULT 1 NOT NULL CHECK (quantity_strict IN (0, 1))",
     $QUERY_NORMALIZE
 );
 
