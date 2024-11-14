@@ -23,12 +23,12 @@
                 <input type="radio" name="t" value="item" id="chk_item" <?= $option_search_item_checked ?>>
                 <label for="chk_item">itens</label>
             </li>
-            <li>|</li>
+                               
+        </ul>
+        <ul class="pages">
             <li><a href=".">Início</a></li> 
-            <li>|</li>
             <li><a href="?inventory=1">Inventário</a></li> 
-            <li>|</li>
-            <li><a href="?logoff">Sair</a></li>                    
+            <li><a href="?logoff">Sair</a></li> 
         </ul>
         
     </header>

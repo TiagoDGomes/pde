@@ -381,6 +381,19 @@ footer li {
     .modal-content{
         width: 800px;
     }
+    ul.pages{
+        float: right;
+        display: block;
+        right: 15px;
+        position: absolute;
+    }
+    ul.pages li::after{
+        margin-left: 8px;
+        content: "|";
+    }
+    ul.pages li:last-child::after{
+        content: "";
+    }
 }
 
 

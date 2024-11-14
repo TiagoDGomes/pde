@@ -399,5 +399,7 @@ if (!$is_logged){
     }
 
     $page_title = $last_user_selected ? $last_user_selected['name'] : 'Empréstimos';
-
+    if ($is_inventory){
+        $page_title = 'Inventário';
+    }
 }
