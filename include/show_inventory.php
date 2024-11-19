@@ -88,7 +88,7 @@ function search_pages(){
             <th class="text">Observação</th>
             <th class="date">Último empréstimo</th>
             <th class="date">Última marcação de visto</th>
-            <th class="date">Última informação</th>
+            <!-- <th class="date">Última informação</th> -->
         </tr>
         <!-- <tr>
             <td><input type="text" name="field1"></td>
@@ -116,7 +116,7 @@ function search_pages(){
                 <?= $item['loan_date'] ? (new DateTimeImmutable( $item['loan_date'] ))->format('d/m/Y, H:i:s') : ''?>
             </td>
             <td data-type="boolean" class="date" data-name="log_patrimony__last_check__<?= $item['patrimony_id'] ?>"><?=$item['last_check'] ? (new DateTimeImmutable( $item['last_check'] ))->format('d/m/Y, H:i:s'):'&nbsp;' ?></td>
-            <td data-ignore><textarea><?= $item['log_details'] ?></textarea></td>
+            <!-- <td data-ignore><textarea><?= $item['log_details'] ?></textarea></td> -->
             
         </tr>
     <?php endforeach; ?> 
