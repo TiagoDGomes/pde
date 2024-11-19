@@ -53,7 +53,7 @@ class HTMLUtil{
             <a style="display: <?= $minus_style_display ?>"  
                     id="reset_<?= $item['loan_id']; ?>" 
                     onclick="save_loan_all_reset(<?= $item['loan_id']; ?>);return false;" 
-                    title="Resetar tudo" 
+                    title="Desfazer as devoluções" 
                     href="javascript:;">
                     <i class="icon refresh"></i>
             </a>        
@@ -64,7 +64,7 @@ class HTMLUtil{
             <a style="display: <?= $minus_style_display ?>" 
                 id="minus_<?= $item['loan_id']; ?>" 
                 onclick="save_loan_values(<?= $item['loan_id']; ?>,1);return false;" 
-                title="1 unidade a dever" 
+                title="Desfazer 1 unidade devolvida" 
                 href="?<?= http_build_query($input_hidden) ?>">
                 <i class="icon minus"></i>
             </a> 
@@ -74,7 +74,7 @@ class HTMLUtil{
             <a style="display: <?= $plus_style_display ?>"  
                 id="plus_<?= $item['loan_id']; ?>" 
                 onclick="save_loan_values(<?= $item['loan_id']; ?>,-1);return false;" 
-                title="1 unidade devolvida" 
+                title="Marcar 1 unidade devolvida" 
                 href="?<?= http_build_query($input_hidden) ?>">
                 <i class="icon plus"></i>
             </a>           
@@ -84,7 +84,7 @@ class HTMLUtil{
             <a style="display: <?= $plus_style_display ?>"  
                     id="complete_<?= $item['loan_id']; ?>" 
                     onclick="save_loan_all_complete(<?= $item['loan_id']; ?>);return false;" 
-                    title="Devolver tudo" 
+                    title="Marcar como tudo devolvido" 
                     href="javascript:;">
                     <i class="icon complete"></i>
             </a>        
